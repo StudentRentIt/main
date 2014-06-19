@@ -1,0 +1,23 @@
+<form class="submission-form" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  {% if form.errors %}
+    <p class="error alert alert-danger">Sorry, that's not a valid username or password</p>
+  {% endif %}
+
+  <div class="submission-form-field">
+    <input autofocus="autofocus" id="id_login" maxlength="30" name="login" placeholder="Username" type="text" />
+  </div>
+  <div class="submission-form-field">
+    <input class="submission-form-field" id="id_password" name="password" placeholder="Password" type="password" />
+  </div>
+  <div class="col-md-6">
+    <label for="id_remember">Remember Me:</label> <input id="id_remember" name="remember" style="width:auto;" type="checkbox" />
+  </div>
+  <div class="col-md-6">
+    <a class="button secondaryAction" href="{% url 'account_reset_password' %}">Forgot Password? </a>
+  </div>
+  {% if redirect_field_value %}
+    <input type="hidden" name="next" value="{{ next|escape }}" />
+  {% endif %}
+  <button class="btn btn-success btn-block" type="submit" style="margin-top:10px; margin-bottom:10px;">Sign In</button>
+</form>

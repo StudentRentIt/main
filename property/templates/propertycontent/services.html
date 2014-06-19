@@ -1,0 +1,127 @@
+{% extends "maininclude/base.html" %}
+
+{% comment %}
+There is quite a bit of logic involved in this template, more than I would like.
+When loading we want to see what packages and services are currently included
+in a property. If they have a certain package or service that should have a different
+css element. When they click to add or a remove a package or service the css will change on that
+element. They will be able to submit the form which will have hidden inputs for each service
+and package and that will save the property.
+{% endcomment %}
+
+{% block body_extra %}
+<script src="/static/js/services.js"></script>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class=" col-md-offset-3 col-md-6">
+            <h1 class="text-center">Choose one of our packages to get the best value</h1>
+            <div class="panel-group" id="accordion-packages">
+            {% for p in packages %}
+              <div class="panel panel-package {% if property.package.title = p.title %}panel-success{% else%}panel-default{% endif %}">
+                <div class="panel-heading panel-fade">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion-packages" href="#collapse-package{{ forloop.counter }}">
+                      <h3>{{ p.title }}</h3>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapse-package{{ forloop.counter }}" class="panel-collapse collapse">
+                  <div class="panel-body package-panel-body">
+                    <p>{{ p.description|safe }}</p>
+                    <p>
+                    <ul>
+                        {% for s in p.services.all %}
+                        <li>
+                            <span class="glyphicon glyphicon-star"></span> {{ s.title }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    </p>
+                    <p class="package-price text-center">
+                        {% if property.package.title = p.title %}
+                        <a id="package{{ p.id }}" class="btn btn-default btn-added btn-package"><span class="glyphicon glyphicon-remove"></span> Remove Package</a> ${{ p.price }}/mo
+                        {% else %}
+                        <a id="package{{ p.id }}" class="btn btn-success btn-add btn-package">Add Package</a> ${{ p.price }}/mo
+                        {% endif %}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h1 class="text-center">Or mix and match monthly services that work best for you</h1>
+            {# include "maininclude/tables/monthlyservices.html" #}
+            <div class="panel-group" id="accordion-monthly-services">
+            {% for s in monthly_services %}
+              <div class="panel panel-service {% if s in property.services.all %}panel-success{% else %}panel-default{% endif %}">
+                <div class="panel-heading panel-fade">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion-monthly-services" href="#collapse-monthly-service{{ forloop.counter }}">
+                      {{ s.title }}
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapse-monthly-service{{ forloop.counter }}" class="panel-collapse collapse">
+                  <div class="panel-body service-panel-body">
+                    <p>{{ s.description }}</p>
+                    <p class="service-price text-center">
+                      {% if s in property.services.all %}
+                      <a id="service{{ s.id }}" class="btn btn-default btn-added btn-service-recurring"><span class="glyphicon glyphicon-remove"></span> Remove Service</a>
+                      {% else %}
+                      <a id="service{{ s.id }}" class="btn btn-success btn-add btn-service-recurring">Add Service</a> ${{ s.price }}/mo
+                      {% endif %}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h1 class="text-center">Also we have one-time services that instantly boost exposure</h1>
+            <div class="panel-group" id="accordion-onetime-services">
+            {% for s in onetime_services %}
+              <div class="panel panel-default panel-service">
+                <div class="panel-heading panel-fade">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion-onetime-services" href="#collapse-onetime-service{{ forloop.counter }}">
+                      {{ s.title }}
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapse-onetime-service{{ forloop.counter }}" class="panel-collapse collapse">
+                  <div class="panel-body service-panel-body">
+                    <p>{{ s.description }}</p>
+                    <p class="service-price text-center">
+                        <a id="service{{ s.id }}" class="btn btn-success btn-add btn-service-onetime">Purchase Service</a> ${{ s.price }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="text-center">
+            <form method="post">
+            <input id="services-input" name="services" type="hidden">
+            <input id="package-input" name="package" type="hidden"
+                value="{% if fill_property_input %}{{ previous_property_package.id}}{% endif %}">
+            {% csrf_token %}
+            <button id="btn-submit" type="submit" class="btn btn-default btn-xlg">Save Packages and Services</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

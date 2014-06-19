@@ -1,0 +1,43 @@
+{% extends "flowcore/modals/default.html" %}
+
+{% block modal_title %}
+id="schoolModal"
+{% endblock %}
+
+
+{% block modal_header %}
+<h1>University Information</h1>
+{% endblock %}
+
+
+{% block modal_body %}
+<p class="text-left">Our college markets are expanding and there are so many schools and universities to help simplify
+the process for finding off-campus student housing. You can find university specific information
+from our university pages, or from the university sites themselves.
+</p>
+
+
+<div class="btn-group">
+    <button type="button" id="btn-search-mobile" class="btn btn-lg btn-success dropdown-toggle text-center" data-toggle="dropdown">
+        View School Information <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        {% for s in schools %}
+        <li class="modal-dropdown-choices"><a href="{% url 'school-articles' s.id s.name|slugify 'articles' %}">{{ s.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+<div class="btn-group">
+    <button type="button" id="btn-search-mobile" class="btn btn-lg btn-success dropdown-toggle text-center" data-toggle="dropdown">
+        View School Website <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        {% for s in schools %}
+        <li class="modal-dropdown-choices"><a href="{{ s.link }}" target="_blank">{{ s.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

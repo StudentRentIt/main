@@ -1,0 +1,27 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_head %}
+<tr class="property-table-header">
+    <td>Video</td>
+    <td>Order</td>
+    <td>Main</td>
+    <td></td>
+    <td></td>
+</tr>
+{% endblock %}
+
+{% block table_body %}
+{% for v in videos %}
+<tr>
+    <td class="video-cell">{{ v.video_link|safe }}</td>
+    <td>{{ v.order }}</td>
+    <td>{{ v.main }}</td>
+    <td>
+        <a class="btn btn-sm btn-success btn-block" href="{% url "property-type" property.id 'video' v.id %}">Update</a>
+    </td>
+    <td>
+        <a class="btn btn-sm btn-danger btn-block" href="{% url "property-type-delete" property.id 'video' v.id 'delete' %}"><span class="glyphicon glyphicon-trash"></span></a>
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}

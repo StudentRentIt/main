@@ -1,0 +1,17 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_head %}
+<tr>
+    <th>Date</th>
+    <th>Count</th>
+</tr>
+{% endblock %}
+
+{% block table_body %}
+{% for o in object_list %}
+<tr>
+    <td>{{ o.imp_date }}</td>
+    <td>{{ o.created_count }}</td>
+</tr>
+{% endfor %}
+{% endblock %}

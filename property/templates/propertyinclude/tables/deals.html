@@ -1,0 +1,32 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_body %}
+    {% for d in deals %}
+        <tr class="school-row">
+            {% if d.image %}
+                <td class="col-xs-6">
+                    <img src="{{ d.image.url }}" class="img-reseponsive img-rounded" style="width:100%" />
+                </td>
+                <td class="col-xs-6">
+                    <h2>{{ d.title }} at {{ d.property.title }}</h2>
+                    <p>{{ d.description|safe }}</p>
+                    <h4>{{ d.property.addr }}</h4>
+                    <h4>{{ d.property.contact_phone }}</h4>
+                </td>
+            {% else %}
+                <td class="col-xs-8">
+                    <h2>{{ d.title }} at {{ d.property.title }}</h2>
+                    {{ d.description|safe }}
+                </td>
+                <td class="col-xs-4">
+                    <h4>{{ d.property.addr }}</h4>
+                    <h4>{{ d.property.contact_phone }}</h4>
+                </td>
+            {% endif %}
+        </tr>
+    {% empty %}
+        <div class="jumbotron">
+            <h2>There are no special deals yet for these apartments :(</h2>
+        </div>
+    {% endfor %}
+{% endblock %}

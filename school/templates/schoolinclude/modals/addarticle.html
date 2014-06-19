@@ -1,0 +1,15 @@
+{% extends "flowcore/modals/default.html" %}
+{% load crispy_forms_tags %}
+
+{% block modal_title %}
+id="addArticleModal"
+{% endblock %}
+
+{% block modal_header %}
+Add an Article
+{% endblock %}
+
+{% block modal_body %}
+{% crispy form %}
+{# include "maininclude/forms/school/addarticle.html" #}
+{% endblock %}

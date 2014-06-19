@@ -1,0 +1,32 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_head %}
+<tr class="property-table-header">
+    <td>Price</td>
+    <td>Bedroom</td>
+    <td>Bath</td>
+    <td>Sq Ft</td>
+    <td>Availability</td>
+    <td></td>
+    <td></td>
+</tr>
+{% endblock %}
+
+
+{% block table_body %}
+{% for r in rooms %}
+<tr>
+    <td>${{ r.price|floatformat:"0" }}</td>
+    <td>{{ r.get_bed_count_display }}</td>
+    <td>{{ r.bath_count }}</td>
+    <td>{{ r.sq_ft }}</td>
+    <td>{% if r.lease_start %}{{ r.lease_start }}{% else %}Unknown{% endif %}</td>
+    <td>
+        <a class="btn btn-sm btn-success btn-block" href="{% url "property-type" property.id 'room' r.id %}">Update</a>
+    </td>
+    <td>
+        <a class="btn btn-sm btn-danger btn-block" href="{% url "property-type-delete" property.id 'room' r.id 'delete' %}"><span class="glyphicon glyphicon-trash"></span></a>
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}

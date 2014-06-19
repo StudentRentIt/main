@@ -1,0 +1,83 @@
+{% extends "flowcore/base.html" %}
+
+{% block header %}
+    {% include "maininclude/header.html" %}
+{% endblock %}
+
+{% block title %}
+    {{ object.title }}
+{% endblock %}
+
+{% block body %}
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-8 col-md-offset-2 col-xs-12">
+        <img src="{{ object.image.url }}" id="blog-article-img" class="img-responsive">
+        <div class="blog-article-content-inner">
+            <div class="jumbotron text-center blog-page-header">
+                <h1>{{ object.title }}</h1>
+            </div>
+            <h4>{{ object.headline|safe }}</h4>
+            {{ object.body|safe}}
+            {% if author.picture %}
+                <div class="post-author text-center row">
+                    <div class="col-md-2 col-md-offset-7 col-xs-5 col-xs-offset-2" style="padding-top:30px;">
+                        <h4>Written by {{ author }}</h4>
+                    </div>
+                    <div class="col-md-2 col-xs-5">
+                        <img src="{{ author.picture.url }}" class="img-responsive img-circle" />
+                    </div>
+                </div>
+            {% endif %}
+            <div class="text-center">
+                {% include "maininclude/general/blog_share.html" %}
+                <div class="row article-footer-articles">
+                    <div class="col-md-6">
+                        {% if previous_article %}
+                            <h3><span class="glyphicon glyphicon-arrow-left"></span> Previous Article</h3>
+                            {% if school %}
+                                <a href="{% url 'school-article-detail' school.id school.name|slugify previous_article.id previous_article.title|slugify %}">
+                            {% elif property %}
+                                <a href="{% url 'property-article-detail' property.id property.title|slugify previous_article.id previous_article.title|slugify %}">
+                            {% else %}
+                                <a href="{% url 'article-detail' previous_article.id previous_article.title|slugify %}">
+                            {% endif %}
+                                <h3>{{ previous_article.title }}</h3>
+                                <img class="img-responsive img-rounded img-opacity" src="{{ previous_article.image.url }}" />
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        {% if next_article %}
+                            <h3>Next Article <span class="glyphicon glyphicon-arrow-right"></span></h3>
+                                {% if school %}
+                                    <a href="{% url 'school-article-detail' school.id school.name|slugify next_article.id next_article.title|slugify %}">
+                                {% elif property %}
+                                    <a href="{% url 'property-article-detail' property.id property.title|slugify next_article.id next_article.title|slugify %}">
+                                {% else %}
+                                    <a href="{% url 'article-detail' next_article.id next_article.title|slugify %}">
+                                {% endif %}
+                            <h3>{{ next_article.title }}</h3>
+                            <img class="img-responsive img-rounded img-opacity" src="{{ next_article.image.url }}" />
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    {% if school %}
+                        <a href="{% url 'school-articles' school.id school.name|slugify %}" class="btn btn-lg btn-success">All Articles for {{ school }}</a>
+                        <a href="{% url 'school-articles' school.id school.name|slugify 'articles' %}"
+                            class="btn btn-success btn-lg">{{ school }} Home</a>
+                    {% elif property %}
+                        <a href="{% url 'property-articles' property.id property.title|slugify %}" class="btn btn-lg btn-success">All Articles for {{ property }}</a>
+                        <a href="{% url 'property' property.id property.title|slugify %}"
+                            class="btn btn-success btn-lg">{{ property }} Home</a>
+                        <a href="{% url 'property-community' property.id property.title|slugify %}" class="btn btn-success btn-lg">{{ property }} Community</a>
+                    {% else %}
+                        <a href="{% url 'blog-home'  %}" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-home"></span> Blog Home</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

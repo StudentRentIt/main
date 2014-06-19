@@ -1,0 +1,72 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#manage-school").click(function(){
+           $("#choose-school-section").removeClass("hidden");
+           $("#choose-manage-section").addClass("hidden");
+        });
+    });
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="manageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header default-modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>What do you want to do?</h3>
+      </div>
+
+      <div class="modal-body default-modal-body text-center">
+        <div id="choose-manage-section">
+            <div id="manage-new" class="manage-choice">
+                <a href="/property/add/" class="btn btn-success manage-modal-btn">
+                    <span class="glyphicon glyphicon-plus"></span> Add New Property
+                </a>
+            </div>
+            {% if has_properties %}
+            <div id="manage-update" class="manage-choice">
+                <a href="/property/update/" class="btn btn-success manage-modal-btn">
+                    <span class="glyphicon glyphicon-edit"></span> Update Property
+                </a>
+            </div>
+            {% endif %}
+            {% if has_school_items %}
+            <div id="manage-school" class="manage-choice">
+                <a href="#" class="btn btn-success manage-modal-btn">
+                    <span class="glyphicon glyphicon-edit"></span> Update School Items
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div id="choose-school-section" class="hidden">
+            {% if has_articles %}
+            <div id="manage-new" class="manage-choice">
+                <a href="{% url 'update-articles' %}" class="btn btn-success manage-modal-btn">Update Articles</a>
+            </div>
+            {% endif %}
+            {% if has_events %}
+            <div id="manage-new" class="manage-choice">
+                <a href="{% url 'update-events' %}" class="btn btn-success manage-modal-btn">Update Events</a>
+            </div>
+            {% endif %}
+            {% if has_deals %}
+            <div id="manage-new" class="manage-choice">
+                <a href="{% url 'update-deals' %}" class="btn btn-success manage-modal-btn">Update Deals</a>
+            </div>
+            {% endif %}
+            {% if has_roommates %}
+            <div id="manage-new" class="manage-choice">
+                <a href="{% url 'update-roommates' %}" class="btn btn-success manage-modal-btn">Update Roommates</a>
+            </div>
+            {% endif %}
+        </div>
+      </div><!-- end body -->
+
+      <div class="modal-footer default-modal-footer">
+        <button type="button" class="btn-lg btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

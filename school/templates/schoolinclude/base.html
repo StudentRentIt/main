@@ -1,0 +1,42 @@
+{% extends "maininclude/base.html" %}
+
+{% block body_extra %}
+    {# include "flowcore/general/dojo-editor.html" #}
+    {% include "flowcore/general/datepicker.html" %}
+{% endblock %}
+
+{% block javascript %}
+    {% include "flowcore/general/openmodal.html" %}
+    {% include "flowcore/general/scroll_down.html" %}
+{% endblock %}
+
+{% block body %}
+    {% if school %}
+    {% block school_banner %}
+        {% include "schoolinclude/banner.html" %}
+    {% endblock %}
+    <div class="school-content">
+        <div class="row">
+            {% block nav %}{% include "schoolinclude/nav.html" %}{% endblock %}
+        </div>
+        <div class="row">
+            <div class="col-md-7 col-xs-10 col-xs-offset-1">
+                {% block school_main %}{% endblock %}
+            </div>
+            <div class="hidden-xs hidden-sm col-md-3">
+                {% block school_side %}{% include "schoolinclude/sidebar.html" %}{% endblock %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% block school_footer %}
+                <div class="jumbotron text-center">
+                    {# can put in sponsorship stuff here possibly #}
+                </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    {% endif %}{# end if school block #}
+    {% include "schoolinclude/modals/schoolinfo.html" %}
+{% endblock %}

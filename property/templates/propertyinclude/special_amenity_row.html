@@ -1,0 +1,12 @@
+<div class="row property-special-row">{# shows special icons associated with the property #}
+{% for a in p.amenities.all %}
+    {% if a.special %}
+        {% if a.link %}
+            <a href="{{ a.link }}" class="special-amenity" target="_blank" rel="nofollow">
+            <img class="img-responsive" src="{{ a.image.url }}" data-toggle="tooltip" title="{{ a }}" /></a>
+        {% else %}
+            <img class="img-responsive special-amenity" src="{{ a.image.url }}" data-toggle="tooltip" title="{{ a }}" />
+        {% endif %}
+    {% endif %}
+{% endfor %}
+</div>

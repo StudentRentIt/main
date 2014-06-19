@@ -1,0 +1,33 @@
+<nav class="navbar navbar-deault" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav nav-pills nav-justified nav-school">
+          <li {% if page == "articles" %}class="active"{% endif %}>
+            <a href="{% url 'school-articles' school.id school.name|slugify 'articles' %}">
+            <span class="glyphicon glyphicon-file"></span> Articles</a></li>
+          <li {% if page == "events" %}class="active"{% endif %}>
+            <a href="{% url 'school-events' school.id school.name|slugify 'events' %}">
+            <span class="glyphicon glyphicon-glass"></span> Events</a></li>
+          <li {% if page == "deals" %}class="active"{% endif %}>
+            <a href="{% url 'school-deals' school.id school.name|slugify 'deals' %}">
+            <span class="glyphicon glyphicon-usd"></span> Deals</a></li>
+          <li {% if page == "roommates" %}class="active"{% endif %}>
+            <a href="{% url 'school-roommates' school.id school.name|slugify 'roommates' %}">
+            <span class="glyphicon glyphicon-user"></span> Roommates</a></li>
+          <li><a href="{% url 'search' school.id school.name|slugify %}">
+            <span class="glyphicon glyphicon-home"></span> Find Apartments</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

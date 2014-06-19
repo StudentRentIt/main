@@ -1,0 +1,46 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <tbody>
+        {% for f in favorites %}
+        <tr>
+            <td class="text-center hidden-xs hidden-sm">
+                <h3>{{ f.property.title }}</h3>
+                <a class="btn btn-success btn-lg" href="{% url 'property' f.property.id f.property.title|slugify %}">View Listing</a>
+            </td>
+            <td>
+                <img class="img-rounded img-responsive" style="max-width:200px;" src="{% with f.property.propertyimage_set.all|first as img %}
+                {{ img.image.url }}{% endwith %}"></img>
+            </td>
+            <td class="favorite-note-td">
+                {% if f.note %}<p>{{ f.note|safe }}</p>{% else %} Create a note by clicking the pencil below{% endif %}
+                <div class="row row-margin">
+                    <div class="col-md-6">
+                        <a class="btn btn-default btn-block" href="{% url 'property-action' f.property.id f.property.title|slugify 'contact' %}"
+                            data-toggle="tooltip" title="Contact Apartment" target="_blank">
+                            <span class="glyphicon glyphicon-envelope"></span></a>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-default btn-block" href="{% url 'property-action' f.property.id f.property.title|slugify 'schedule' %}"
+                            data-toggle="tooltip" title="Schedule Apartment Tour" target="_blank">
+                            <span class="glyphicon glyphicon-time"></span></a>
+                        </a>
+                    </div>
+                </div>
+                <div class="row row-margin">
+                    <div class="col-md-6">
+                        <a href="/favorites/{{ f.id }}/" class="btn btn-default btn-block"
+                            data-toggle="tooltip" title="Change Property Note">
+                        <span class="glyphicon glyphicon-pencil"></span></a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-predelete-favorite btn-danger btn-block" href="#" data-toggle="modal" data-target="#favoriteDeleteModal"
+                            id="favoriteDelete{{f.property.id}}"> <span class="glyphicon glyphicon-trash"></span></a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>

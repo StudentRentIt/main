@@ -1,0 +1,48 @@
+from django.conf.urls import patterns, url
+
+from property import views
+
+from flowreport.views import PropertySummaryListView
+
+
+urlpatterns = patterns('',
+
+    # removed 20140606 AWW OKTD
+    #property article urls
+    # url(r'^property/(?P<pk>\d+)/(?P<slug>[a-zA-Z0-9\-]+)/articles/all/$',
+    #     PropertyArticleListView.as_view(), name='property-articles'),
+    # url(r'^property/(?P<property_pk>\d+)/(?P<property_slug>[a-zA-Z0-9\-]+)/articles/(?P<pk>\d+)/(?P<title>[a-zA-Z0-9\-]+)/$',
+    #     PropertyArticleDetailView.as_view(), name='property-article-detail'),
+
+    url(r'^(?P<pk>\d+)/(?P<slug>\S+)/community/$', views.community,
+        name="property-community"),
+    (r'^manage/$', views.ManagePropertyTemplateView.as_view()),
+    url(r'^add/$', views.PropertyCreateView.as_view(), #views.addproperty,
+        name="add-property"),
+    (r'^update/$', views.updateproperty),
+    url(r'^update/(?P<pk>\d+)/$', views.updateproperty,
+        name="update-property"),
+    url(r'^update/(\d+)/(\S+)/(\d+)/$', views.updateproperty,
+        name="property-type"),
+    url(r'^update/(\d+)/(\S+)/(\d+)/(\S+)/$', views.updateproperty,
+        name="property-type-delete"),
+    (r'^update/(\d+)/(\S+)/$', views.updateproperty),
+    url(r'^(?P<pk>\d+)/(?P<slug>\S+)/summary/$', PropertySummaryListView.as_view(),
+        name="property-summary"),
+    url(r'^(?P<pk>\d+)/(?P<slug>[a-zA-Z0-9][ A-Za-z0-9_-]+)/(?P<action>\S+)/$', views.property,
+        name="property-action"),
+    url(r'^(?P<pk>\d+)/(?P<slug>\S+)/$', views.property,
+        name="property"),
+    url(r'^business/(?P<pk>\d+)/(?P<slug>\S+)/summary/$', PropertySummaryListView.as_view(),
+        name="business-summary"),
+    url(r'^business/(?P<pk>\d+)/(?P<slug>\S+)/$', views.BusinessDetailView.as_view(),
+        name="business"),
+    (r'^favorites/$', views.favorites),
+    (r'^favorites/(\d+)/$', views.favorites),
+    (r'^favorites/(\S+)/$', views.favorite),
+
+    url(r'^update/(?P<pk>\d+)/services/recurring/$', views.recurring_services,
+        name="update-property-recurring-services"),
+    url(r'^update/(?P<pk>\d+)/services/onetime/$', views.onetime_services,
+        name="update-property-onetime-services"),
+)

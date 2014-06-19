@@ -1,0 +1,88 @@
+{% extends "maininclude/base.html" %}
+{% load static %}
+
+{% block body %}
+<script src="/static/js/addproperty.js"></script>
+<script src="/static/js/plugins/parsley.js"></script>
+
+<div class="col-md-offset-3 col-md-6 col-xs-12 property-content">
+    <div class="jumbotron text-center submission-form-title">
+        <h2>Add New Property Listing</h2>
+    </div>
+
+    {% if status == "success" %}
+    <div class="alert alert-success">Your property was submitted successfully</div>
+    {% endif %}
+
+    {% if status == "error" %}
+    <div class="alert alert-danger">There were errors on the form</div>
+    {% endif %}
+
+    {% if status != "success" %}
+    <div class="col-md-4 hidden-xs hidden-sm">
+        <h2><p id="form-label-1" class="label submission-form-menu-item label-success">Basic Info</p></h2>
+        <h2><p id="form-label-2" class="label submission-form-menu-item label-default">Detailed Info</p></h2>
+        <h2><p id="form-label-3" class="label submission-form-menu-item label-default">Contact Info</p></h2>
+        <h2><p id="form-label-4" class="label submission-form-menu-item label-default">Pictures</p></h2>
+        <h4 style="margin-top:40px;">Progress:</h4>
+        <div class="progress progress-striped" >
+          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 10%">
+            <span class="sr-only">10% Complete</span>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-md-8 col-xs-12">
+        <form parsley-validate method="post" class="submission-form property-form" enctype="multipart/form-data">
+          {% if form.non_field_errors %}
+          <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          {% for field in form %}
+
+            {# end div for the form sections #}
+            {% if forloop.counter = 11 or forloop.counter = 17 or forloop.counter = 21 %}
+            </div>
+            {% endif %}
+
+            {# start sections for the form #}
+            {% if forloop.counter = 1 %}
+            <div id="form-section-1" class="submission-form-section">
+            {% elif forloop.counter = 11 %}
+            <div id="form-section-2" class="submission-form-section hidden">
+            {% elif forloop.counter = 17 %}
+            <div id="form-section-3" class="submission-form-section hidden">
+            {% elif forloop.counter = 21 %}
+            <div id="form-section-4" class="submission-form-section hidden">
+            {% endif %}
+
+            {% if field.label != "images" %}
+            <p class="submission-form-label" style="margin-bottom:-15px;">{{ field.label }}
+            {% if field.errors %}
+            <div class="alert alert-danger">{{ field.errors }}</div>{% endif %}
+            </p>
+            <div class="submission-form-field">{{ field }}</div>
+            {% endif %}
+          {% endfor %}
+            <div class="submission-form-field">
+                {% for img in my_instance.images.all %}
+                    <a src="{{ img.url }}">
+                        {{ img.thumbnail_tag_100x100 }}
+                        <span class="caption">{{ img.filename }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+            <p>Still need to implement multiple pictures</p>
+          </div>
+
+          <input type="submit" class="btn btn-success submission-btn hidden" value="Create Property Listing">{% csrf_token %}
+          <div id="submission-form-btn-controls" class="pull-right">
+              <div id="btn-previous" class="btn btn-success btn-lg hidden"><span class="glyphicon glyphicon-arrow-left"></span> Previous</div>
+              <div id="btn-next" class="btn btn-success btn-lg">Next <span class="glyphicon glyphicon-arrow-right"></span></div>
+          </div>
+        </table>
+        </form>
+    </div>
+    {% endif %}{# if status is not success #}
+</div>
+{% endblock %}

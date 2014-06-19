@@ -1,0 +1,24 @@
+<script src="/static/js/favorite.js"></script>
+{% include 'maininclude/general/facebook.html' %}
+
+<div class="school-featured hidden-xs hidden-sm">
+    <h3 class="text-center">Recommended Properties</h3>
+    {% for p in sponsored_properties %}
+    <div class="row list-view-row{% if p.sponsored %} sponsored{% endif %}">
+        <div class="col-md-6">
+            <img src="{% with p.propertyimage_set.all|first as img %}{{ img.image.url }}{% endwith %}" alt="Student Housing - {{ p.title }}" class="img-responsive img-rounded" />
+        </div>
+        <div class="col-md-6">
+            <p>{{ p.title }}</p>
+            <a class="btn btn-block btn-success" href="{% url 'property' p.id p.title|slugify %}">View Full Listing</a>
+            {% if p.video_link %}
+            <a class="btn btn-block btn-default btn-property-video" href="#" data-toggle="modal" data-target="#propertyVideoModal"
+                data-title="{{ p.title }}" data-id={{ p.id }} data-video="{{ p.video_link }}" data-url="{% url 'property' p.id p.title|slugify %}">
+                <span class="glyphicon glyphicon-facetime-video"></span> View Video
+            </a>
+            {% endif %}
+            {% include "propertyinclude/favorite.html" %}
+        </div>
+    </div>
+    {% endfor %}
+</div>

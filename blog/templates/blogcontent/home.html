@@ -1,0 +1,70 @@
+{% extends "flowcore/base.html" %}
+
+{% block header %}
+    {% include "maininclude/header.html" %}
+{% endblock %}
+
+{% block body %}
+<div class="container" style="margin-top:15px;">
+    <div class="row">
+        <div class="jumbotron text-center hidden-xs hidden-sm blog-page-header">
+            <h1>Student Rent It Blog</h1>
+            <h4>Student Housing Information and Advice</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-xs-12">
+            {% for o in object_list %}
+                {% if forloop.first %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <img src="{{ o.image.url }}" class="img-responsive img-rounded" alt="Find Student Apartments - {{ o.title }}"
+                            style="margin-left:auto; margin-right:auto; max-height:400px;">
+                        <div>
+                            <h2>{{ o.title }}</h2>
+                            <h4>{{ o.headline|safe }}</h4>
+                            {{ o.body|striptags|truncatechars:700 }}
+                            <div class="text-center" style="margin:15px;">
+                                <a href="{% url 'blog-article' o.id o.title|slugify %}" class="btn btn-success btn-lg">Keep Reading</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                {% if forloop.counter == 2 or forloop.counter == 4 %}<div class="row">{% endif %}
+                <div class="col-md-6" style="margin-top:30px;">
+                    <img src="{{ o.image.url }}" class="img-responsive"  style="width:100%" alt="Find Student Housing, Apartments, Subleases - {{ o.title }}" />
+                    <div class="blog-home-content">
+                        <div class="blog-home-content-inner">
+                            <h3>{{ o.title }}</h3>
+                            <p>{{ o.body|striptags|truncatechars:350 }}</p>
+                        </div>
+                        <div class="text-center" style="margin:15px;">
+                            <a href="{% url 'blog-article' o.id o.title|slugify %}" class="btn btn-success btn-lg">Keep Reading</a>
+                        </div>
+                    </div>
+                </div>
+                {% if forloop.counter == 1 or forloop.counter == 3 %}</div>{% endif %}
+                {% endif %}
+            {% empty %}
+            <div class="jumbotron text-center">
+                <h2>There are no articles</h2>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-12">
+            {% for s in schools %}
+                {% if s.image %}
+                <div class="row col-xs-12" style="margin-bottom:30px;">
+                    <h3>Apartments at {{ s }}</h3>
+                    <a href="{% url 'search' s.id s.name|slugify %}">
+                        <img src="{{ s.image.url }}" class="img-responsive img-rounded blog-school-img" alt="Find Apartments or Houses {{ s }} in {{ s.city }}" />
+                    </a>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

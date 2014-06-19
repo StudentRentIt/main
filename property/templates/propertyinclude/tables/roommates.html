@@ -1,0 +1,29 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_body %}
+{% for r in roommates %}
+<tr class="school-row">
+    <td class="col-xs-8">
+        {% if r.image %}
+        <div class="col-xs-3">
+            <img src="{{ r.image.url }}" class="img-reseponsive img-rounded" style="width:100%;"/>
+        </div>
+        <div class="col-xs-9">
+            {{ r.message|safe }}
+        </div>
+        {% else %}
+        {{ r.message|safe }}
+        {% endif %}
+    </td>
+    <td class="col-xs-4">
+        <h4>{{ r.name }}</h4>
+        <h4>{{ r.phone }}</h4>
+        <h4>{{ r.email }}</h4>
+    </td>
+</tr>
+{% empty %}
+    <div class="jumbotron">
+        <h2>No one has said they need a roommate yet :(</h2>
+    </div>
+    {% endfor %}
+{% endblock %}

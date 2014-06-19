@@ -1,0 +1,12 @@
+{% extends "flowreport/include/report.html" %}
+
+{% block report_title %}
+School Search Detail
+{% endblock %}
+
+{% block report_body %}
+{% include "flowreport/include/reports/school_search_detail.html" %}<div class="text-center">
+<div class="text-center">
+    <a class="btn btn-success" href="{% url 'report-home' %}">Internal Report Home</a>
+</div>
+{% endblock %}

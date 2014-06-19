@@ -1,0 +1,12 @@
+{% extends "maininclude/base.html" %}
+
+{% block body_extra %}
+{% include "flowcore/general/dojo-editor.html" %}
+{% endblock %}
+
+{% block body %}
+<div class="col-md-offset-1 col-md-4">
+    {% include "schoolinclude/updatechoose.html" %}
+</div>
+{% include "maininclude/forms/school/updateroommate.html" %}
+{% endblock %}

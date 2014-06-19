@@ -1,0 +1,59 @@
+{% extends "maininclude/base.html" %}
+
+{% block title %}
+Rent {{ object.get_type_display }} at {{ object.title }} {{ object.get_full_address }}
+ | Apartments in {{ object.school.city.name }}, {{ object.school.city.state }}
+{% endblock %}
+
+{% block extra_body %}
+    {% include "flowcore/general/dojo-editor.html" %}
+{% endblock %}
+
+{% block javascript %}
+    {% include "flowcore/general/openmodal.html" %}
+{% endblock %}
+
+{% block body %}
+<div class="col-md-offset-1 col-md-10">
+    <div class="row">
+        <div class="jumbotron text-center page-header" style="padding:10px 0 10px 0;"><h1>{{ object.title }}</h1></div>
+    </div>
+    <div class="row" style="margin-top:20px;">
+        <div class="col-md-6">
+            {% include "propertyinclude/visual.html" %}
+        </div>
+
+        <div class="col-md-6 col-xs-12">
+            {% include "propertyinclude/post_status.html" %}
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <ul class="nav nav-justified nav-pills nav-pills-success">
+                            <li class="active"><a href="#specials" data-toggle="tab">Special Deals</a></li>
+                            <li><a href="#overview" data-toggle="tab">Description</a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="specials">
+                                {{ object.special|safe }}
+                            </div>
+                            <div class="tab-pane content-tab fade" id="overview">
+                                {{ object.description|safe }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center">{{ object.contact_phone }}</h3>
+            <h3 class="text-center">{{ object.get_full_address }}</h3>
+        </div>
+    </div>
+</div>
+
+{# if object.contact_email #}
+    {# include "propertyinclude/modals/contact.html" #}
+{# endif #}
+{% endblock %}

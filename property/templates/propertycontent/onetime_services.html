@@ -1,0 +1,91 @@
+{% extends "maininclude/base.html" %}
+
+{% block body_extra %}
+<script src="/static/js/property/onetime_services.js"></script>
+<script src="//checkout.stripe.com/v3/checkout.js"></script>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="jumbotron">
+        <h2>One-Time services help boost your property to achieve more clickthrough, impressions and reservations</h2>
+    </div>
+
+    <div class="row">
+        <div class="onetime-services col-md-6 col-md-offset-3">
+            <div class="panel-group" id="accordion-services">
+              {% for s in onetime_services %}
+              <div class="panel panel-service panel-default">
+                <div class="panel-heading panel-fade">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion-services" href="#collapse-service{{ forloop.counter }}">
+                      <h3>{{ s.title }}</h3>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapse-service{{ forloop.counter }}" class="panel-collapse collapse">
+                  <div class="panel-body service-panel-body">
+                    <p>{{ s.description }}</p>
+                    <button id="service{{ s.id }}" class="btn btn-service btn-success btn-add pull-right" data-price="{{ s.price }}">Add To Cart &nbsp
+                        <span class="glyphicon glyphicon-shopping-cart"></span> ${{ s.price }}</button>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="purchase-footer text-center">
+            <h4>Your Subtotal is: $<span id="subtotal">0</span></h4>
+            <form action="/payment/" method="POST" id="stripe-form">
+                <input type="hidden" name="amount" value="" id="amount-input"/>
+                <input type="hidden" name="payment-type" value="service" />
+                <input type="hidden" name="services" value="" id="services-input"/>
+                <input type="hidden" name="property" value="{{ property.id }}" id="property-input"/>
+
+                <button type="submit" id="stripe-button" class="btn btn-success btn-lg">Checkout <span class="glyphicon glyphicon-arrow-right"></span></button>
+                  <script class="stripe-button">
+                    $('#stripe-button').click(function(){
+                      var token = function(res){
+                        var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+
+                        // show processing message, disable links and buttons until form is submitted and reloads
+                        // $('a').bind("click", function() { return false; });
+                        // $('button').addClass('disabled');
+                        // $('.overlay-container').show();
+
+                        // submit form
+                        $('#stripe-form').append($input).submit();
+                        };
+
+                      var value = parseInt($("#subtotal").text()) * 100;
+                      //set the input to the value in cents
+                      $("#amount-input").val(value);
+
+                      StripeCheckout.open({
+                        key:         '{{ public_key }}',
+                        amount:      value,
+                        currency:    'usd',
+                        name:        'StudentRentIt.com',
+                        description: 'One Time Payment',
+                        panelLabel:  'Checkout',
+                        token:       token,
+                        image:       "/static/img/logo_sq_128.png"
+                      });
+
+                      return false;
+                    });
+                </script>
+
+              {% csrf_token %}
+            </form>
+            <div style="margin-top:20px;">
+                <a class="btn btn-default">Return to Update Property</a>
+                <a class="btn btn-default">View Recurring Services</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

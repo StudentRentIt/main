@@ -1,0 +1,24 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_head %}
+<tr>
+    <th>Type</th>
+    <th>Count</th>
+</tr>
+{% endblock %}
+
+{% block table_body %}
+<div class="col-md-6">
+{% for o in object_list %}
+<tr>
+    <td>
+    {% with o.imp_type as imp_type %}
+        {% include "flowreport/include/general/imp_type_display.html" %}
+    {% endwith %}
+    </td>
+    <td>{{ o.created_count }}</td>
+</tr>
+{% endfor %}
+</div>
+
+{% endblock %}

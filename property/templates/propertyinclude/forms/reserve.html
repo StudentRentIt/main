@@ -1,0 +1,34 @@
+<form class="submission-form" method="POST">
+    {# run 2 sections because we want the booleans to be rendered differently #}
+    {% for f in reserve_form %}
+    {% if f.label != "Evicted" and f.label != "Felony" and f.label != "Credit" and f.label != "Agree" %}
+    <div class="panel-form-label">
+        {{ f.label }}
+        {% if f.errors %}
+        <div class="alert alert-danger">
+            {{ f.errors }}
+        </div>{% endif %}
+    </div>
+    <div class="panel-form-field">{{ f }}</div>
+    {% endif %}
+
+    {% if f.label == "Evicted"  or f.label == "Felony" or f.label == "Credit" %}
+            <div style="display:inline-block; margin-left:20px;">
+                <div class="panel-form-label">{{ f.label }}</div>
+                {{ f }}
+            </div>
+    {% endif %}
+
+    {% if f.label == "Agree" %}
+    <div class="panel-form-label">{{ f.label }}</div>
+    {{ f.help_text }}
+    {% if f.errors %}
+        <div class="alert alert-danger">
+            {{ f.errors }}
+        </div>{% endif %}
+    {{ f }}
+    {% endif %}
+
+    {% endfor %}
+    <input type="submit" class="btn btn-success btn-block" value="Reserve Room">{% csrf_token %}
+</form>

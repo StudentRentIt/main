@@ -1,0 +1,20 @@
+{% extends "flowcore/general/panel.html" %}
+
+{% block panel_heading %}
+<h1>Tasks</h1>
+{% endblock %}
+
+{% block panel_body %}
+{% if object_list %}
+            {% include "flowtask/include/tables/tasks.html" %}
+            {% else %}
+            <div class="nav nav-pills nav-justified">
+                <li>Hello</li>
+                <li>goodbye</li>
+            </div>
+            {% endif %}
+{% endblock %}
+
+{% block panel_footer %}
+<a class="btn btn-default" data-toggle="modal" data-target="#createTaskModal"><span class="glyphicon glyphicon-plus"></span> Create New Task</a>
+{% endblock %}
