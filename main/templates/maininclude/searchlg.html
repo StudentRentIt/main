@@ -1,18 +1,6 @@
+{% include "maininclude/searchscript.html" %}
+
 <div id="main-search-box">
     <h2 class="search-heading">College pads at your fingertips</h2>
-    <!-- button for web browsers -->
-    <div class="btn-group">
-        <li class="dropdown text-center" style="display:block;">
-            <button type="button" class="btn btn-xlg btn-default dropdown-toggle" data-toggle="dropdown"
-                data-hover="dropdown" data-delay="5000" data-close-others="false">
-                Choose Your School <span class="caret"></span>
-            </button>
-            <ul id="searchlg-item-list" class="dropdown-menu" role="menu">
-                {% for s in schools %}
-                <li class="searchlg-items"><a href="{% if url_prefix == 'schoolinfo' %}{% url 'school-articles' s.id s.name|slugify 'articles' %}
-                {% else %}/{{ url_prefix }}/{{ s.id }}/{{ s.name|slugify }}/{% endif %}">{{ s.name }}</a></li>
-                {% endfor %}
-            </ul>
-        </li>
-    </div>
+    <input class="search-input" placeholder="Enter School"></input>
 </div>

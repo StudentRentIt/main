@@ -1,4 +1,7 @@
-from main.models import School, City, Property, Article, Deal, Roommate, Event
+from school.models import School, Deal, Roommate, Event
+from property.models import Property
+from blog.models import Article
+from main.models import City
 
 def all_schools(request):
     schools = School.objects.all()

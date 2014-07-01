@@ -50,7 +50,7 @@
             {% for p in properties %}
             ['<div class="info_content">' +
                 '<h3 class="text-center">{{ p.title }}</h3>' +
-                '<img class="img-responsive img-rounded search-info-img hidden-xs hidden-sm" src="{% with p.propertyimage_set.all|first as img %}{{ img.image.url }}{% endwith %}"></img>' +
+                '<img class="img-responsive img-rounded search-info-img hidden-xs hidden-sm" src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"></img>' +
                 '{% if p.type == "APT" %}' +
                 '<h4 class="text-center">Apartment rooms starting at:</h4>' +
                 '{% elif p.type == "SUB" %}<h4 class="text-center">{{ p.get_type_display }}</h4>' +
@@ -134,7 +134,6 @@
     }
 
     $(document).ready(function(){
-
         $("body").css("padding-top", "70px");
 
         $(".btn-property-video").click(function(){
@@ -152,9 +151,10 @@
               //remove the video when modal is closed
               $('.property-video').detach();
         })
-
     });
 {% endif %}{# end if school block #}
+
+
 </script>
 <script src={% static "js/search.js" %}></script>
 <script src={% static "js/favorite.js" %}></script>
@@ -171,7 +171,7 @@
     {% if p.type != "BUS" %}
     <div class="row list-view-row{% if p.sponsored %} sponsored{% endif %}">
         <div class="col-xs-6 col-md-4">
-            <img src="{% with p.propertyimage_set.all|first as img %}{{ img.image.url }}{% endwith %}"
+            <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
             title="Apartments - {{ p.title }}" alt="Apartments - {{ p.title }}" class="img-responsive img-rounded" />
         </div>
         <div class="col-xs-6 col-md-4">

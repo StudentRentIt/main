@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime
+from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
@@ -8,127 +8,264 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Amenity'
-        db.create_table(u'main_amenity', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('amenity', self.gf('django.db.models.fields.CharField')(max_length=50)),
+        # Adding model 'UserProfile'
+        db.create_table('main_userprofile', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], related_name='profile', unique=True)),
+            ('user_type', self.gf('django.db.models.fields.CharField')(blank=True, max_length=30, null=True)),
         ))
-        db.send_create_signal(u'main', ['Amenity'])
+        db.send_create_signal('main', ['UserProfile'])
 
-        # Adding model 'University'
-        db.create_table(u'main_university', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('long', self.gf('django.db.models.fields.DecimalField')(max_digits=8, decimal_places=2)),
-            ('lat', self.gf('django.db.models.fields.DecimalField')(max_digits=8, decimal_places=2)),
+        # Adding model 'TeamMember'
+        db.create_table('main_teammember', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('picture', self.gf('django.db.models.fields.files.ImageField')(blank=True, max_length=100, null=True)),
         ))
-        db.send_create_signal(u'main', ['University'])
+        db.send_create_signal('main', ['TeamMember'])
 
-        # Adding model 'Property'
-        db.create_table(u'main_property', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('university', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['main.University'])),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=150)),
-            ('addr', self.gf('django.db.models.fields.CharField')(max_length=1000)),
-            ('city', self.gf('django.db.models.fields.CharField')(max_length=1000)),
+        # Adding model 'City'
+        db.create_table('main_city', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=40)),
             ('state', self.gf('localflavor.us.models.USStateField')(max_length=2)),
-            ('postal_cd', self.gf('localflavor.us.models.USPostalCodeField')(max_length=2)),
-            ('type', self.gf('django.db.models.fields.CharField')(default='MAIN', max_length=20)),
-            ('price', self.gf('django.db.models.fields.DecimalField')(max_digits=8, decimal_places=2)),
-            ('bed_count', self.gf('django.db.models.fields.IntegerField')()),
-            ('bath_count', self.gf('django.db.models.fields.DecimalField')(max_digits=3, decimal_places=1)),
-            ('sq_ft', self.gf('django.db.models.fields.IntegerField')(null=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('special', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('fee_desc', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('available_on', self.gf('django.db.models.fields.DateField')(null=True)),
-            ('video_link', self.gf('django.db.models.fields.CharField')(max_length=300)),
-            ('contact_first_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('contact_last_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('contact_phone', self.gf('localflavor.us.models.PhoneNumberField')(max_length=20)),
-            ('contact_email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
+            ('link', self.gf('django.db.models.fields.CharField')(blank=True, max_length=100, null=True)),
         ))
-        db.send_create_signal(u'main', ['Property'])
+        db.send_create_signal('main', ['City'])
 
-        # Adding M2M table for field amenities on 'Property'
-        m2m_table_name = db.shorten_name(u'main_property_amenities')
+        # Adding model 'Contact'
+        db.create_table('main_contact', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('property', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, null=True, to=orm['property.Property'])),
+            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
+            ('phone_number', self.gf('localflavor.us.models.PhoneNumberField')(max_length=20, null=True)),
+            ('subject', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('body', self.gf('django.db.models.fields.CharField')(max_length=500)),
+            ('contact_date', self.gf('django.db.models.fields.DateField')(blank=True, auto_now_add=True)),
+        ))
+        db.send_create_signal('main', ['Contact'])
+
+        # Adding model 'Payment'
+        db.create_table('main_payment', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('payment_date', self.gf('django.db.models.fields.DateField')(blank=True, auto_now_add=True)),
+            ('property', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, null=True, to=orm['property.Property'])),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, null=True, to=orm['auth.User'])),
+            ('recurring', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('amount', self.gf('django.db.models.fields.IntegerField')()),
+        ))
+        db.send_create_signal('main', ['Payment'])
+
+        # Adding M2M table for field services on 'Payment'
+        m2m_table_name = db.shorten_name('main_payment_services')
         db.create_table(m2m_table_name, (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('property', models.ForeignKey(orm[u'main.property'], null=False)),
-            ('amenity', models.ForeignKey(orm[u'main.amenity'], null=False))
+            ('payment', models.ForeignKey(orm['main.payment'], null=False)),
+            ('service', models.ForeignKey(orm['property.service'], null=False))
         ))
-        db.create_unique(m2m_table_name, ['property_id', 'amenity_id'])
+        db.create_unique(m2m_table_name, ['payment_id', 'service_id'])
 
-        # Adding model 'PropertyImage'
-        db.create_table(u'main_propertyimage', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('property', self.gf('django.db.models.fields.related.ForeignKey')(related_name='images', to=orm['main.Property'])),
-            ('main', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('image', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
+        # Adding model 'Article'
+        db.create_table('main_article', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('fake', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
-        db.send_create_signal(u'main', ['PropertyImage'])
+        db.send_create_signal('main', ['Article'])
 
 
     def backwards(self, orm):
-        # Deleting model 'Amenity'
-        db.delete_table(u'main_amenity')
+        # Deleting model 'UserProfile'
+        db.delete_table('main_userprofile')
 
-        # Deleting model 'University'
-        db.delete_table(u'main_university')
+        # Deleting model 'TeamMember'
+        db.delete_table('main_teammember')
 
-        # Deleting model 'Property'
-        db.delete_table(u'main_property')
+        # Deleting model 'City'
+        db.delete_table('main_city')
 
-        # Removing M2M table for field amenities on 'Property'
-        db.delete_table(db.shorten_name(u'main_property_amenities'))
+        # Deleting model 'Contact'
+        db.delete_table('main_contact')
 
-        # Deleting model 'PropertyImage'
-        db.delete_table(u'main_propertyimage')
+        # Deleting model 'Payment'
+        db.delete_table('main_payment')
+
+        # Removing M2M table for field services on 'Payment'
+        db.delete_table(db.shorten_name('main_payment_services'))
+
+        # Deleting model 'Article'
+        db.delete_table('main_article')
 
 
     models = {
-        u'main.amenity': {
+        'auth.group': {
+            'Meta': {'object_name': 'Group'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '80', 'unique': 'True'}),
+            'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'symmetrical': 'False', 'to': "orm['auth.Permission']"})
+        },
+        'auth.permission': {
+            'Meta': {'ordering': "('content_type__app_label', 'content_type__model', 'codename')", 'object_name': 'Permission', 'unique_together': "(('content_type', 'codename'),)"},
+            'codename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['contenttypes.ContentType']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        'auth.user': {
+            'Meta': {'object_name': 'User'},
+            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'email': ('django.db.models.fields.EmailField', [], {'blank': 'True', 'max_length': '75'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '30'}),
+            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'symmetrical': 'False', 'related_name': "'user_set'", 'to': "orm['auth.Group']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '30'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'symmetrical': 'False', 'related_name': "'user_set'", 'to': "orm['auth.Permission']"}),
+            'username': ('django.db.models.fields.CharField', [], {'max_length': '30', 'unique': 'True'})
+        },
+        'contenttypes.contenttype': {
+            'Meta': {'ordering': "('name',)", 'object_name': 'ContentType', 'unique_together': "(('app_label', 'model'),)", 'db_table': "'django_content_type'"},
+            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        'main.article': {
+            'Meta': {'object_name': 'Article'},
+            'fake': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+        },
+        'main.city': {
+            'Meta': {'object_name': 'City'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'link': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '100', 'null': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'state': ('localflavor.us.models.USStateField', [], {'max_length': '2'})
+        },
+        'main.contact': {
+            'Meta': {'object_name': 'Contact'},
+            'body': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
+            'contact_date': ('django.db.models.fields.DateField', [], {'blank': 'True', 'auto_now_add': 'True'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'phone_number': ('localflavor.us.models.PhoneNumberField', [], {'max_length': '20', 'null': 'True'}),
+            'property': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'null': 'True', 'to': "orm['property.Property']"}),
+            'subject': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        'main.payment': {
+            'Meta': {'object_name': 'Payment'},
+            'amount': ('django.db.models.fields.IntegerField', [], {}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'payment_date': ('django.db.models.fields.DateField', [], {'blank': 'True', 'auto_now_add': 'True'}),
+            'property': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'null': 'True', 'to': "orm['property.Property']"}),
+            'recurring': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'services': ('django.db.models.fields.related.ManyToManyField', [], {'null': 'True', 'blank': 'True', 'symmetrical': 'False', 'to': "orm['property.Service']"}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'null': 'True', 'to': "orm['auth.User']"})
+        },
+        'main.teammember': {
+            'Meta': {'object_name': 'TeamMember'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'picture': ('django.db.models.fields.files.ImageField', [], {'blank': 'True', 'max_length': '100', 'null': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
+        },
+        'main.userprofile': {
+            'Meta': {'object_name': 'UserProfile'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'related_name': "'profile'", 'unique': 'True'}),
+            'user_type': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '30', 'null': 'True'})
+        },
+        'property.amenity': {
             'Meta': {'ordering': "['amenity']", 'object_name': 'Amenity'},
             'amenity': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'image': ('django.db.models.fields.files.ImageField', [], {'blank': 'True', 'max_length': '100', 'null': 'True'}),
+            'link': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '100', 'null': 'True'}),
+            'special': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'type': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '3', 'null': 'True'})
         },
-        u'main.property': {
-            'Meta': {'ordering': "['id']", 'object_name': 'Property'},
+        'property.package': {
+            'Meta': {'ordering': "['-order']", 'object_name': 'Package'},
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'order': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'price': ('django.db.models.fields.IntegerField', [], {}),
+            'services': ('django.db.models.fields.related.ManyToManyField', [], {'null': 'True', 'blank': 'True', 'symmetrical': 'False', 'to': "orm['property.Service']"}),
+            'similar_property_strength': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        'property.property': {
+            'Meta': {'ordering': "['-top_list', '-sponsored', '-package__order', 'id']", 'object_name': 'Property'},
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'addr': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
-            'amenities': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['main.Amenity']", 'symmetrical': 'False'}),
-            'available_on': ('django.db.models.fields.DateField', [], {'null': 'True'}),
-            'bath_count': ('django.db.models.fields.DecimalField', [], {'max_digits': '3', 'decimal_places': '1'}),
-            'bed_count': ('django.db.models.fields.IntegerField', [], {}),
+            'amenities': ('django.db.models.fields.related.ManyToManyField', [], {'null': 'True', 'blank': 'True', 'symmetrical': 'False', 'to': "orm['property.Amenity']"}),
             'city': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
-            'contact_email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
-            'contact_first_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'contact_last_name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'contact_phone': ('localflavor.us.models.PhoneNumberField', [], {'max_length': '20'}),
-            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'fee_desc': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'postal_cd': ('localflavor.us.models.USPostalCodeField', [], {'max_length': '2'}),
-            'price': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '2'}),
-            'special': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'sq_ft': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
+            'contact_email': ('django.db.models.fields.EmailField', [], {'blank': 'True', 'max_length': '75', 'null': 'True'}),
+            'contact_first_name': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '50', 'null': 'True'}),
+            'contact_last_name': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '50', 'null': 'True'}),
+            'contact_phone': ('localflavor.us.models.PhoneNumberField', [], {'blank': 'True', 'max_length': '20', 'null': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {'blank': 'True', 'null': 'True'}),
+            'fee_desc': ('django.db.models.fields.TextField', [], {'blank': 'True', 'null': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'lat': ('django.db.models.fields.DecimalField', [], {'blank': 'True', 'decimal_places': '6', 'max_digits': '12', 'null': 'True'}),
+            'lease_term': ('django.db.models.fields.related.ManyToManyField', [], {'null': 'True', 'blank': 'True', 'symmetrical': 'False', 'to': "orm['property.PropertyLeaseTerm']"}),
+            'lease_type': ('django.db.models.fields.related.ManyToManyField', [], {'null': 'True', 'blank': 'True', 'symmetrical': 'False', 'to': "orm['property.PropertyLeaseType']"}),
+            'long': ('django.db.models.fields.DecimalField', [], {'blank': 'True', 'decimal_places': '6', 'max_digits': '12', 'null': 'True'}),
+            'package': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'null': 'True', 'to': "orm['property.Package']"}),
+            'school': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['school.School']"}),
+            'services': ('django.db.models.fields.related.ManyToManyField', [], {'null': 'True', 'blank': 'True', 'symmetrical': 'False', 'to': "orm['property.Service']"}),
+            'special': ('django.db.models.fields.TextField', [], {'blank': 'True', 'null': 'True'}),
+            'sponsored': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'state': ('localflavor.us.models.USStateField', [], {'max_length': '2'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '150'}),
-            'type': ('django.db.models.fields.CharField', [], {'default': "'MAIN'", 'max_length': '20'}),
-            'university': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['main.University']"}),
-            'video_link': ('django.db.models.fields.CharField', [], {'max_length': '300'})
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'top_list': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'type': ('django.db.models.fields.CharField', [], {'default': "'APT'", 'max_length': '20'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True'}),
+            'zip_cd': ('django.db.models.fields.CharField', [], {'max_length': '15'})
         },
-        u'main.propertyimage': {
-            'Meta': {'object_name': 'PropertyImage'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
-            'main': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'property': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'images'", 'to': u"orm['main.Property']"})
+        'property.propertyleaseterm': {
+            'Meta': {'ordering': "['order']", 'object_name': 'PropertyLeaseTerm'},
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'lease_term': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
+            'lease_term_short': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '5', 'null': 'True'}),
+            'order': ('django.db.models.fields.IntegerField', [], {})
         },
-        u'main.university': {
-            'Meta': {'object_name': 'University'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'lat': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '2'}),
-            'long': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '2'}),
+        'property.propertyleasetype': {
+            'Meta': {'ordering': "['lease_type']", 'object_name': 'PropertyLeaseType'},
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'lease_type': ('django.db.models.fields.CharField', [], {'max_length': '20'})
+        },
+        'property.service': {
+            'Meta': {'object_name': 'Service'},
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'price': ('django.db.models.fields.IntegerField', [], {}),
+            'service_type': ('django.db.models.fields.CharField', [], {'default': "'R'", 'max_length': '1'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        'school.school': {
+            'Meta': {'object_name': 'School'},
+            'city': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'null': 'True', 'to': "orm['main.City']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True'}),
+            'lat': ('django.db.models.fields.DecimalField', [], {'max_digits': '10', 'decimal_places': '6'}),
+            'link': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '100', 'null': 'True'}),
+            'long': ('django.db.models.fields.DecimalField', [], {'max_digits': '10', 'decimal_places': '6'}),
+            'mascot': ('django.db.models.fields.CharField', [], {'blank': 'True', 'max_length': '50', 'null': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         }
     }

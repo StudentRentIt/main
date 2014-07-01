@@ -4,13 +4,15 @@ from django.contrib.auth.admin import UserAdmin
 #from django.contrib.auth import get_user_model
 #from django.contrib.auth.admin import UserAdmin
 
-from main.models import School, Property, Amenity, Roommate, \
-    Article, PropertyImage, PropertyRoom, PropertyFavorite, UserProfile, \
-    Event, Deal, City, Tag, PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
-    PropertyReserve, Package, Service, Payment, PropertyVideo, TeamMember
+from main.models import UserProfile, City, Payment, TeamMember
+from school.models import School, Roommate, Event, Deal
+from blog.models import Article, Tag
+from property.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
+                            PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
+                            PropertyReserve, Package, Service, Amenity, PropertyVideo
 
 
-# we define our resources to add to admin pages
+# we define our resources to add to admin pages to use a RTE
 class CommonMedia:
   js = (
     'https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js',
@@ -20,7 +22,7 @@ class CommonMedia:
     'all': ('/static/css/dojo-editor.css',),
   }
 
-# #allow extension of the user in admin
+#allow extension of the user in admin
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False

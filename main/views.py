@@ -10,16 +10,17 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.conf import settings
 
-from main.models import School, Property, PropertyRoom, Article, \
-    PropertyLeaseType, PropertyLeaseStart, PropertyLeaseTerm, Amenity, Service, \
-    Payment, TeamMember
+from school.models import School
+from property.models import Property, PropertyRoom, PropertyLeaseType, PropertyLeaseStart, \
+                            PropertyLeaseTerm, Amenity, Service
+from blog.models import Article
+from main.models import Payment, TeamMember
 from main.forms import ContactForm, UserUpdateForm
 from main.utils import get_favorites
 
 from flowreport.models import SchoolSearch
 
 from braces.views import LoginRequiredMixin
-
 
 
 class FormValidateMixin(object):
