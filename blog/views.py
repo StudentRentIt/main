@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 
-from main.models import School, Property, Article
+from property.models import Property
+from school.models import School
+from blog.models import Article
 
 
 def home(request):
