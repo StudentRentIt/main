@@ -10,13 +10,19 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.edit import CreateView
 
-from braces.views import LoginRequiredMixin
-from main.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
-    Service, Package, PropertyVideo, Article, Event, Roommate, Deal
-from main.forms import BasicPropertyForm, DetailPropertyForm, ContactForm, \
-    RoomPropertyForm, ContactPropertyForm, ImagePropertyForm, FavoriteForm, ReserveForm, \
+from blog.models import Article
+from school.models import Event, Roommate, Deal
+
+from property.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
+    Service, Package, PropertyVideo
+from property.forms import BasicPropertyForm, DetailPropertyForm, \
+    RoomPropertyForm, ContactPropertyForm, ImagePropertyForm, ReserveForm, \
     BusinessDetailPropertyForm, VideoPropertyForm, ScheduleForm
+
 from main.utils import get_favorites, save_impression
+from main.forms import ContactForm, FavoriteForm
+
+from braces.views import LoginRequiredMixin
 
 
 class BusinessDetailView(DetailView):
@@ -629,6 +635,10 @@ def favorite(request, action=None):
                             return HttpResponse("error during deletion: " + e)
                 else:
                     return HttpResponse("unrecognized action")
+            else:
+                return HttpResponse("Not a POST request")
+        else:
+            return HttpResponse("Not an AJAX call")
     else:
         return HttpResponse("User Not Logged In")
 

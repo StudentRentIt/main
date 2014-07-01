@@ -10,7 +10,7 @@
   <div class="carousel-inner">
     {% for img in images %}
       <div class="item carousel-property-item {% if forloop.first %}active{% endif %}">
-      <img src="{{ img.image.url }}" class="img-responsive" alt="Find Student Housing -
+      <img src="{{ img.get_url }}" class="img-responsive" alt="Find Student Housing -
                 {% if img.caption %}{{ img.caption }}{% else %}{{ property.title}}{% endif %}"
                 title="Find Student Housing - {% if img.caption %}{{ img.caption }}{% else %}{{ property.title}}{% endif %}">
       <div class="carousel-caption">
