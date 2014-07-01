@@ -1,8 +1,7 @@
 from django.contrib import admin
 
-from scrape.models import Apartment, ApartmentPic, ApartmentAmenity, ApartmentFloorPlan
+from scrape.models import Apartment, Source, AmenityCrossWalk
 
+admin.site.register(AmenityCrossWalk)
 admin.site.register(Apartment)
-admin.site.register(ApartmentPic)
-admin.site.register(ApartmentAmenity)
-admin.site.register(ApartmentFloorPlan)
+admin.site.register(Source)

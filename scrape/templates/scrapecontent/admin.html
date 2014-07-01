@@ -1,0 +1,44 @@
+{% extends "scrapeinclude/base.html" %}
+{% load staticfiles %}
+
+{% block body_extra %}
+    {% include "scrapeinclude/modals/scrape_detail.html" %}
+    <script src={% static "js/scrape/admin.js" %}></script>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function() {
+            var source =
+            [ {% for c in all_cities %}
+                { value: "{% url 'scrape-city' c.id %}",
+                  label: "{{ c|safe }}"
+                },
+               {% endfor %}
+            ];
+
+            $("input.admin-city-input").autocomplete({
+                source: source,
+                select: function( event, ui ) {
+                    event.preventDefault();
+                    window.location.href = ui.item.value;
+                },
+                focus: function( event, ui ) {
+                    event.preventDefault();
+                    $(this).val(ui.item.label);
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    <div class="container marg-top" style="min-height:500px;">
+        <div class="row scrape-admin-row">
+            <input class="admin-city-input" placeholder="Enter City"></input>
+        </div>
+        <div class="row">
+            {% include "scrapeinclude/tables/admin.html" %}
+        </div>
+    </div>
+{% endblock %}

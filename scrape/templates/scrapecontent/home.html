@@ -1,29 +1,36 @@
-<h1>APARTMENTS</h1>
-{% for a in apartments %}
-    <h2>{{ a.name }}</h2>
-    <p>
-        {% for p in a.apartmentpic_set.all %}
-            <img src="{{ p.link }}" style="width:15%;"/>
-        {% endfor %}
-    </p>
-    <h4>{{ a.description }}</h4>
-    <p>SCHOOL: {{ a.school }}</p>
-    <p>ADDRESS: {{ a.address }}</p>
-    <p>CITY: {{ a.school.city.name }}</p>
-    <p>STATE: {{ a.school.city.state }}</p>
-    <p>ZIP: {{ a.zip }}</p>
-    <p>PHONE: {{ a.phone }}</p>
-    <p>SOURCE: {{ a.get_source_display }}</p>
-    <p>LINK: <a href="{{ a.source_link }}">{{ a.name }}</a></p>
-    <p>AMENITIES:
-        {% for a in a.apartmentamenity_set.all %}
-            {{ a.title }} {% if not forloop.last %}, {% endif %}
-        {% endfor %}
-    </p>
-    <p>FLOOR PLANS:
-        {% for f in a.apartmentfloorplan_set.all %}
-            P:{{ f.price }}, BR:{{ f.bed_count }}, BA:{{ f.bath_count }}
-            {% if f.sq_ft %}, SF:{{ f.sq_ft }}{% endif %}
-        {% endfor %}
-    </p>
-{% endfor %}
+{% extends "scrapeinclude/base.html" %}
+
+{% block body %}
+    {{ property_links }}
+    <h1>APARTMENTS</h1>
+    {% for a in apartments %}
+        <h2>{{ a.name }}</h2>
+        <p>
+            {% for p in a.apartmentpic_set.all %}
+                <img src="{{ p.link }}" style="width:15%;"/>
+            {% endfor %}
+        </p>
+        <h4>{{ a.description }}</h4>
+        <p>SCHOOL: {{ a.school }}</p>
+        <p>ADDRESS: {{ a.address }}</p>
+        <p>LAT: {{ a.lat }}</p>
+        <p>LONG: {{ a.long }}</p>
+        <p>CITY: {{ a.school.city.name }}</p>
+        <p>STATE: {{ a.school.city.state }}</p>
+        <p>ZIP: {{ a.zip }}</p>
+        <p>PHONE: {{ a.phone }}</p>
+        <p>SOURCE: {{ a.get_source_display }}</p>
+        <p>LINK: <a href="{{ a.source_link }}">{{ a.name }}</a></p>
+        <p>AMENITIES:
+            {% for a in a.apartmentamenity_set.all %}
+                {{ a.title }} {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+        <p>FLOOR PLANS:
+            {% for f in a.apartmentfloorplan_set.all %}
+                P:{{ f.price }}, BR:{{ f.bed_count }}, BA:{{ f.bath_count }}
+                {% if f.sq_ft %}, SF:{{ f.sq_ft }}{% endif %}
+            {% endfor %}
+        </p>
+    {% endfor %}
+{% endblock %}

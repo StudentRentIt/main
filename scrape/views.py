@@ -1,173 +1,108 @@
-import requests
-
 from django.shortcuts import render, get_object_or_404
-from django.utils.text import slugify
+from django.contrib.admin.views.decorators import staff_member_required
+from django.http import HttpResponse
 
-from main.models import School, City
-from scrape.models import Apartment, ApartmentPic, ApartmentAmenity, ApartmentFloorPlan
+from main.models import City
+from scrape.utils import scrape_apartmentlist_data
+from scrape.models import Log, Apartment, AmenityCrossWalk
+from property.models import Property, PropertyImage, PropertyRoom
 
-from bs4 import BeautifulSoup
 
-
-def apartment_list_data(request):
-    #Clean up Apartment table, we are using this as a temporary data table
-    Apartment.objects.all().delete()
-
+@staff_member_required
+def history(request):
     '''
-    scrape data from apartmentlist.com
+    shows the history of changes that people have made to our property data.
+    Will show additions, changes, and deletions
     '''
-    template_name = "scrapecontent/home.html"
-    base_url = "http://www.apartmentlist.com"
-    property_links = []
-    pages = []
-    schools = School.objects.filter(id=3)
-
-    for s in schools:
-        #based on the school city and state, scrape data.
-        city = slugify(s.city.name.lower())
-        state = s.city.state.lower()
-
-        #get the page data for the given city
-        url = base_url + "/" + state + "/" + city
-        full_page  = requests.get(url).text
-        soup = BeautifulSoup(full_page)
-
-        '''
-        get a list of all the parent pages. Add the page to our pages list variable
-        and then if it has a Next link go to that page and then rinse and repeat.
-        '''
-        pages.append(url)
-        page_numbers = []
-
-        if soup.find("a", class_="medium secondary button"):
-            for page in soup.findAll('a', class_="medium secondary button"):
-                page_numbers.append(page['href'].split("?page=",1)[1])
-
-            #get the max page and then generate the pages to scrape
-            max_page = max(page_numbers)
-            for x in range(2, int(max_page) + 1):
-                pages.append(url + "?page=" + str(x))
-
-
-        '''
-        build up all the apartment links for the given city. For Apartmentlist, they
-        can have multiple pages. Parse through all the pages for a city and then get
-        a list of all the Property URLs to extract data.
-        '''
-        for page_url in pages:
-            for apt in soup.findAll('a', class_="listing"):
-                property_links.append(base_url + apt['href'])
-
-    '''
-    Loop through property pages and store the apartment data
-    '''
-    for p in property_links[25:29]:
-        url = p
-        apt_page = requests.get(url).text
-        soup = BeautifulSoup(apt_page)
-
-        #collect all the data
-        try:
-            name = soup.find(class_="listing-name").string
-        except:
-            name = None
-
-        try:
-            address = soup("h2", class_="listing-location")[0].contents[0]
-        except:
-            address = None
-
-        try:
-            zip_cd = None #soup.find_all("h2")
-        except:
-            zip_cd = None
-
-        try:
-            phone = soup.find_all(class_="mobile-phone-link")[0].string
-        except:
-            phone = None
-
-        try:
-            city = soup.select(".listing-location a")[0].string.split(', ')[0]
-            city_obj = City.objects.get(name=city)
-            school = School.objects.get(city=city_obj)
-        except:
-            school = None
-
-        try:
-            description = ""
-            desc = soup.find_all(class_="expansion-content")[0].stripped_strings
-            for d in desc:
-                if "ID: " not in d and "(RLNE" not in d:
-                    description += d
-        except:
-            description = None
-
-        #create the database object
-        apt = Apartment(name=name, school=school, description=description,
-                        address=address, phone=phone, zip_cd=zip_cd, source='A',
-                        source_link=p)
-        apt.save()
-
-        #get apartment pics
-        pics_all = soup.find(id="listing-carousel-inner").find_all('img')[0:6]
-
-        for p in pics_all:
-            instance = ApartmentPic(link = p['src'], apartment = apt)
-            instance.save()
-
-        #get apartment amenities
-        amenities = []
-        amenities_all = soup.find_all(class_="amenity")
-
-        for a in amenities_all:
-            # amenities.append(a.string)
-            instance = ApartmentAmenity(title = a.string, apartment = apt)
-            instance.save()
-
-        #get apartment floorplans
-        floor_plans = []
-        floor_plans_all = soup.find_all(class_="floorplan-unit")
-
-        for f in floor_plans_all:
-            split = f['data-summary'].split()
-
-            try:
-                bed_count = split[0]
-            except:
-                bed_count = None
-
-            try:
-                bath_count = split[2]
-            except:
-                bath_count = None
-
-            # sometimes the price is in position 5 if there is no sq ft provided
-            if '$' in split[5]:
-                try:
-                    price = split[5].replace("$", "").replace(",", "")
-                    sq_ft = None
-                except:
-                    sq_ft = None
-            else:
-                try:
-                    price = split[9].replace("$", "").replace(",", "")
-                except:
-                    price = None
-
-                try:
-                    sq_ft = split[5].replace(",", "")
-                except:
-                    sq_ft = None
-
-
-            instance = ApartmentFloorPlan(bed_count=bed_count, bath_count=bath_count,
-                                            sq_ft=sq_ft, price=price, apartment=apt)
-            instance.save()
-
-    apartments = Apartment.objects.all()
+    history = Log.objects.all()[:100]
+    template_name = "scrapecontent/history.html"
 
     return render(request, template_name,
-        {'links':property_links, 'pages':pages, 'apartments':apartments,
-        'amenities':amenities, 'floor_plans':floor_plans})
+        {'history':history})
 
+
+@staff_member_required
+def admin(request, **kwargs):
+    '''
+    this is where we sort through the scraped data and decide what we want to add
+    or change. Will choose which source and city to choose from.
+    '''
+    all_cities = City.objects.all()
+    template_name = "scrapecontent/admin.html"
+
+    if 'city' in kwargs:
+        '''
+        for now we are going to just use one source, but in the future we might
+        implement more and will call different functions for different sources, which
+        should be passed in as a kwarg similar to city
+        '''
+        city = get_object_or_404(City, id=kwargs['city'])
+        apartments = scrape_apartmentlist_data(city)
+        # apartments = apartment_data[0]
+        # property_links = apartment_data[1]
+        # pages = apartment_data[2]
+    else:
+        apartments = None
+        city = None
+        # property_links = None
+        # pages = None
+
+    return render(request, template_name,
+        {'all_cities':all_cities, 'city':city, 'apartments':apartments})
+
+
+@staff_member_required
+def add_property(request, pk):
+    # add property from our temporary scrape data into permanent Property data
+    if request.is_ajax():
+        if request.method == 'POST':
+            # assign property variables from the posted property
+            p = get_object_or_404(Apartment, id=pk)
+
+
+            # build a list of all amenity titles
+            cw = AmenityCrossWalk.objects.all()
+            amenity_titles = []
+
+            for a in cw:
+                amenity_titles.append(a.scrape_title)
+
+
+            try:
+                #save apartment and its related models
+                images = p.apartmentimage_set.all()
+                floor_plans = p.apartmentfloorplan_set.all()
+                amenities = p.apartmentamenity_set.all()
+
+                prop_instance = Property(title=p.title, addr=p.address, school=p.school,
+                                    city=p.city, state=p.state, zip_cd=p.zip_cd, user=request.user,
+                                    lat=p.lat, long=p.long, description=p.description)
+                prop_instance.save()
+
+                for a in amenities:
+                    # get the permanent amenity based on crosswalk with scraped title
+                    if a.title in amenity_titles:
+                        amenity_xw = AmenityCrossWalk.objects.get(scrape_title=a.title)
+                        prop_instance.amenities.add(amenity_xw.amenity)
+
+                for i in images:
+                    instance = PropertyImage(image_link=i.link, property=prop_instance, caption="")
+                    instance.save()
+
+                for f in floor_plans:
+                    instance = PropertyRoom(property=prop_instance, price=f.price,
+                        bed_count=f.bed_count, bath_count=f.bath_count, sq_ft=f.sq_ft)
+                    instance.save()
+
+                # log success
+                instance = Log(city=p.school.city, apartment_name=p.title, status='S',
+                            comment="Successfully saved " + p.title)
+                instance.save()
+
+                return HttpResponse("Successfully added " + p.title)
+            except Exception as e:
+                return HttpResponse(e)
+        else:
+            return HttpResponse("Not a POST request")
+    else:
+        return HttpResponse("Not an AJAX call")

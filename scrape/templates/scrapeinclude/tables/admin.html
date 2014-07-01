@@ -1,0 +1,32 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_head %}
+    <tr class="table-header">
+        <td>
+        {% if city %}
+            Apartments for {{ city }}
+        {% else %}
+            Apartment
+        {% endif %}
+        </td>
+        <td>Action</td>
+    </tr>
+{% endblock %}
+
+{% block table_body %}
+    {% for a in apartments %}
+        <tr>
+            <td>{{ a }}</td>
+            <td>
+                <button class="btn btn-success btn-add" data-id="{{ a.id }}">Add <span class="glyphicon glyphicon-plus"></span></button>
+                <button class="btn btn-default" data-toggle="modal" data-target="#scrape-detail">
+                    Details <span class="glyphicon glyphicon-asterisk"></span></button>
+            </td>
+        </tr>
+    {% empty %}
+    <tr>
+        <td><h3>There is nothing to see :( <a href="{% url 'scrape-history' %}">Check Log?</a></h3></td>
+        <td></td>
+    </tr>
+    {% endfor %}
+{% endblock %}

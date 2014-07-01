@@ -1,6 +1,10 @@
+from datetime import datetime
+
 from django.db import models
 
-from main.models import BATH_CHOICES, BED_CHOICES, City, School
+from main.models import City
+from school.models import School
+from property.models import BATH_CHOICES, BED_CHOICES, Amenity
 
 from localflavor.us.models import PhoneNumberField
 
@@ -19,21 +23,37 @@ SOURCE_CHOICES = (
 )
 
 
+class Source(models.Model):
+    name = models.CharField(max_length=30)
+    link = models.URLField()
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Apartment(models.Model):
     '''
     temporary storage of scraped Apartment data
     '''
+    source = models.ForeignKey(Source)
     school = models.ForeignKey(School)
-    name = models.CharField(max_length=60)
-    address = models.CharField(max_length=80, blank=True, null=True)
+    title = models.CharField(max_length=60)
+    address = models.CharField(max_length=80)
+    city = models.CharField(max_length=30)
+    state = models.CharField(max_length=2)
     zip_cd = models.CharField(max_length=15, blank=True, null=True)
+    lat = models.DecimalField(max_digits=12, decimal_places=6)
+    long =  models.DecimalField(max_digits=12, decimal_places=6)
     phone = PhoneNumberField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    source = models.CharField(max_length=1, choices=SOURCE_CHOICES)
-    source_link = models.URLField()
+    exists = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
 
 
-class ApartmentPic(models.Model):
+class ApartmentImage(models.Model):
     apartment = models.ForeignKey(Apartment)
     link = models.CharField(max_length=200)
 
@@ -50,13 +70,27 @@ class ApartmentFloorPlan(models.Model):
             ' bath, ' + '($' + str(self.price) + ')'
 
 
+class AmenityCrossWalk(models.Model):
+    #model used to map scraped amenities to Amenity
+    amenity = models.ForeignKey(Amenity)
+    scrape_title = models.CharField(max_length=40)
+
+    def __str__(self):
+        return self.scrape_title
+
+
 class ApartmentAmenity(models.Model):
     apartment = models.ForeignKey(Apartment)
-    # TODO: switch to lookup field once we have a good set of feature titles
     title = models.CharField(max_length=40)
 
 
-class ScrapeLog(models.Model):
+class Log(models.Model):
     city = models.ForeignKey(City)
-    date = models.DateField(auto_now_add=True)
+    apartment_name = models.CharField(max_length=100)
+    link = models.URLField(null=True)
+    datetime = models.DateTimeField(default=datetime.now())
     status = models.CharField(max_length=1, choices=SCRAPE_STATUS_CHOICES)
+    comment = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        ordering = ['-datetime']
