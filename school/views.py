@@ -3,10 +3,17 @@ from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import ListView, RedirectView
 from django.core.urlresolvers import reverse_lazy, reverse
 
-from main.models import School, Roommate, Article, Deal, Event, Property
-from main.forms import RoommateForm, ArticleForm, EventForm, DealForm
 from main.views import FormValidateMixin
 from main.utils import save_impression
+
+from school.models import School, Roommate, Deal, Event
+from school.forms import RoommateForm, EventForm, DealForm
+
+from blog.models import Article
+from blog.forms import ArticleForm
+
+from property.models import Property
+
 from braces.views import LoginRequiredMixin
 
 
