@@ -1,0 +1,8 @@
+/* Import standard Dojo CSS files */
+@import "https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/claro/claro.css";
+
+/* update CSS rules to cater for Django Admin */
+.dijitEditor {display: inline-block;}
+.dijitEditor .dijitToolbar .dijitTextBox {width: 20ex;}
+.dijitEditor .dijitToolbar label {display: inline; float: none; width: auto;}
+.dijitEditor {width:100%;}

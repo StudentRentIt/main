@@ -1,0 +1,15 @@
+{% extends "flowcore/modals/default.html" %}
+{% load crispy_forms_tags %}
+
+{% block modal_title %}
+id="addDealModal"
+{% endblock %}
+
+{% block modal_header %}
+Add a Deal
+{% endblock %}
+
+{% block modal_body %}
+{# include "maininclude/forms/school/adddeal.html" #}
+{% crispy form %}
+{% endblock %}

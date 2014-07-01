@@ -1,0 +1,14 @@
+<div class="row text-center">
+    <div class="btn-group">
+        <button type="button" id="btn-search-mobile" style="margin-bottom:0;"
+            class="btn btn-lg btn-success dropdown-toggle text-center" data-toggle="dropdown">
+            Choose Your School <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            {% for s in schools %}
+            <li class="modal-dropdown-choices"><a href="{% if url_prefix == 'schoolinfo' %}{% url 'school-articles' s.id s.name|slugify 'articles' %}">
+                {% else %}/{{ url_prefix }}/{{ s.id }}/{{ s.name|slugify }}/">{% endif %}{{ s.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

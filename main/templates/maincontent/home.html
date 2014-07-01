@@ -1,0 +1,40 @@
+{% extends "maininclude/base.html" %}
+
+{% block title %}
+StudentRentIt.com | Student Apartments and Community
+{% endblock %}
+
+{% block body %}
+<img class="img-responsive home-banner" src="/static/img/tubing_edited.jpg"
+    alt="Find Apartments for Students" title="Find Apartments for Students"/>
+<div class="hidden-xs hidden-sm">
+    {% include "maininclude/searchlg.html" %}
+</div>
+<div class="hidden-md hidden-lg">
+    {% include "maininclude/searchsm.html" %}
+</div>
+<div id="howitworks">
+    <div class="jumbotron" style="padding:0;">
+        {% include "maininclude/howitworks.html" %}
+    </div>
+</div>
+<div class="school-container">
+    <div class="row page-header jumbotron">
+        <h2 class="text-center">Pick your city and search now <span class="glyphicon glyphicon-search"></span></h2>
+    </div>
+    {% for s in schools %}
+        {% if s.image %}
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 ">
+                <a href="{% url 'search' s.id s.name|slugify %}">
+                    <img src="{{ s.image.url }}" class="img-responsive img-rounded"
+                    title="Find Apartments {{ s }} in {{ s.city }}" alt="Find Apartments {{ s }} in {{ s.city }}" />
+                </a>
+                <h2 class="img-caption-overlay text-right">{{ s.city }}</h2>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %}

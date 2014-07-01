@@ -1,0 +1,33 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_body %}
+    {% for e in events %}
+        <tr class="school-row">
+            {% if e.image %}
+            <td class="col-md-8 col-xs-8">
+                <h2>{{ e.title }}{% if e.property %} at {{ e.property.title }}{% endif %}</h2>
+                {{ e.description|safe }}
+                <h4>{{ e.date_time }}</h4>
+                <h4>{{ e.property.addr }}</h4>
+            </td>
+            <td class="col-md-4 col-xs-4">
+                <img src="{{ e.image.url }}" class="img-reseponsive img-rounded" style="width:100%" />
+            </td>
+            {% else %}
+            <td class="col-md-8 col-xs-8">
+                <h2>{{ e.title }}{% if e.property %} at {{ e.property.title }}{% endif %}</h2>
+                {{ e.description|safe }}
+            </td>
+            <td class="col-md-4 col-xs-4">
+                <h4>{{ e.date_time }}</h4>
+                <h4>{{ e.property.addr }}</h4>
+            </td>
+            {% endif %}
+        </tr>
+    {% empty %}
+        <div class="jumbotron">
+            <h2>There are no listed events yet for these apartments :(</h2>
+        </div>
+    {% endfor %}
+{% endblock %}
+

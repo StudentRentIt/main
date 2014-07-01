@@ -1,0 +1,157 @@
+<!-- Nav tabs -->
+<ul class="nav nav-pills nav-justified nav-howitworks">
+  <li class="active"><a href="#students" data-toggle="tab">For Students</a></li>
+  <li><a href="#parents" data-toggle="tab">For Parents</a></li>
+  <li><a href="#managers" data-toggle="tab">For Managers</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active fade in" id="students">
+    <div <div class="row row-howitworks">
+        <div class="col-md-6 col-sm-6">
+            <a href="{% url 'search' %}"><h1>Search and Earn</h1></a>
+            <div class="col-md-offset-2 col-md-8 col-xs-12">
+                <h3>Search and Discover</h3>
+                    <h4>
+                        Search apartments in your college town and find the place that is right for you.
+                        Filter results in your search and find out the real details about apartment communities.
+                    </h4>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <a href="{% url 'search' %}"><img class="img-responsive img-circle img-howitworks"
+            alt="Search Apartments" title="Search Apartments" src="/static/img/misc/search.JPG" /></a>
+        </div>
+    </div>
+    <div class="row row-howitworks" style="background-color:#5cb85c; color:white;">
+        <div class="col-md-6">
+            <img class="img-responsive img-circle img-howitworks" title="Contact and Reserve Apartments"
+            alt="Contact and Reserve Apartments" src="/static/img/misc/contact.JPG" />
+        </div>
+        <div class="col-md-6">
+            <h1>Schedule or Reserve</h1>
+            <div class="col-md-offset-2 col-md-8">
+                <h3>View all of the apartments in your college town with just one click.
+                    Schedule an appointment to tour the apartment or simply reserve your spot before it's gone!
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="row row-howitworks">
+        <div class="col-md-6">
+            <div class="col-md-offset-2 col-md-8">
+                <a href="#" data-toggle="modal" data-target="#chooseSchoolModal"><h1>Student Community</h1></a>
+                <h3>
+                    See what it is really like to live somewhere! Connect with current
+                    residents and view which businesses are in your neighborhood.
+                </h3>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <a href="#" data-toggle="modal" data-target="#chooseSchoolModal">
+                <img class="img-responsive img-circle img-howitworks" alt="Apartment Community"
+                title="Apartment Community" src="/static/img/misc/learn.JPG" />
+            </a>
+        </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="parents">
+      <div <div class="row row-howitworks">
+        <div class="col-md-6 col-sm-6">
+            <a href="{% url 'search' %}"><h1>Search</h1></a>
+            <div class="col-md-offset-2 col-md-8 col-xs-12">
+                <h3>
+                    Be part of the search with your student and find the best and most suitable apartment for them.
+                </h3>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <a href="{% url 'search' %}"><img class="img-responsive img-circle img-howitworks"
+            alt="Search Apartments" title="Search Apartments" src="/static/img/misc/search.JPG" /></a>
+        </div>
+    </div>
+    <div class="row row-howitworks" style="background-color:#5cb85c; color:white;">
+        <div class="col-md-6">
+            <img class="img-responsive img-circle img-howitworks" title="Apartment Community"
+            alt="Apartment Community" src="/static/img/misc/community.png" />
+        </div>
+        <div class="col-md-6">
+            <h1>Learn</h1>
+            <div class="col-md-offset-2 col-md-8">
+                <h3>
+                    Learn about the community where your student will now call home!
+                    Enlighten yourself and connect with other parents to make sure you
+                    are protecting your student in their apartment search.
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="row row-howitworks">
+        <div class="col-md-6">
+            <div class="col-md-offset-2 col-md-8">
+                <h1>Stay Updated</h1>
+                <h3>See local events and deals at your student's school. Plan a
+                    special weekend and don't worry about bothering your student.
+                </h3>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <a href="#" data-toggle="modal" data-target="#chooseSchoolModal">
+                <img class="img-responsive img-circle img-howitworks" alt="Apartment Community"
+                title="Apartment Community" src="/static/img/misc/learn.JPG" />
+            </a>
+        </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="managers">
+      <div <div class="row row-howitworks">
+        <div class="col-md-6 col-sm-6">
+            <a href="{% url 'search' %}"><h1>Reach Your Target Audience</h1></a>
+            <div class="col-md-offset-2 col-md-8 col-xs-12">
+                <h3>
+                    We do the marketing and outreach for you! We are your portal for connecting with students.
+                    With our web, email, social and print marketing, we are confident we can deliver you leases!
+                </h3>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <a href="#"><img class="img-responsive img-circle img-howitworks"
+            alt="Gain Apartment Leases" title="Gain Apartment Leases" src="/static/img/misc/audience.png" /></a>
+        </div>
+    </div>
+    <div class="row row-howitworks" style="background-color:#5cb85c; color:white;">
+        <div class="col-md-6">
+            <img class="img-responsive img-circle img-howitworks" title="Gain Apartment Tenants"
+            alt="Gain Apartment Tenants" src="/static/img/misc/analytics.jpg" />
+        </div>
+        <div class="col-md-6">
+            <h1>Real Time Analytics</h1>
+            <div class="col-md-offset-2 col-md-8">
+                <h3>
+                    See in "real-time" exactly how many people see your apartment community.
+                    Need some extra traffic? We also have services for that!
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="row row-howitworks">
+        <div class="col-md-6">
+            <div class="col-md-offset-2 col-md-8">
+                <h1>Packages and Services</h1></a>
+                <h3>
+                    We offer packages and services to fit your need, whatever that
+                    may be! From video creation to craigslist.com postings and
+                    from monthly packages to social outreach, we have you covered.
+                </h3>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <a href="#" data-toggle="modal" data-target="#chooseSchoolModal">
+                <img class="img-responsive img-circle img-howitworks" alt="Apartment Community"
+                title="Apartment Community" src="/static/img/misc/options.png" />
+            </a>
+        </div>
+    </div>
+  </div>
+</div>

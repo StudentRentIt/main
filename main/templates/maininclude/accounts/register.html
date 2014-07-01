@@ -1,0 +1,17 @@
+{% extends "flowcore/forms/default_panel.html" %}
+
+{% block form %}
+    <a href="javascript:allauth.facebook.login('', 'authenticate', 'login')">
+        <img class="fb-login img-responsive img-rounded" src="/static/img/fb_btn.png" /></a>
+    <h3 class="text-center">OR</h3>
+    {% for f in form %}
+    <div class="panel-form-label">
+        {{ f.label }}
+        {% if f.errors %}
+        <div class="alert alert-danger">
+            {{ f.errors }}
+        </div>{% endif %}
+    </div>
+    <div class="panel-form-field">{{ f }}</div>
+    {% endfor %}
+{% endblock %}

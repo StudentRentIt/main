@@ -1,0 +1,32 @@
+<div id="carousel-property" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    {% for i in images %}
+    <li data-target="#carousel-property" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+    {% endfor %}
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    {% for img in images %}
+      <div class="item carousel-property-item {% if forloop.first %}active{% endif %}">
+      <img src="{{ img.image.url }}" class="img-responsive" alt="Find Student Housing -
+                {% if img.caption %}{{ img.caption }}{% else %}{{ property.title}}{% endif %}"
+                title="Find Student Housing - {% if img.caption %}{{ img.caption }}{% else %}{{ property.title}}{% endif %}">
+      <div class="carousel-caption">
+        {{ img.caption }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if images.count > 1 %}
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-property" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-property" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+  {% endif %}
+</div>

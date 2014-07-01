@@ -1,0 +1,10 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_body %}
+{% for c in contacts %}
+<tr>
+    <td>{{ c.contact_date }}</td>
+    <td>{{ c.created_count }}</td>
+</tr>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "maininclude/base.html" %}
+
+{% block body_extra %}
+    {% include "flowcore/general/scroll_down.html" %}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        {% block banner %}{% endblock %}
+    </div>
+    <div class="container-fluid community-main-container">
+        <div class="row">
+            {% block navbar %}{% endblock %}
+        </div>
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                {% block main %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "schoolinclude/base.html" %}
+
+{% block school_banner %}
+    {% include "schoolinclude/banner.html" %}
+{% endblock %}
+
+{% block school_main %}
+    {% include "schoolinclude/tables/articles.html" %}
+    {% include "schoolinclude/bottom-btns.html" %}
+    {% include "schoolinclude/modals/addarticle.html" %}
+{% endblock %}

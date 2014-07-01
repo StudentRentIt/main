@@ -1,0 +1,20 @@
+{% load crispy_forms_tags %}
+
+<!-- Modal -->
+<div class="modal fade" id="propertyContactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header default-modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Contact Property Manager</h3>
+      </div>
+      <div class="modal-body default-modal-body">
+        {% include "flowcore/general/form_status_message.html" %}
+        {% crispy contact_form %}
+      </div><!-- end body -->
+      <div class="modal-footer default-modal-footer">
+        <button type="button" class="btn-lg btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

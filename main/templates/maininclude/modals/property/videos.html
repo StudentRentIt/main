@@ -1,0 +1,20 @@
+{% extends "flowcore/modals/default.html" %}
+
+{% block modal_title %}
+id="propertyVideosModal"
+{% endblock %}
+
+{% block modal_header %}
+Property Videos
+{% endblock %}
+
+{% block modal_body %}
+{% for p in properties %}
+{% if p.video_link %}
+<div class="search-video-modal-row">
+        <h2>{{ p.title }}</h2><a class="btn btn-success" href="{% url 'property' p.id p.title|slugify %}">View Full Listing</a>
+    <div class="property-video">{{ p.video_link|safe }}</div>
+</div>
+{% endif %}
+{% endfor %}
+{% endblock %}

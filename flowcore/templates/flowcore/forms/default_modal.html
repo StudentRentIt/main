@@ -1,0 +1,15 @@
+<form class="submission-form" {% if form.is_multipart %}enctype="multipart/form-data"  {% endif %}method="POST">
+{% block for_loop %}
+    {% for f in form %}
+    <div class="submission-form-label">
+        {{ f.label }}
+        {% if f.errors %}
+        <div class="alert alert-danger">
+            {{ f.errors }}
+        </div>{% endif %}
+    </div>
+    <div class="submission-form-field">{{ f }}</div>
+    {% endfor %}
+{% endblock %}
+<input type="submit" class="btn btn-success btn-block" value="{% include 'flowcore/forms/general/form_submit_text.html' %}" />{% csrf_token %}
+</form>

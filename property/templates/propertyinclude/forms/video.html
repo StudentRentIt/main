@@ -1,0 +1,14 @@
+<form class="submission-form" method="POST" enctype="multipart/form-data">
+{% for f in video_form %}
+<div class="panel-form-label">
+    {{ f.label }}
+    {% if f.errors %}
+    <div class="alert alert-danger">
+        {{ f.errors }}
+    </div>
+    {% endif %}
+</div>
+<div class="panel-form-field">{{ f }}</div>
+{% endfor %}
+<input type="submit" class="btn btn-success btn-block" value="Save">{% csrf_token %}
+</form>

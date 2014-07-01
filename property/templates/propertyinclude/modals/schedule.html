@@ -1,0 +1,15 @@
+{% extends "flowcore/modals/default.html" %}
+{% load crispy_forms_tags %}
+
+{% block modal_title %}
+    id="propertyScheduleModal"
+{% endblock %}
+
+{% block modal_header %}
+Schedule Apartment Tour
+{% endblock %}
+
+{% block modal_body %}
+    {% include "flowcore/general/form_status_message.html" %}
+    {% crispy schedule_form %}
+{% endblock %}

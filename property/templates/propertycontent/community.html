@@ -1,0 +1,43 @@
+{% extends "propertyinclude/layouts/community.html" %}
+
+{% block banner %}
+    <img src="{{ property.school.image.url }}" class="img-responsive" %}
+{% endblock %}
+
+{% block main %}
+<div class="container-fluid">
+    <div class="jumbotron text-center jumbotron-small-padding">
+        <h1>Learn About {{ property }}</h1>
+    </div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-pills nav-justified property-community-pills">
+      <li class="active"><a href="#articles" data-toggle="tab">Articles</a></li>
+      <li><a href="#events" data-toggle="tab">Events</a></li>
+      <li><a href="#deals" data-toggle="tab">Deals</a></li>
+      <li><a href="#roommates" data-toggle="tab">Roommates</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="articles">
+        {% include "propertyinclude/tables/articles.html" %}
+      </div>
+      <div class="tab-pane" id="events">
+        {% include "propertyinclude/tables/events.html" %}
+      </div>
+      <div class="tab-pane" id="deals">
+        {% include "propertyinclude/tables/deals.html" %}
+      </div>
+      <div class="tab-pane" id="roommates">
+        {% include "propertyinclude/tables/roommates.html" %}
+      </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="container-fluid">
+</div>
+{% endblock %}
+

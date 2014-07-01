@@ -1,0 +1,37 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ul class="nav nav-justified nav-pills nav-pills-success">
+            {% if property.propertyvideo_set.first %}
+            <li class="active"><a href="#videos" data-toggle="tab">Videos</a></li>
+            {% endif %}
+            <li{% if not property.propertyvideo_set.first %} class="active"{% endif %}><a href="#pictures" data-toggle="tab">Pictures</a></li>
+            {% if floorplan_images %}
+            <li><a href="#floorplans" data-toggle="tab">Floorplans</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="panel-body">
+        <!-- Tab panes -->
+        <div class="tab-content">
+            {% if property.propertyvideo_set.first %}
+            <div class="tab-pane content-tab fade in active" id="videos">
+                {% with property_videos as videos %}
+                    {% include "propertyinclude/video_carousel.html" %}
+                {% endwith %}
+            </div>
+            {% endif %}
+            <div class="tab-pane fade{% if not property.propertyvideo_set.first %} in active{% endif %}" id="pictures">
+                {% with property_images as images %}
+                {% include "propertyinclude/visual_carousel.html" %}
+                {% endwith %}
+            </div>
+            {% if floorplan_images %}
+            <div class="tab-pane fade" id="floorplans">
+                {% with floorplan_images as images %}
+                {% include "propertyinclude/visual_carousel.html" %}
+                {% endwith %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

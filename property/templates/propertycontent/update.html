@@ -1,0 +1,180 @@
+{% extends "maininclude/base.html" %}
+
+{% block body_extra %}
+{% include "flowcore/general/dojo-editor.html" %}
+{% endblock %}
+
+{% block javascript %}
+    {% if property.initial %}
+    <script type="text/javascript">
+        //if the property is marked as initial, give them an instruction modal
+        $(window).load(function(){
+            $('#newPropertyModal').modal('show');
+        });
+    </script>
+    {% include "propertyinclude/modals/add.html" %}
+    {% endif %}
+
+    {% if status != "choose" %}
+    <script>
+    $(document).ready(function(){
+        //get active_tab variable passed in from view
+        {% if active_tab == "basic" %}
+        var tab = "#basic";
+        {% elif active_tab == "details" %}
+        var tab = "#details";
+        {% elif active_tab == "rooms" %}
+        var tab = "#rooms";
+        {% elif active_tab == "contact" %}
+        var tab = "#contact";
+        {% elif active_tab == "pics" %}
+        var tab = "#pics";
+        {% elif active_tab == "videos" %}
+        var tab = "#videos";
+        {% else %}
+        var tab = "#basic";
+        {% endif %}
+
+        $("#propertyTab a[href=" + tab + "]").tab('show');
+    });
+    </script>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+<div class="col-md-offset-2 col-md-8">
+    {% if status == "choose" %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Choose a property to manage
+        </div>
+        <div class="panel-body">
+            <div class="col-md-offset-3 col-md-6">
+                {% for p in properties %}
+                <a href="/property/update/{{ p.id }}/" class="btn btn-success btn-lg btn-block">{{ p.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-heading">
+                <div class="row pull-right">
+                    <a class="btn btn-default" href="{% url 'property' property.id property.title|slugify %}">View Property Page </a>
+                </div>
+                <div class="row text-center jumbotron">
+                    <h1>Update Property {{active_tab}}</h1>
+                </div>
+                <ul class="nav nav-justified nav-pills nav-pills-success" id="propertyTab">
+                    <li class="active"><a href="#basic" data-toggle="tab">Basic Info</a></li>
+                    <li><a href="#details" data-toggle="tab">Detail Info</a></li>
+                    {% if property.type != "BUS" %}<li><a href="#rooms" data-toggle="tab">Room Info</a></li>{% endif %}
+                    <li><a href="#contact" data-toggle="tab">Contact Info</a></li>
+                    <li><a href="#pics" data-toggle="tab">Pictures</a></li>
+                    <li><a href="#videos" data-toggle="tab">Videos</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            {% if status == "error" %}
+            <div class="alert alert-danger text-center">
+                There were errors in your change.
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            </div>
+            {% elif status == "saved" %}
+            <div class="alert alert-success text-center">
+                Your changes were saved successfully.
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            </div>
+            {% endif %}
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="basic">
+                    <div class="col-md-offset-2 col-md-8">
+                        <form class="submission-form" method="POST">
+                            {% for f in basic_form %}
+                            <div class="submission-form-label">
+                                {{ f.label }}
+                                {% if f.errors %}
+                                <div class="alert alert-danger">
+                                    {{ f.errors }}
+                                </div>{% endif %}
+                            </div>
+                            <div class="submission-form-field">{{ f }}</div>
+                            {% endfor %}
+                            <input type="submit" class="btn btn-success btn-block" value="{% include 'flowcore/forms/general/form_submit_text.html' %}">{% csrf_token %}
+                        </form>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="details">
+                    <div class="col-md-offset-2 col-md-8">
+                        {% include "propertyinclude/forms/detail.html" %}
+                    </div>
+
+                </div>
+
+                {% if property.type != "BUS" %}
+                <div class="tab-pane fade" id="rooms">
+                    <div id="room-add-form" class="row {% if not show_room_form %}hidden{% endif %}">
+                        <div class="col-md-offset-2 col-md-8">
+                            {% include "propertyinclude/forms/room.html" %}
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-10 col-md-offset-1">
+                        {% include "propertyinclude/tables/rooms.html" %}
+                      </div>
+                    </div>
+                    <div class="col-md-offset-4 col-md-4">
+                        <a id="room-add" class="btn btn-lg btn-default btn-block" href="/property/update/{{ property.id }}/addroom/"><span class="glyphicon glyphicon-plus"></span> Add Room</a>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="tab-pane fade" id="contact">
+                    <div class="col-md-offset-2 col-md-8">
+                        {% include "propertyinclude/forms/contact.html" %}
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="pics">
+                    <div id="image-add-form" class="row {% if not show_image_form %}hidden{% endif %}">
+                        <div class="col-md-offset-2 col-md-8">
+                            {% include "propertyinclude/forms/image.html" %}
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-10 col-md-offset-1">
+                        {% include "propertyinclude/tables/pictures.html" %}
+                      </div>
+                    </div>
+                    <div class="col-md-offset-4 col-md-4">
+                        <a id="image-add" class="btn btn-lg btn-default btn-block" href="/property/update/{{ property.id }}/addimage/"><span class="glyphicon glyphicon-plus"></span> Add Image</a>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="videos">
+                    <div class="row">
+                      <div class="col-md-10 col-md-offset-1">
+                        <div id="video-add-form" class="row {% if not show_video_form %}hidden{% endif %}">
+                            <div class="col-md-offset-2 col-md-8">
+                                {% include "propertyinclude/forms/video.html" %}
+                            </div>
+                        </div>
+                        {% include "propertyinclude/tables/videos.html" %}
+                      </div>
+                    </div>
+                    <div class="col-md-offset-4 col-md-4">
+                        <a id="video-add" class="btn btn-lg btn-default btn-block"
+                            href="/property/update/{{ property.id }}/addvideo/">
+                        <span class="glyphicon glyphicon-plus"></span> Add Video</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

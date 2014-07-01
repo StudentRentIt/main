@@ -1,0 +1,22 @@
+<script type="text/javascript" src="/static/js/usermodal.js"></script>
+<!-- Modal -->
+<div class="modal fade" id="schoolSearch" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header default-modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title text-center" id="user-modal-title">{{ modal_title }}</h2>
+      </div>
+
+      <div class="modal-body default-modal-body">
+        {% include "maininclude/searchsm.html" %}
+      </div><!-- end body -->
+
+      <div class="modal-footer default-modal-footer">
+        <button type="button" id="btn-user-cancel" class="btn-lg btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</div>

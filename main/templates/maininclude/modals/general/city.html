@@ -1,0 +1,33 @@
+{% extends "flowcore/modals/default.html" %}
+
+{% block modal_title %}
+id="cityModal"
+{% endblock %}
+
+
+{% block modal_header %}
+<h1>City Information</h1>
+{% endblock %}
+
+
+{% block modal_body %}
+<p class="text-left">By providing articles, advice, special business deals, one of our goals is to build community
+within the cities that we have a presences.</p>
+
+<p class="text-left">
+If you'd like to see more general information about the cities that we are in, you can see information
+from these links.
+</p>
+
+<div class="btn-group">
+    <button type="button" id="btn-search-mobile" class="btn btn-lg btn-success dropdown-toggle text-center" data-toggle="dropdown">
+        Choose Your City <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        {% for c in cities %}
+        <li class="modal-dropdown-choices"><a href="{{ c.link }}" target="_blank">{{ c }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

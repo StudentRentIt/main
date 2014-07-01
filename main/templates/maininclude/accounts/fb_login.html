@@ -1,0 +1,12 @@
+<script type="text/javascript" src="/static/facebook/js/fbconnect.js"></script>
+<script type="text/javascript">
+allauth.facebook.init({ appId: '467223886720212',
+  locale: 'en_US',
+  loginOptions: {"scope": "email,publish_stream"},
+  loginByTokenUrl: '/accounts/facebook/login/token/',
+  channelUrl : 'http://studentrentit.pythonanywhere.com/accounts/facebook/channel/',
+  cancelUrl: '/accounts/social/login/cancelled/',
+  logoutUrl: '/accounts/logout/',
+  errorUrl: '/accounts/social/login/error/',
+  csrfToken: '{{ csrf_token }}' });
+</script>

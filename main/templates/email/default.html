@@ -1,0 +1,9 @@
+{% extends "email/base.html" %}
+
+{% block email_header %}
+{{ email_header }}
+{% endblock %}
+
+{% block email_body %}
+{{ body|safe }}
+{% endblock %}

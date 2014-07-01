@@ -1,0 +1,14 @@
+{% extends "flowcore/forms/default_panel.html" %}
+
+{% block form %}
+{% for f in form %}
+<div class="panel-form-label">
+    {{ f.label }}
+    {% if f.errors %}
+    <div class="alert alert-danger">
+        {{ f.errors }}
+    </div>{% endif %}
+</div>
+<div class="panel-form-field">{{ f }}</div>
+{% endfor %}
+{% endblock %}

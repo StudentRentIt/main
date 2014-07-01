@@ -1,0 +1,29 @@
+<div id="carousel-property-video" class="carousel slide video-carousel" data-ride="carousel" data-interval="false">
+  <!-- Indicators -->
+  {% if videos.count > 1 %}
+  <ol class="carousel-indicators">
+    {% for i in videos %}
+    <li data-target="#carousel-property-video" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    {% for v in videos %}
+      <div class="item carousel-property-item {% if forloop.first %}active{% endif %}">
+          {{ v.video_link|safe }}
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if videos.count > 1 %}
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-property-video" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-property-video" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+  {% endif %}
+</div>

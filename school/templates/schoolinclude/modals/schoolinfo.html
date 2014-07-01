@@ -1,0 +1,25 @@
+{% extends "flowcore/modals/default.html" %}
+
+{% block modal_title %}
+id="chooseSchoolModal"
+{% endblock %}
+
+{% block modal_header %}
+Information about the community of your school
+{% endblock %}
+
+{% block modal_body %}
+<div class="row text-center">
+    <div class="btn-group">
+        <button type="button" id="btn-search-mobile" style="margin-bottom:0;"
+            class="btn btn-lg btn-success dropdown-toggle text-center" data-toggle="dropdown">
+            Choose Your School <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            {% for s in schools %}
+            <li class="modal-dropdown-choices"><a href="{% url 'school-articles' s.id s.name|slugify 'articles' %}">{{ s.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

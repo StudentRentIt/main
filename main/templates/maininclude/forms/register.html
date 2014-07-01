@@ -1,0 +1,37 @@
+{# hate to hardcode the form however it's better than passing in the registration form from every view since we use it from the header #}
+<form action=" {% url 'account_signup' %}" method="post" id="registration-form" class="submission-form">
+    <div class="submission-form-field"><input id="id_username" name="username" placeholder="Username" type="text" /></div>
+    <div class="submission-form-field-help"></div>
+    <div class="submission-form-error"></div>
+
+    <div class="submission-form-field"><select id="id_type" name="type">
+        <option value="STU">Student</option>
+        <option value="BOW">Business Owner</option>
+        <option value="MGR">Landlord/Manager</option>
+        </select></div>
+    <div class="submission-form-field-help"></div>
+    <div class="submission-form-error"></div>
+
+    <div class="submission-form-field"><input id="id_email" name="email" placeholder="Email" type="text" /></div>
+    <div class="submission-form-field-help"></div>
+    <div class="submission-form-error"></div>
+
+    <div class="submission-form-field"><input id="id_first_name" name="first_name" placeholder="First Name" type="text" /></div>
+    <div class="submission-form-field-help"></div>
+    <div class="submission-form-error"></div>
+
+    <div class="submission-form-field"><input id="id_last_name" name="last_name" placeholder="Last Name" type="text" /></div>
+    <div class="submission-form-field-help"></div>
+    <div class="submission-form-error"></div>
+
+    <div class="submission-form-field"><input id="id_password1" name="password1" placeholder="Password" type="password" /></div>
+    <div class="submission-form-field-help"></div>
+    <div class="submission-form-error"></div>
+
+    <div class="submission-form-field"><input id="id_password2" name="password2" placeholder="Repeat Password" type="password" /></div>
+    <div class="submission-form-field-help"></div>
+    <div class="submission-form-error"></div>
+
+    <button class="btn btn-success submission-btn" type="submit" style="width:100%">Sign Up</button>
+    {% csrf_token %}
+</form>

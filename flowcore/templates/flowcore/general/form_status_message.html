@@ -1,0 +1,17 @@
+{% if status == "saved" %}
+<div class="alert alert-success">Your changes have been saved successfully
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+</div>
+{% elif status == "error" %}
+<div class="alert alert-danger">There were errors on the form
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+</div>
+{% elif status == "sent" %}
+<div class="alert alert-success">Your message has been sent successfully
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+</div>
+{% elif status == "created" %}
+<div class="alert alert-success">Your data has been entered
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+</div>
+{% endif %}

@@ -1,0 +1,8 @@
+{# if the user is logged in trigger the favorite toggle, or else pop up the login modal #}
+{% if user.is_authenticated %}
+    <a id="favorite{{ p.id }}" class="btn btn-block {% if p.id in favorited %}btn-heart{% else %}btn-default{% endif %} btn-favorite">
+    <span class="glyphicon glyphicon-heart {% if p.id in favorited %}favorite{% endif %}"></span></a>
+{% else %}
+    <a id="favorite{{ p.id }}" class="btn btn-block btn-default" data-toggle="modal" data-target="#loginModal">
+    <span class="glyphicon glyphicon-heart {% if p.id in favorited %}favorite{% endif %}"></span></a>
+{% endif %}

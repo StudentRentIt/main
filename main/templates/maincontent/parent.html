@@ -1,0 +1,63 @@
+{% extends "maininclude/base.html" %}
+
+{% block body %}
+<div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-default registration-panel">
+        <div class="panel-heading">
+            <ul class="nav nav-pills nav-justified nav-pills-success">
+              <li class="parent-tabs active"><a href="#faq" data-toggle="tab">FAQ</a></li>
+              <li><a class="parent-tabs" href="#carepackages" data-toggle="tab">Care Packages</a></li>
+              <li><a class="parent-tabs" href="#schoolinfo" data-toggle="tab">School Info</a></li>
+            </ul>
+        </div>
+
+        <div class="panel-body">
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane fade in active" id="faq">
+                <div class="panel-group" id="accordion">
+
+                  {% for f in faq %}
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">
+                          {{ f.question|safe }}
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">
+                      <div class="panel-body">
+                        {{ f.answer|safe }}
+                        <div class="text-center">
+                            <a class="btn btn-lg btn-success" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">
+                                Close Section
+                            </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+
+                </div>
+              </div><!-- end faq -->
+              <div class="tab-pane fade" id="carepackages">
+                <div class="jumbotron hidden-xs">
+                    <h1 class="text-center">Care Packages</h1>
+                </div>
+                <p>Send your student or your friend something that let’s them know you are thinking about them! Whether you want to say “Good luck” for mid-terms or “I love you” we have the perfect care package for you to send them! We went and asked students what they want most in a care package and made it so simple for you! Whether they want junk food, healthy options, or a package of energy to get through finals, we have what you are looking for!</p>
+                <p>Care Package Model will go here</p>
+              </div><!-- end carepackages -->
+              <div class="tab-pane fade" id="schoolinfo">
+                <div class="jumbotron hidden-xs">
+                    <h1 class="text-center">School Information</h1>
+                </div>
+                <p>Learn more about your student’s university without bombarding your student with questions. Find out the school history, upcoming events, a layout of the city, find out inside information about neighborhoods and connect with other parents.</p>
+                {% include "maininclude/searchsm.html" %}
+              </div><!-- end schoolinfo -->
+            </div><!-- end tab content -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "maininclude/base.html" %}
+
+{% block body_extra %}
+    <script src="/static/js/favorite.js"></script>
+    <script src="/static/js/tooltip.js"></script>
+{% endblock %}
+
+{% block javascript %}
+    {% if favorite and status != "saved" %}
+    <script type="text/javascript">
+        //if the property favorite id passed in, open modal
+        $(window).load(function(){
+            $('#favoriteModal').modal('show');
+        });
+    </script>
+    {% include "maininclude/modals/favorite.html" %}
+    {% endif %}
+
+    <script type="text/javascript">
+    $( document ).ready( function(){
+        $(".btn-predelete-favorite").click(function(){
+           //getid
+           id = $(this).attr("id").replace(/\D/g,'');
+           newId = "favorite" + id;
+
+           //setid of button
+           $(".btn-delete-favorite").attr("id", newId);
+        });
+    });
+    </script>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div id="favorites-container" class="col-md-offset-2 col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1>My Favorites</h1>
+            </div>
+            <div class="panel-body">
+                {% include "flowcore/general/form_status_message.html" %}
+                {% include "maininclude/tables/favorite.html" %}
+            </div>
+            <div class="panel-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "maininclude/modals/deletefavoriteconfirm.html" %}
+{% endblock %}

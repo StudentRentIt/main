@@ -1,0 +1,11 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_body %}
+{% for s in services %}
+<tr>
+    <td>{{ s.title }}</td>
+    <td>{{ s.description }}</td>
+    <td><a data-id="service{{ s.id }}" class="btn btn-default">Add Service ${{ s.price }}</a></td>
+</tr>
+{% endfor %}
+{% endblock %}

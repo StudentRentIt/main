@@ -1,0 +1,16 @@
+{% extends "maininclude/base.html" %}
+
+{% block body %}
+<div id="howitworks">
+    <div class="jumbotron" style="padding:0;">
+        <div class="row page-header text-center" style="margin-top:0; padding:48px;">
+            <h1>How It Works</h1>
+        </div>
+        {% include "maininclude/howitworks.html" %}
+    </div>
+</div>
+
+<div class="jumbotron text-center">
+    <h2><a class="btn btn-success btn-xlg" href="/search/"><span class="glyphicon glyphicon-arrow-right"></span> Begin your search now</a></h2>
+</div>
+{% endblock %}
