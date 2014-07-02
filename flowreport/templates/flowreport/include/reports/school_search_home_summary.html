@@ -1,0 +1,10 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_body %}
+{% for s in school_searches %}
+<tr>
+    <td>{{ s.search_date }}</td>
+    <td>{{ s.created_count }}</td>
+</tr>
+{% endfor %}
+{% endblock %}

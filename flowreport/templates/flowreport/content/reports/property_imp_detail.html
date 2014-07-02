@@ -1,0 +1,35 @@
+{% extends "flowreport/include/report.html" %}
+
+{% block report_title %}
+Impressions for {{ object }}
+{% endblock %}
+
+{% block javascript %}
+{% include "flowreport/include/general/single_property_modal_js.html" %}
+{% endblock %}
+
+{% block body_extra %}
+{% include "flowreport/include/modals/single_property.html" %}
+{% endblock %}
+
+{% block report_body %}
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        {% include "flowreport/include/reports/property_imp_detail_daily.html" %}
+    </div>
+    <div class="col-md-6 col-xs-12">
+        {% include "flowreport/include/reports/property_imp_detail_monthly.html" %}
+    </div>
+</div>
+<div class="row">
+    <div class="text-center">
+        {% if report_view == "admin" %}
+        <a class="btn btn-success" href="#" data-target="#singlePropertyModal"
+            id="ind-prop-modal" data-toggle="modal">Another Property</a>
+        <a class="btn btn-success" href="{% url 'report-home' %}">Internal Report Home</a>
+        {% else %}
+        <a class="btn btn-success" href="{% url 'property' object.id object.title|slugify %}">Property Page</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

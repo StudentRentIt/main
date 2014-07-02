@@ -1,0 +1,10 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_body %}
+{% for r in reservations %}
+<tr>
+    <td>{{ r.reserve_date }}</td>
+    <td>{{ r.created_count }}</td>
+</tr>
+{% endfor %}
+{% endblock %}
