@@ -9,7 +9,7 @@
             </td>
             <td>
                 <img class="img-rounded img-responsive" style="max-width:200px;" src="{% with f.property.propertyimage_set.all|first as img %}
-                {{ img.image.url }}{% endwith %}"></img>
+                {{ img.get_url }}{% endwith %}"></img>
             </td>
             <td class="favorite-note-td">
                 {% if f.note %}<p>{{ f.note|safe }}</p>{% else %} Create a note by clicking the pencil below{% endif %}

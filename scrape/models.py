@@ -90,7 +90,7 @@ class Log(models.Model):
     link = models.URLField(null=True)
     datetime = models.DateTimeField(default=datetime.now())
     status = models.CharField(max_length=1, choices=SCRAPE_STATUS_CHOICES)
-    comment = models.CharField(max_length=50, blank=True, null=True)
+    comment = models.CharField(max_length=70, blank=True, null=True)
 
     class Meta:
         ordering = ['-datetime']

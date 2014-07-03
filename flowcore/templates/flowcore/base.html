@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{% block title %}{% endblock %}</title>
+
+{% block head %}
+{% include "flowcore/head.html" %}
+{% endblock %}
+
+{% block extra_head %}
+{# add app-level static files here without overwriting default head #}
+{% endblock %}
+
+</head>
+    <body>
+        {% block body_extra %}{% endblock %}{# things such as extra css or js files #}
+        {% block javascript %}{% endblock %}{# javascript that needs to be added into the page #}
+        {% block wrap %}{# the point of the wrap tag is so we can get rid of the footer if needed #}
+        <div id="wrap">
+            <div id="main">
+                {% block header %}{% endblock %}
+                {% block body %}{% endblock %}
+            </div><!--endmain-->
+        </div><!--endwrap-->
+        {% endblock %}
+        {% block footer %}{% include "maininclude/footer.html" %}{% endblock %}
+    </body>
+</html>

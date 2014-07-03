@@ -1,0 +1,13 @@
+{% extends "flowcore/modals/default.html" %}
+
+{% block modal_title %}
+id="createTaskModal"
+{% endblock %}
+
+{% block modal_header %}
+Add Task
+{% endblock %}
+
+{% block modal_body %}
+{% include "flowtask/include/forms/create_task.html" %}
+{% endblock %}

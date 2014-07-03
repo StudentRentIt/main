@@ -1,0 +1,17 @@
+{% load crispy_forms_tags %}
+
+{% block col_div %}<div class="col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1">{% endblock %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2>{% include "flowcore/forms/general/form_title_text.html" %}</h2>
+        </div>
+        <div class="panel-body">
+            {% include "flowcore/general/form_status_message.html" %}
+            <div class="col-md-offset-2 col-md-8 col-xs-10 col-xs-offset-1">
+                {% crispy form %}
+            </div>
+        </div>
+        <div class="panel-footer">
+        </div>
+    </div>
+</div>

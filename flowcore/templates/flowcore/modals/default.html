@@ -1,0 +1,17 @@
+<!-- Modal -->
+<div class="modal fade in" {% block modal_title %}{% endblock %} tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header default-modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="false">&times;</button>
+        <h2>{% block modal_header %}{% endblock %}</h2>
+      </div>
+      <div class="modal-body default-modal-body">
+        {% block modal_body %}{% endblock %}
+      </div><!-- end body -->
+      <div class="modal-footer default-modal-footer">
+        {% block modal_footer %}<button type="button" id="btn-user-cancel" class="btn-lg btn-default" data-dismiss="modal">Cancel</button>{% endblock %}
+      </div>
+    </div>
+  </div>
+</div>

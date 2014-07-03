@@ -5,7 +5,7 @@ $(document).ready( function() {
 
         //post the data
         $.post(
-            "/favorites/" + action + "/",
+            "/property/favorites/" + action + "/",
             {
                 "property_id" : id
             },
@@ -31,7 +31,7 @@ $(document).ready( function() {
 
         //post the data
         $.post(
-            "/favorites/" + action + "/",
+            "/property/favorites/" + action + "/",
             {
                 "property_id" : id
             },

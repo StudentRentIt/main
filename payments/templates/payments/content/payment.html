@@ -1,0 +1,17 @@
+{% extends "payments/include/base.html" %}
+
+{% block body %}
+<form action="" method="POST">
+    token: {{ token }}
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_Myf83zAyJEPV6SinLgrgYc29"
+    data-amount="2000"
+    data-name="StudentRentIt.com"
+    data-description="Product Description"
+    data-image="/static/img/logo_sq_128.png"
+    data-label="Checkout With Card">
+  </script>
+  {% csrf_token %}
+</form>
+{% endblock %}

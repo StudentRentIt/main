@@ -286,6 +286,12 @@ class PropertyImage(models.Model):
     class Meta:
         ordering = ['-main', 'order', 'caption']
 
+    def get_url(self):
+        if self.image_link:
+            return self.image_link
+        else:
+            return self.image.url
+
 
 class PropertyVideo(models.Model):
     property = models.ForeignKey(Property)
