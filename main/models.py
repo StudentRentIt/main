@@ -12,22 +12,11 @@ Property = 'property.Property'
 Service = 'property.Service'
 
 
-'''*****************************************************************************
-Choice Field Lists
-'''
 USER_TYPE_CHOICES = (
     ('STU', 'Student'),
     ('BOW', 'Business Owner'),
     ('MGR', 'Landlord/Manager')
 )
-
-
-'''*****************************************************************************
-Upload Paths
-'''
-def get_teammember_image_path(instance, filename):
-    return os.path.join('teammember/', filename)
-
 
 '''*****************************************************************************
 General Models
@@ -53,6 +42,10 @@ post_save.connect(create_user_profile, sender=User)
 
 
 class TeamMember(models.Model):
+
+    def get_teammember_image_path(instance, filename):
+        return os.path.join('teammember/', filename)
+
     user = models.ForeignKey(User)
     name = models.CharField(max_length=50)
     title = models.CharField(max_length=50)
@@ -66,6 +59,7 @@ class City(models.Model):
     name = models.CharField(max_length=40)
     state = USStateField()
     link = models.CharField(max_length=100, null=True, blank=True)
+    multi_university = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name + ', ' + self.state

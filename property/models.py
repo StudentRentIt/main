@@ -154,11 +154,10 @@ class Property(models.Model):
     school= models.ForeignKey(School)
     type = models.CharField(max_length=20, choices=PROPERTY_TYPE_CHOICES, default="APT")
     user = models.ForeignKey(User, null=True)
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=50)
     addr = models.CharField(max_length=1000)
     city = models.CharField(max_length=1000)
     state = USStateField()
-    zip_cd = models.CharField(max_length=15)
 
     # hidden fields on forms
     lat = models.DecimalField(max_digits=12, decimal_places=6, null=True, blank=True)
@@ -168,6 +167,7 @@ class Property(models.Model):
     top_list = models.BooleanField(default=False)
 
     # optional detail fields for users to fill out after basic property has been created
+    zip_cd = models.CharField(max_length=15, blank=True, null=True)
     lease_type = models.ManyToManyField(PropertyLeaseType, null=True, blank=True)
     lease_term = models.ManyToManyField(PropertyLeaseTerm, null=True, blank=True)
     amenities = models.ManyToManyField(Amenity, null=True, blank=True)
@@ -276,7 +276,8 @@ class Property(models.Model):
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property)
-    image = models.ImageField(upload_to=get_property_image_path)
+    image = models.ImageField(upload_to=get_property_image_path, null=True)
+    image_link = models.URLField(null=True, blank=True)
     caption = models.CharField(max_length=40, null=True, blank=True)
     main = models.BooleanField(default=False)
     floorplan = models.BooleanField(default=False)
@@ -284,6 +285,12 @@ class PropertyImage(models.Model):
 
     class Meta:
         ordering = ['-main', 'order', 'caption']
+
+    def get_url(self):
+        if self.image_link:
+            return self.image_link
+        else:
+            return self.image.url
 
 
 class PropertyVideo(models.Model):

@@ -1,0 +1,10 @@
+{% extends "flowtask/include/base.html" %}
+
+{% block javascript %}
+{% include "flowcore/general/openmodal.html" %}
+{% endblock %}
+
+{% block body %}
+{% include "flowtask/include/panels/tasks.html" %}
+{% include "flowtask/include/modals/update_task.html" %}
+{% endblock %}

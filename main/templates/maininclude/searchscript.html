@@ -1,0 +1,24 @@
+<script>
+    $(document).ready(function() {
+        var source = [
+            {% for s in schools %}
+            { value: "{% url 'search' s.id s.name|slugify %}",
+              label: "{{ s.name|safe }}"
+            },
+            {% endfor %}
+        ];
+
+        $("input.search-input").autocomplete({
+            source: source,
+            select: function( event, ui ) {
+                event.preventDefault();
+                $(this).val(ui.item.label);
+                window.location.href = ui.item.value;
+            },
+            focus: function(event, ui) {
+                event.preventDefault();
+                $(this).val(ui.item.label);
+            }
+        });
+    })
+</script>

@@ -1,0 +1,21 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_head %}
+    <th>Date</th>
+    <th>City</th>
+    <th>Apartment</th>
+    <th>Comment</th>
+    <th>Status</th>
+{% endblock %}
+
+{% block table_body %}
+    {% for h in history %}
+        <tr>
+            <td>{{ h.datetime }}</td>
+            <td>{{ h.city }}</td>
+            <td><a href="{{ h.link }}">{{ h.apartment_name }}</a></td>
+            <td>{{ h.comment }}</td>
+            <td>{{ h.get_status_display }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
