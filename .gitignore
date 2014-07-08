@@ -3,3 +3,7 @@ __pycache__/
 migrations/
 bin/
 media/
+dev/
+testenv/
+prod/
+main/templates/maininclude/head.html
