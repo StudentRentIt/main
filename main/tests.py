@@ -56,6 +56,13 @@ class ViewTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+        # test the post of a blank property search
+        response = self.client.post(reverse('search', kwargs={'pk':'1', 'slug':'test-school'}),
+            {'priceMin': '', 'priceMax': '', 'leaseType':'', 'leaseTerm':'',
+            'leaseStart':'', 'bathMin':'', 'bathMax':'', 'bedMin':'', 'bedMax':'',
+            'keyword':''})
+        self.assertEqual(response.status_code, 200)
+
     def test_contact(self):
         url = reverse('contact-view')
         response = self.client.get(url)
@@ -106,6 +113,4 @@ class ViewTests(TestCase):
         url = reverse('payment')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
-        # TODO: add post request
 

@@ -1,11 +1,14 @@
 from django.utils import unittest
 from django.contrib.auth.models import User
+from django.test import Client, TestCase
+from django.core.urlresolvers import reverse
+from django.utils.text import slugify
 
 from main.models import City
 from property.models import Property, PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
                             Amenity, Service, Package, PropertyImage, PropertyVideo, \
                             PropertyRoom, PropertySchedule, PropertyFavorite, PropertyReserve
-from school.models import School
+from school.models import School, Deal, Event, Roommate
 
 
 class PropertyTestCase(unittest.TestCase):
@@ -73,17 +76,6 @@ class PropertyTestCase(unittest.TestCase):
         property_favorite = PropertyFavorite.objects.get(id=1)
         property_schedule = PropertySchedule.objects.get(id=1)
         property_reserve = PropertyReserve.objects.get(id=1)
-
-
-        from django.utils import unittest
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-from django.utils.text import slugify
-from django.test import Client, TestCase
-
-from main.models import City
-from property.models import Property
-from school.models import School, Deal, Event, Roommate
 
 
 class ModelTests(unittest.TestCase):
@@ -241,10 +233,14 @@ class ViewTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
+        # TODO: Test form submit
+
     def test_onetime(self):
         url = reverse('update-property-onetime-services', kwargs={'pk':self.property_pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
+
+        # TODO: Test form submit
 
     def test_favorite(self):
         url = '/property/favorites/1/'

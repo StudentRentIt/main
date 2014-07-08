@@ -53,11 +53,6 @@ class ViewTests(TestCase):
         url = reverse('blog-home')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        # self.assertContains(response, 'Register Your Account')
-
-        # response = self.client.post('/accounts/register/',
-        #     {'username': 'myname', 'password': 'mypassword'})
-        # self.assertEqual(response.status_code, 200)
 
     def test_article(self):
         url = reverse('blog-article', kwargs={'pk':'1' , 'slug':'test-article'})
