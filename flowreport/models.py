@@ -1,10 +1,8 @@
 from django.db import models
 
-<<<<<<< HEAD
-=======
 Property = 'property.Property'
->>>>>>> 953247464bbd149e315d738b8a76f7bf52aa9a66
-from property.models import Property, Package
+
+from property.models import Package
 from school.models import School
 
 

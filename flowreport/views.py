@@ -2,24 +2,14 @@ import datetime
 from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic import TemplateView
-<<<<<<< HEAD
-=======
 #from django.views.generic.detail import DetailView, SingleObjectMixin
->>>>>>> 953247464bbd149e315d738b8a76f7bf52aa9a66
 from django.http import HttpResponse
 from django.db.models import Count
 
 from main.models import Contact
-<<<<<<< HEAD
 from property.models import PropertyReserve, Property, PropertySchedule
 from flowreport.models import Report, SchoolSearch, PropertyImpression, SchoolItemImpression
 from braces.views import StaffuserRequiredMixin
-=======
-from flowreport.models import Report, SchoolSearch, PropertyImpression, SchoolItemImpression
-from braces.views import StaffuserRequiredMixin
-from property.models import PropertyReserve, Property, PropertySchedule
->>>>>>> 953247464bbd149e315d738b8a76f7bf52aa9a66
-
 
 one_week_ago = datetime.date.today() - datetime.timedelta(days=7)
 

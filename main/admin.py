@@ -12,11 +12,7 @@ from property.models import Property, PropertyImage, PropertyRoom, PropertyFavor
                             PropertyReserve, Package, Service, Amenity, PropertyVideo
 
 
-<<<<<<< HEAD
-# we define our resources to add to admin pages
-=======
 # we define our resources to add to admin pages to use a RTE
->>>>>>> 953247464bbd149e315d738b8a76f7bf52aa9a66
 class CommonMedia:
   js = (
     'https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js',
@@ -26,11 +22,7 @@ class CommonMedia:
     'all': ('/static/css/dojo-editor.css',),
   }
 
-<<<<<<< HEAD
-# #allow extension of the user in admin
-=======
 #allow extension of the user in admin
->>>>>>> 953247464bbd149e315d738b8a76f7bf52aa9a66
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
