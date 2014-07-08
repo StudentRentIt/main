@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse_lazy
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.contrib.sitemaps import Sitemap
 from django.views.generic import FormView
 from django.views.generic.list import ListView
@@ -388,6 +389,10 @@ def onetime_payment(request):
 
             return render(request, 'maincontent/payments/payment.html',
                 {'token':token, 'status':status, 'services':services, 'property':property})
+        else:
+            return HttpResponse("Payment type not recognized")
+    else:
+        return HttpResponse("Not a POST request")
 
 
 def property_list(request, **kwargs):

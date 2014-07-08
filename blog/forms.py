@@ -35,3 +35,4 @@ class ArticleForm(ModelForm):
                 Submit('submit', 'Submit', css_class='btn-success btn-lg'), css_class="text-center"
             )
         )
+

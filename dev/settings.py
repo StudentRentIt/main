@@ -80,16 +80,18 @@ DATABASES = {
         'USER': 'studentrentit',                      # Not used with sqlite3.
         'PASSWORD': 'student12',                  # Not used with sqlite3.
         'HOST': 'mysql.server',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.\
+        'TEST_NAME': 'studentrentit$test_dev',
     }
 }
 
-# import sys
-# if 'test' in sys.argv:
-#     DATABASES['default'] = {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR  + '/main/test.db'}
+import sys
+if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+    DATABASES['default']['NAME'] = '/home/studentrentit/dev/test.db'
 
+#disable south migrations while testing
+SOUTH_TESTS_MIGRATE = False
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
