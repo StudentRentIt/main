@@ -75,17 +75,6 @@ class PropertyTestCase(unittest.TestCase):
         property_reserve = PropertyReserve.objects.get(id=1)
 
 
-        from django.utils import unittest
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-from django.utils.text import slugify
-from django.test import Client, TestCase
-
-from main.models import City
-from property.models import Property
-from school.models import School, Deal, Event, Roommate
-
-
 class ModelTests(unittest.TestCase):
 
     def setUp(self):
@@ -241,10 +230,14 @@ class ViewTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
+        # TODO: Test form submit
+
     def test_onetime(self):
         url = reverse('update-property-onetime-services', kwargs={'pk':self.property_pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
+
+        # TODO: Test form submit
 
     def test_favorite(self):
         url = '/property/favorites/1/'

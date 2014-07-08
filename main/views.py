@@ -79,20 +79,6 @@ class ArticleListView(ListView):
         objects = Article.objects.filter(general_page=True)
         return objects
 
-    # 20140607 not performing this anymore, replaced with blog app
-    # def get_template_names(self):
-        # try:
-        #     action = self.kwargs['action']
-        # except:
-        #     action = None
-
-        # if action == "all":
-        #     template_name = "maincontent/blog/all.html"
-        # else:
-        #     template_name = "maincontent/blog/home.html"
-
-        # return [template_name,]
-
 
 class ArticleDetailView(DetailView):
     '''
@@ -147,13 +133,6 @@ def search(request, pk=None, slug=None):
         search.school = school
         search.save()
 
-    # Commented out 20140409 aww
-    #get the choices for the multi-select searches
-    # property_types = []
-    # for pt in PROPERTY_TYPE_CHOICES:
-    #     if pt[0] != "BUS":
-    #         property_types.append(pt)
-
     lease_types = PropertyLeaseType.objects.filter(active=True)
     lease_starts = PropertyLeaseStart.objects.filter(active=True)
     lease_terms = PropertyLeaseTerm.objects.filter(active=True)
@@ -161,20 +140,15 @@ def search(request, pk=None, slug=None):
 
     #if the request is a POST, filter the properties. If not, show all properties for the school.
     if request.method == "POST":
-
         '''
         gather the post data filters. There are a couple different types of ways
         we gather the post data. The first is through normal text input which gives
         us a single value for the post data. Another way is through a list of values
         which is passed in by the user choosing multiple values
-        '''
-        '''
+
         this section is for the multi valued post variables. The choices are passed
         in by concatenating a string and then splitting the values
         '''
-        # commented out 201404009 aww
-        # property_type_string = request.POST['propertyType']
-        # property_type_list = property_type_string.split(", ")
         lease_type_string = request.POST['leaseType']
         lease_type_list = lease_type_string.split(", ")
         lease_term_string = request.POST['leaseTerm']
@@ -242,11 +216,6 @@ def search(request, pk=None, slug=None):
             keyword_properties = Property.get_keyword_property(keyword)
             rooms = rooms.filter(property__in=keyword_properties)
 
-        # commented out 20140409 aww
-        # if property_type_string:
-        #     property_type_properties = Property.objects.filter(type__in=property_type_list)
-        #     rooms = rooms.filter(property__in=property_type_properties)
-
         if lease_type_string:
             lease_type_properties = Property.objects.filter(lease_type__in=lease_type_list)
             rooms = rooms.filter(property__in=lease_type_properties)
@@ -277,19 +246,9 @@ def search(request, pk=None, slug=None):
         long = -97.93
         school = None
 
-    #save impression at the end so that it filters down if it is a POST request
-    '''
-    commented out because there were too many impressions given by the List View
-    and we couldn't correlate results with upgrading package because the List View
-    results greatly skewed the impression numbers 201403221 AWW
-    '''
-    # for p in properties:
-    #     save_impression(imp_type="L", imp_property=p)
-
     return render(request, 'maincontent/search.html',
         {'lat':lat, 'long':long, 'school':school, 'url_prefix':'search',
-        'modal_title':modal_title, 'properties':properties, #'images':property_images,
-        'favorited':favorited, 'rooms':rooms, #'property_types':property_types,
+        'modal_title':modal_title, 'properties':properties, 'favorited':favorited, 'rooms':rooms,
         'lease_types':lease_types, 'lease_terms':lease_terms, 'lease_starts':lease_starts,
         'special_amenities':special_amenities})
 

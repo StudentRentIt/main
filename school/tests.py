@@ -55,20 +55,28 @@ class ViewTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+        # TODO: Test form submit
+
     def test_school_events(self):
         url = reverse('school-events', kwargs={'pk':self.school_pk, 'slug':self.school_slug, 'type':'events'})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+
+        # TODO: Test form submit
 
     def test_school_deals(self):
         url = reverse('school-deals', kwargs={'pk':self.school_pk, 'slug':self.school_slug, 'type':'deals'})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+        # TODO: Test form submit
+
     def test_school_roommates(self):
         url = reverse('school-roommates', kwargs={'pk':self.school_pk, 'slug':self.school_slug, 'type':'roommates'})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+
+        # TODO: Test form submit
 
     def test_school_article(self):
         url = reverse('update-article', kwargs={'pk':'1'})
