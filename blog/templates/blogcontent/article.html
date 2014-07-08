@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block title %}
-{{ object.title }}
+    {{ object.title }}
 {% endblock %}
 
 {% block body %}
 <div class="row" style="margin-top:15px;">
     <div class="col-md-8 col-md-offset-2 col-xs-12">
-        <img src="{{ object.image.url }}" id="blog-article-img" class="img-responsive">
+        <img src="{% if object.image %}{{ object.image.url }}{% endif %}" id="blog-article-img" class="img-responsive">
         <div class="blog-article-content-inner">
             <div class="jumbotron text-center blog-page-header">
                 <h1>{{ object.title }}</h1>

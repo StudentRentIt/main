@@ -41,7 +41,6 @@ urlpatterns = patterns('',
     url(r'^', include(mainurls)),
 
     #internal apps
-    (r'^internal/tasks/', include('flowtask.urls')),
     (r'^internal/reports/', include('flowreport.urls')),
 
     url(r'^robots\.txt', TemplateView.as_view(template_name="maincontent/robots.txt")),

@@ -43,7 +43,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'flowcore',
-    'flowtask',
     'flowreport',
     'allauth', #used for social logins as well as normal login/registration
     'allauth.account',
@@ -86,6 +85,13 @@ DATABASES = {
     }
 }
 
+import sys
+if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+    DATABASES['default']['NAME'] = '/home/studentrentit/dev/test.db'
+
+#disable south migrations while testing
+SOUTH_TESTS_MIGRATE = False
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

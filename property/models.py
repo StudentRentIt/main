@@ -230,7 +230,7 @@ class Property(models.Model):
         '''
         get a list of eligible properties, add each property to the pot the number
         of times it has in the strength. Take 3 properties at random from the pot
-        and add them to similar properties! Easy as pie.
+        and add them to similar properties
         '''
 
         if Package.objects.all():

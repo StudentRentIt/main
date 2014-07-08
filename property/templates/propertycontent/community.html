@@ -1,7 +1,7 @@
 {% extends "propertyinclude/layouts/community.html" %}
 
 {% block banner %}
-    <img src="{{ property.school.image.url }}" class="img-responsive" %}
+    <img src="{% if property.school.image %}{{ property.school.image.url }}{% endif %}" class="img-responsive" %}
 {% endblock %}
 
 {% block main %}

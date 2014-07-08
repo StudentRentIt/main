@@ -1,3 +1,3 @@
-<img class="img-responsive" id="school-main-banner" src="{{ school.image.url }}"
+<img class="img-responsive" id="school-main-banner" src="{% if school.image %}{{ school.image.url }}{% endif %}"
 alt="Find Housing, Apartments, Subleases for {{ school.name }}
 {% if school.city %} in {{ school.city.name }}, {{ school.city.state }}{% endif %}">
