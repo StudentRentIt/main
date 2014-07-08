@@ -1,11 +1,14 @@
 from django.utils import unittest
 from django.contrib.auth.models import User
+from django.test import Client, TestCase
+from django.core.urlresolvers import reverse
+from django.utils.text import slugify
 
 from main.models import City
 from property.models import Property, PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
                             Amenity, Service, Package, PropertyImage, PropertyVideo, \
                             PropertyRoom, PropertySchedule, PropertyFavorite, PropertyReserve
-from school.models import School
+from school.models import School, Deal, Event, Roommate
 
 
 class PropertyTestCase(unittest.TestCase):
