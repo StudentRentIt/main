@@ -1,5 +1,8 @@
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 953247464bbd149e315d738b8a76f7bf52aa9a66
 class FormValidateMixin(object):
 
     def form_invalid(self, form, **kwargs):

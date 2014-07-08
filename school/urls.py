@@ -4,6 +4,7 @@ from school import views
 
 
 urlpatterns = patterns('',
+<<<<<<< HEAD
     # 20140606 AWW OKTD replaced with blog app
     #school article urls
     # url(r'^(?P<pk>\d+)/(?P<school_slug>[a-zA-Z0-9\-]+)/articles/all/$',
@@ -11,6 +12,8 @@ urlpatterns = patterns('',
     # url(r'^(?P<school_pk>\d+)/(?P<school_slug>[a-zA-Z0-9\-]+)/articles/(?P<pk>\d+)/(?P<title>[a-zA-Z0-9\-]+)/$',
     #     SchoolArticleDetailView.as_view(), name='school-article-detail'),
 
+=======
+>>>>>>> 953247464bbd149e315d738b8a76f7bf52aa9a66
     #School Info - urls to show the base of school info
     url(r'^(?P<pk>\d+)/(?P<slug>[a-zA-Z0-9\-]+)/(?P<type>articles)/$',
         views.SchoolArticleCreateView.as_view(), name="school-articles"),

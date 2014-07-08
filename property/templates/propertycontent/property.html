@@ -177,7 +177,11 @@
                 {% if p.propertyroom_set.all %}{% with p.propertyroom_set.all|first as room %}
                     <p><span class="glyphicon glyphicon-arrow-right"></span> Rooms starting at <b>${{ room.price|floatformat:"0" }}</b> for a {{ room.get_bed_count_display }} Bedroom {{ room.get_bath_count_display }} Bath</p>
                 {% endwith %}{% endif %}
+<<<<<<< HEAD
                 <img src="{% with p.propertyimage_set.all|first as img %}{{ img.image.url }}{% endwith %}" alt="Student Housing - {{ p.title }}" class="text-center img-rounded img-responsive" />
+=======
+                <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}" alt="Student Housing - {{ p.title }}" class="text-center img-rounded img-responsive" />
+>>>>>>> 953247464bbd149e315d738b8a76f7bf52aa9a66
                 {% include "propertyinclude/special_amenity_row.html" %}
                 <a href="{% url 'property' p.id p.title|slugify %}" class="btn btn-success btn-block">Full Listing</a>
             </div>

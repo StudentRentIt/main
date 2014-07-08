@@ -635,6 +635,13 @@ def favorite(request, action=None):
                             return HttpResponse("error during deletion: " + e)
                 else:
                     return HttpResponse("unrecognized action")
+<<<<<<< HEAD
+=======
+            else:
+                return HttpResponse("Not a POST request")
+        else:
+            return HttpResponse("Not an AJAX call")
+>>>>>>> 953247464bbd149e315d738b8a76f7bf52aa9a66
     else:
         return HttpResponse("User Not Logged In")
 
