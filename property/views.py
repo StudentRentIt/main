@@ -643,8 +643,9 @@ def favorite(request, action=None):
         return HttpResponse("User Not Logged In")
 
 '''
-the following 2 payment functions aren't currently used, and I have a feeling we will
-be getting rid of them. AWW 20140606
+the following 2 payment functions aren't currently used, and they will probably
+be changed significantly as our requirements for payments are now undefined
+AWW 20140606
 '''
 @login_required
 def recurring_services(request, **kwargs):
