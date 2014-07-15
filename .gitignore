@@ -6,4 +6,5 @@ media/
 dev/
 testenv/
 prod/
+db/
 main/templates/maininclude/head.html
