@@ -28,9 +28,9 @@ StudentRentIt.com | Student Apartments and Community
             <div class="col-md-8 col-md-offset-2 ">
                 <a href="{% url 'search' s.id s.name|slugify %}">
                     <img src="{{ s.image.url }}" class="img-responsive img-rounded"
-                    title="Find Apartments {{ s }} in {{ s.city }}" alt="Find Apartments {{ s }} in {{ s.city }}" />
+                        title="Find Apartments {{ s }} in {{ s.city }}" alt="Find Apartments {{ s }} in {{ s.city }}" />
+                    <h2 class="img-caption-overlay text-right">{{ s.city }}</h2>
                 </a>
-                <h2 class="img-caption-overlay text-right">{{ s.city }}</h2>
             </div>
         </div>
         {% endif %}
