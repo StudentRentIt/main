@@ -77,7 +77,7 @@
         ];
 
         // Display multiple markers on a map
-        var infoWindow = new google.maps.InfoWindow(), marker, i;
+        var infoWindow = new google.maps.InfoWindow({ maxWidth: 450 }), marker, i;
 
         // Loop through our array of markers & place each one on the map
         var iconBase = '/static/img/map/';
