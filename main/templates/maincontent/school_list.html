@@ -18,9 +18,9 @@
                                     <div class="col-md-6 ">
                                         <a href="{% url 'property-list' s.id %}">
                                             <img src="{{ s.image.url }}" class="img-responsive img-rounded"
-                                            title="List of Apartments for {{ s }} in {{ s.city }}" alt="List of Apartments for {{ s }} in {{ s.city }}" />
+                                                title="List of Apartments for {{ s }} in {{ s.city }}" alt="List of Apartments for {{ s }} in {{ s.city }}" />
+                                            <h2 class="img-caption-overlay text-right">{{ s.name }}</h2>
                                         </a>
-                                        <h2 class="img-caption-overlay text-right">{{ s.name }}</h2>
                                     </div>
                                 {% if forloop.counter|divisibleby:"2" or forloop.last %}
                                     </div>

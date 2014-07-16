@@ -17,7 +17,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>{% include "maininclude/general/social_links.html" %}</li>
-        <li><a href="/search/">Search <span class="glyphicon glyphicon-search"></span></a></li>
+        <li><a href="{% url 'search' %}">Search <span class="glyphicon glyphicon-search"></span></a></li>
         <li><a href="#" data-toggle="modal" data-target="#manageModal">Manage <span class="glyphicon glyphicon-pencil"></span></a></li>
         <li><a href="#" data-toggle="modal" data-target="#chooseSchoolModal">School Information <span class="glyphicon glyphicon-flag"></span></a></li>
         {% if user.is_authenticated %}
@@ -26,12 +26,12 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-asterisk"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="{% url 'favorites' %}"><span class="glyphicon glyphicon-heart"></span>  Favorites</a></li>
-                <li><a href="/accounts/profile/"><span class="glyphicon glyphicon-user"></span>  Edit Profile</a></li>
+                <li><a href="{% url 'user_profile' %}"><span class="glyphicon glyphicon-user"></span>  Edit Profile</a></li>
                 <li><a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-lock"></span>  Logout</a></li>
             </ul>
           </li>
         {% else %}
-        <li><a href="#" data-toggle="modal" data-target="#loginModal">Log In <span class="glyphicon glyphicon-user"></span></a></li>
+        <li><a href="#" data-toggle="modal" data-target="#loginModal">Log In/Register <span class="glyphicon glyphicon-user"></span></a></li>
         {% endif %}
       </ul>
     </div><!-- /.navbar-collapse -->
