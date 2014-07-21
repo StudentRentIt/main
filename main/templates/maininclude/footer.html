@@ -3,11 +3,12 @@
         <div class="row">
             <div class="footer-column col-md-4">
                 <p class="footer-column-header">Looking for apartments?</p>
-                <ul>
-                {% for s in schools %}
-                    <li><a href="{% url 'search' s.id s.name|slugify %}">Apartments in {{ s.city }}</a></li>
-                {% endfor %}
-                </ul>
+                {% include "maininclude/searchscript.html" %}
+                <div id="footer-search-box">
+                       <form id="search-footer">
+                           <input name="search-footer-text" class="search-input" placeholder="Enter School"></input>
+                       </form>
+                </div>
             </div>
             <div class="footer-column col-md-4">
                 <p class="footer-column-header">Social Connect</p>
