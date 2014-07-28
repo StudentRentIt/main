@@ -58,6 +58,10 @@ def property(request, pk, slug, action = None):
     property = get_object_or_404(Property, id=pk)
     save_impression(imp_type="P", imp_property=property)
 
+    # get the Google Place ID if we don't already have it.
+    if not property.place_id:
+        property.get_place_id()
+
     #perform certain actions that are passed in in the action kwarg
     if action == "reserve":
         load_modal = "propertyReserveModal"

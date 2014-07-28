@@ -10,6 +10,7 @@ from django.template.defaultfilters import slugify
 
 from localflavor.us.models import PhoneNumberField, USStateField
 from school.models import School
+from property.utils import get_place_data
 
 
 #property choice lists
@@ -167,6 +168,7 @@ class Property(models.Model):
     top_list = models.BooleanField(default=False)
 
     # optional detail fields for users to fill out after basic property has been created
+    place_id = models.CharField(max_length=30, blank=True, null=True)
     zip_cd = models.CharField(max_length=15, blank=True, null=True)
     lease_type = models.ManyToManyField(PropertyLeaseType, null=True, blank=True)
     lease_term = models.ManyToManyField(PropertyLeaseTerm, null=True, blank=True)
@@ -272,6 +274,40 @@ class Property(models.Model):
         else:
             related_properties = Property.objects.filter(school=self.school, type="APT").order_by("?")[:3]
             return related_properties
+
+    def get_place_id(self):
+        '''
+        Google Places API uses a place_id for individual places. Need to get that place ID so that
+        we can use it with getting various data items from Google. Store the place_id on the property
+        so that we don't have to run the API each time if we already have the place_id
+        '''
+
+
+        # if the property already has a place_id in our database, get it. If not, use the Google
+        # API to get the place_id
+        place_id = self.place_id
+
+        if not place_id:
+            # get the data and then save the place id to the property
+            data = get_place_data(self)
+            status = data.get('status') == 'OK'
+            if status == 'OK':
+                if data.get('results'):
+                    place_id = data.get('results')[0].get('place_id')
+                    self.place_id = place_id
+                    self.save()
+
+        return place_id
+
+    def get_place_rating(self):
+        # get the google place rating for the given property
+
+        data = get_place_data(self)
+        status = data.get('status')
+        if status == 'OK':
+            if data.get('results'):
+                rating = data.get('results')[0].get('rating')
+                return rating
 
 
 class PropertyImage(models.Model):

@@ -10,6 +10,9 @@ from property.models import Property, PropertyLeaseTerm, PropertyLeaseType, Prop
                             PropertyRoom, PropertySchedule, PropertyFavorite, PropertyReserve
 from school.models import School, Deal, Event, Roommate
 
+from django_webtest import WebTest
+from django_dynamic_fixture import G
+
 
 class PropertyTestCase(unittest.TestCase):
 
@@ -109,7 +112,10 @@ class ModelTests(unittest.TestCase):
         School.objects.get(id=1)
         Deal.objects.get(id=1)
         Event.objects.get(id=1)
-        Event.objects.get(id=1)
+
+
+        self.property.get_place_id()
+        self.property.get_place_rating()
 
 
 class ViewTests(TestCase):
