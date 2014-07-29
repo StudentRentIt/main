@@ -1,17 +1,19 @@
 from django.utils import unittest
 from django.contrib.auth.models import User
-from django.test import Client, TestCase
+from django.test import Client, TestCase, LiveServerTestCase
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
 from main.models import City
 from property.models import Property, PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
-                            Amenity, Service, Package, PropertyImage, PropertyVideo, \
+                            Amenity, Service, Package, PropertyImage, PropertyVideo, PropertyHidden, \
                             PropertyRoom, PropertySchedule, PropertyFavorite, PropertyReserve
 from school.models import School, Deal, Event, Roommate
 
 from django_webtest import WebTest
 from django_dynamic_fixture import G
+
+from selenium import webdriver
 
 
 class PropertyTestCase(unittest.TestCase):
@@ -107,6 +109,8 @@ class ModelTests(unittest.TestCase):
 
         self.favorite = PropertyFavorite.objects.create(property=self.property,
                             user=self.user, note="test note")
+
+        self.property_hide = PropertyHidden.objects.create(property=self.property, user=self.user)
 
     def test_models(self):
         School.objects.get(id=1)
@@ -265,3 +269,43 @@ class TestUser(WebTest):
         # browse the page and view that the walkscore is shown. Will not return an actual WalkScore in test.
         self.assertEqual(resp.status_code, 200)
         self.assertIn(b'id="walkscore"', resp.content)
+
+    def test_toggle_property(self):
+        url = reverse('toggle-property', kwargs={'pk':'1'})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+
+class SeleniumTests(unittest.TestCase):
+
+    def setUp(self):
+        self.driver = webdriver.Firefox()
+
+        # set up required model instances
+        self.city = City.objects.create(name="School Test Town", state="TX")
+        self.user = User.objects.create_user('seleniumtester', 'selenium@somewhere.com', 'testpassword')
+
+        # set up the school models
+        self.school = School.objects.create(city=self.city, name="School Test University",
+                        long=-97.1234123, lat=45.7801234)
+
+        # create property, not at top because school is required first
+        self.property = Property.objects.create(school=self.school, user=self.user, title="test property",
+                        addr="13 Test St.", city="Test Town", state="TX")
+
+    # def test_hide_property(self):
+    #     '''
+    #     test if a user is able to hide a property
+    #     '''
+    #     driver = self.driver
+    #     # click on the hide button for the property
+    #     url = reverse('search', kwargs={'pk':'1', 'slug':'school-name'})
+    #     resp = driver.get(url)
+    #     self.assertEqual(resp.status_code, 200)
+    #
+    #     '''
+    #     hidden = driver.find_element_by_class_name('hide-property').click()
+    #
+    #     # verify that the property does not reappear on the page
+    #     self.assertNotIn(b'class="hide-property"', hidden)
+    #     '''

@@ -14,7 +14,7 @@ from blog.models import Article
 from school.models import Event, Roommate, Deal
 
 from property.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
-    Service, Package, PropertyVideo
+    Service, Package, PropertyVideo, PropertyHidden
 from property.forms import BasicPropertyForm, DetailPropertyForm, \
     RoomPropertyForm, ContactPropertyForm, ImagePropertyForm, ReserveForm, \
     BusinessDetailPropertyForm, VideoPropertyForm, ScheduleForm
@@ -649,6 +649,36 @@ def favorite(request, action=None):
             return HttpResponse("Not an AJAX call")
     else:
         return HttpResponse("User Not Logged In")
+
+
+def toggle_property(request, pk):
+    '''
+    this is to hide or unhide a specific property. Will be passed in through an AJAX call
+    '''
+    if request.user.is_authenticated():
+        if request.is_ajax():
+            if request.method == 'POST':
+                p = get_object_or_404(Property, id=pk)
+                hidden = p.is_hidden(request.user)
+
+                if hidden:
+                    # show the property for the user
+                    ph = get_object_or_404(PropertyHidden, user=request.user, property=p)
+                    ph.delete()
+                    return HttpResponse(p.title + " is now showing for "  + str(request.user.username))
+                else:
+                    # hide the property for the user
+                    ph = PropertyHidden(property=p, user=request.user)
+                    ph.save()
+                    return HttpResponse(p.title + " was hidden for " + str(request.user.username))
+            else:
+                return HttpResponse("Not a POST request")
+        else:
+            return HttpResponse("Not an AJAX call")
+
+    else:
+        return HttpResponse("User Not Logged In")
+
 
 '''
 the following 2 payment functions aren't currently used, and they will probably

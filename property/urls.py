@@ -33,7 +33,7 @@ urlpatterns = patterns('',
     url(r'^favorites/$', views.favorites, name="favorites"),
     (r'^favorites/(\d+)/$', views.favorites),
     url(r'^favorites/(\S+)/$', views.favorite, name="favorite-action"),
-
+    url(r'^toggle/(?P<pk>\d+)/$', views.toggle_property, name="toggle-property"),
     url(r'^update/(?P<pk>\d+)/services/recurring/$', views.recurring_services,
         name="update-property-recurring-services"),
     url(r'^update/(?P<pk>\d+)/services/onetime/$', views.onetime_services,

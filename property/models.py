@@ -309,6 +309,24 @@ class Property(models.Model):
                 rating = data.get('results')[0].get('rating')
                 return rating
 
+    def hide_toggle(self, user):
+        '''
+        hide a specific property from a user, or unhide that property
+        '''
+        from property.models import PropertyHidden
+        # find out if the property is already hiddenr
+
+    def is_hidden(self, user):
+        '''
+        determines if a property is hidden for the current user
+        '''
+        from property.models import PropertyHidden
+        try:
+            if PropertyHidden.objects.get(property=self, user=user):
+                return True
+        except:
+            return False
+
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property)
@@ -365,6 +383,12 @@ class PropertyFavorite(models.Model):
 
     def __str__(self):
         return str(self.user) + ' - ' + self.property.title
+
+
+class PropertyHidden(models.Model):
+    # used to hide certain properties from searches by a specific user
+    property = models.ForeignKey(Property)
+    user = models.ForeignKey(User)
 
 
 class PropertyReserve(models.Model):
