@@ -1,5 +1,5 @@
 {# hate to hardcode the form however it's better than passing in the registration form from every view since we use it from the header #}
-<form action=" {% url 'account_signup' %}" method="post" id="registration-form" class="submission-form">
+<form action="{% url 'account_signup' %}" method="post" id="registration-form" class="submission-form">
     <div class="submission-form-field"><input id="id_username" name="username" placeholder="Username" type="text" /></div>
     <div class="submission-form-field-help"></div>
     <div class="submission-form-error"></div>

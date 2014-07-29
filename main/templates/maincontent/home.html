@@ -4,37 +4,50 @@
 StudentRentIt.com | Student Apartments and Community
 {% endblock %}
 
+{% block body_extra %}
+    <script src="/static/js/plugins/stellar.js"></script>
+    <script src="/static/js/home.js"></script>
+{% endblock %}
+
 {% block body %}
-<img class="img-responsive home-banner" src="/static/img/tubing_edited.jpg"
-    alt="Find Apartments for Students" title="Find Apartments for Students"/>
-<div class="hidden-xs hidden-sm">
-    {% include "maininclude/searchlg.html" %}
-</div>
-<div class="hidden-md hidden-lg">
-    {% include "maininclude/searchsm.html" %}
-</div>
-<div id="howitworks">
-    <div class="jumbotron" style="padding:0;">
-        {% include "maininclude/howitworks.html" %}
+    <div data-stellar-background-ratio="0.4" id="home-background" style="background-image:url('/static/img/tubing_edited.jpg');
+        background-repeat:no-repeat; height:440px;">
+        <!--<img class="img-responsive home-banner" src="/static/img/tubing_edited.jpg"-->
+        <!--alt="Find Apartments for Students" title="Find Apartments for Students">-->
     </div>
-</div>
-<div class="school-container">
-    <div class="row page-header jumbotron">
-        <h2 class="text-center">Pick your city and search now <span class="glyphicon glyphicon-search"></span></h2>
-    </div>
-    {% for s in schools %}
-        {% if s.image %}
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 ">
-                <a href="{% url 'search' s.id s.name|slugify %}">
-                    <img src="{{ s.image.url }}" class="img-responsive img-rounded"
-                        title="Find Apartments {{ s }} in {{ s.city }}" alt="Find Apartments {{ s }} in {{ s.city }}" />
-                    <h2 class="img-caption-overlay text-right">{{ s.city }}</h2>
-                </a>
+
+    <div>
+        <div class="hidden-xs hidden-sm">
+            {% include "maininclude/searchlg.html" %}
+        </div>
+
+        <div class="hidden-md hidden-lg">
+            {% include "maininclude/searchsm.html" %}
+        </div>
+
+        <div id="howitworks">
+            <div class="jumbotron" style="padding:0;">
+                {% include "maininclude/howitworks.html" %}
             </div>
         </div>
-        {% endif %}
-    {% endfor %}
-</div>
 
+        <div class="school-container">
+            <div class="row page-header jumbotron">
+                <h2 class="text-center">Pick your city and search now <span class="glyphicon glyphicon-search"></span></h2>
+            </div>
+            {% for s in schools %}
+                {% if s.image %}
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 ">
+                        <a href="{% url 'search' s.id s.name|slugify %}">
+                            <img src="{{ s.image.url }}" class="img-responsive img-rounded"
+                                title="Find Apartments {{ s }} in {{ s.city }}" alt="Find Apartments {{ s }} in {{ s.city }}" />
+                            <h2 class="img-caption-overlay text-right">{{ s.city }}</h2>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

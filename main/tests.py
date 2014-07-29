@@ -7,6 +7,29 @@ from django.contrib.auth import authenticate
 from main.models import City, UserProfile, Payment, TeamMember, Contact
 from school.models import School
 
+from django_webtest import WebTest
+from django_dynamic_fixture import G
+
+class TestUser(WebTest):
+
+    def setUp(self):
+        self.staff = G(User, is_staff=True)
+        self.customer = G(User, username='10000', is_staff=False)
+
+    def test_footer_search(self):
+        '''
+        have the user run a search for a school in the footer and that search should bring us to the results of
+        the school search
+        '''
+        
+        # pull up the home page
+        home_page = self.app.get(reverse('home-list'), user=self.customer)
+
+        # search for a school
+        form = home_page.forms['search-footer']
+        form['search-footer-text'] = "University of Washington"
+        form.submit()
+
 
 class ModelTests(unittest.TestCase):
 

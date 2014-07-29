@@ -27,6 +27,7 @@ ALLOWED_HOSTS = ['www.studentrentit.com']
 #500 error emails
 ADMINS = (
     ('Adam', 'awwester@gmail.com'),
+    ('Ub', 'ub@studentrentit.com'),
 )
 
 #404 error emails
@@ -57,9 +58,11 @@ INSTALLED_APPS = (
     'braces',
     'crispy_forms',
     'scrape',
+    'djangosecure',
 )
 
 MIDDLEWARE_CLASSES = (
+    'djangosecure.middleware.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -201,3 +204,5 @@ STRIPE_SECRET_KEY = 'sk_test_BU1tsOK2ERirE6WsvDHfYCwt'
 STRIPE_PUBLIC_KEY = 'pk_test_Myf83zAyJEPV6SinLgrgYc29'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+SECURE_SSL_REDIRECT = True

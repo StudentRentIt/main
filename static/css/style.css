@@ -8,6 +8,7 @@
 /***** General *****/
 html {
     overflow-x: hidden;
+    font-family: 'Open Sans', sans-serif;
 }
 html, body {
     height: 100%;
@@ -25,7 +26,6 @@ html, body {
 }
 
 footer {
-	height: 200px;
 	padding-top: 20px;
 	background-color: #2d2d2d;
 }
@@ -61,7 +61,9 @@ footer {
     -webkit-border-radius: 5px;
     text-align:center;
 }
-
+#main-search-box h2 {
+    font-weight:300;
+}
 .search-input {
     font-size:150%;
     text-align:center;
@@ -105,6 +107,12 @@ footer {
 
 .social-links-container img:hover {
     opacity:1;
+}
+
+.social-btn {
+    margin-left:auto;
+    margin-right:auto;
+    max-width:70%;
 }
 
 @-webkit-keyframes spaceboots {
@@ -278,12 +286,6 @@ manual forms and submission-form input,select */
     margin-top:15px;
 }
 
-/* login, register forms with modals */
-.fb-login {
-    margin-left:auto;
-    margin-right:auto;
-}
-
 .sumbission-form .submission-form-normal-text {
     font-size:100%;
 }
@@ -370,6 +372,7 @@ html, body, #map-canvas {
 
 .info_content {
     margin:15px;
+    max-width:10%;
 }
 
 .search-video-modal-row {

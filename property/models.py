@@ -276,7 +276,7 @@ class Property(models.Model):
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property)
-    image = models.ImageField(upload_to=get_property_image_path, null=True)
+    image = models.ImageField(upload_to=get_property_image_path, null=True, blank=True)
     image_link = models.URLField(null=True, blank=True)
     caption = models.CharField(max_length=40, null=True, blank=True)
     main = models.BooleanField(default=False)
