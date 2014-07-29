@@ -15,6 +15,17 @@ def get_place_data(p):
 
     return data
 
+def get_walkscore(p):
+    # get the walkscore response for the property
+    walkscore_api_key = settings.WALKSCORE_API_KEY
+    url = "http://api.walkscore.com/score?format=json&address=" + str(p.addr) + "&lat=" + str(p.lat) + \
+            "&lon=" + str(p.long) + "&wsapikey=" + walkscore_api_key
+
+    data = requests.get(url).json()
+
+    return data
+
+
 # @staff_member_required
 # def get_place_ids(request):
 #     # get the google place ids for all properties

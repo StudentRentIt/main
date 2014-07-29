@@ -118,7 +118,7 @@ class ModelTests(unittest.TestCase):
         self.property.get_place_rating()
 
 
-class ViewTests(TestCase):
+class TestUser(WebTest):
 
     def setUp(self):
         self.client = Client()
@@ -252,3 +252,16 @@ class ViewTests(TestCase):
         url = '/property/favorites/1/'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
+
+    def test_walkscore(self):
+        '''
+        verify that the walkscore is shown when accessing a property
+        '''
+
+        # pull up the property page
+        url = reverse('property', kwargs={'pk':'1', 'slug':'doesnt-matter'})
+        resp = self.client.get(url, user=self.user)
+
+        # browse the page and view that the walkscore is shown. Will not return an actual WalkScore in test.
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn(b'id="walkscore"', resp.content)
