@@ -679,6 +679,22 @@ def toggle_property(request, pk):
     else:
         return HttpResponse("User Not Logged In")
 
+@login_required
+def hidden_properties(request):
+    '''
+    display a list of hidden properties for a user and allow them to unhide them
+    '''
+    template_name = "propertycontent/hidden.html"
+    user = request.user
+    properties = Property.objects.all()
+    hidden = []
+
+    # get list of hidden properties
+    for p in properties:
+        if p.is_hidden(user):
+            hidden.append(p)
+
+    return render(request, template_name, {'properties':hidden})
 
 '''
 the following 2 payment functions aren't currently used, and they will probably

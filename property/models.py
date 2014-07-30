@@ -314,7 +314,7 @@ class Property(models.Model):
         hide a specific property from a user, or unhide that property
         '''
         from property.models import PropertyHidden
-        # find out if the property is already hiddenr
+        # find out if the property is already hidden
 
     def is_hidden(self, user):
         '''

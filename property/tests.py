@@ -275,6 +275,10 @@ class TestUser(WebTest):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+    def test_hidden_properties(self):
+        url = reverse('hidden-properties')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
 
 class SeleniumTests(unittest.TestCase):
 
