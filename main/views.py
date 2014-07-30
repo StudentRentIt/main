@@ -121,7 +121,11 @@ def search(request, pk=None, slug=None):
     '''
     bread and butter, the page that allows people to search in depth for properties
     '''
-    properties = Property.objects.filter(school=pk, lat__isnull=False, long__isnull=False)
+    if request.user.is_staff:
+        properties = Property.objects.filter(school=pk, lat__isnull=False, long__isnull=False)
+    else:
+        # exclude internal properties if not staff
+        properties = Property.objects.filter(school=pk, lat__isnull=False, long__isnull=False, internal=False)
 
     # remove the property from the list if it is hidden for the user
     if request.user.is_authenticated():

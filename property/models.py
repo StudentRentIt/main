@@ -176,6 +176,7 @@ class Property(models.Model):
     description = models.TextField(null=True, blank=True)
     special = models.TextField(null=True, blank=True)
     fee_desc = models.TextField(null=True, blank=True)
+    internal = models.BooleanField(default=False)
 
     #contact fields
     contact_first_name = models.CharField(max_length=50, null=True, blank=True)

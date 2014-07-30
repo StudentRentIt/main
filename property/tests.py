@@ -280,10 +280,12 @@ class TestUser(WebTest):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
+
 class SeleniumTests(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Firefox()
+        self.url_prefix = "http://127.0.0.1:8000/"
 
         # set up required model instances
         self.city = City.objects.create(name="School Test Town", state="TX")
@@ -297,19 +299,14 @@ class SeleniumTests(unittest.TestCase):
         self.property = Property.objects.create(school=self.school, user=self.user, title="test property",
                         addr="13 Test St.", city="Test Town", state="TX")
 
-    # def test_hide_property(self):
-    #     '''
-    #     test if a user is able to hide a property
-    #     '''
-    #     driver = self.driver
-    #     # click on the hide button for the property
-    #     url = reverse('search', kwargs={'pk':'1', 'slug':'school-name'})
-    #     resp = driver.get(url)
-    #     self.assertEqual(resp.status_code, 200)
-    #
-    #     '''
-    #     hidden = driver.find_element_by_class_name('hide-property').click()
-    #
-    #     # verify that the property does not reappear on the page
-    #     self.assertNotIn(b'class="hide-property"', hidden)
-    #     '''
+    def test_internal_property(self):
+        # set a property to internal and make sure it doesn't return in a normal user's search
+        self.property.internal = True
+        self.property.save()
+
+        driver = self.driver
+        url = self.url_prefix + reverse('search', kwargs={'pk':'1', 'slug':'school-name'})
+        driver.get(url)
+
+    def tearDown(self):
+        self.driver.close()
