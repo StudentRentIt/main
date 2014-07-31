@@ -5,6 +5,7 @@ migrations/
 bin/
 media/
 dev/
+rentsity/
 testenv/
 prod/
 db/
