@@ -176,18 +176,15 @@
                 title="Apartments - {{ p.title }}" alt="Apartments - {{ p.title }}" class="img-responsive img-rounded" />
             </div>
             <div class="col-xs-6 col-md-4">
-                <div class="row">
-                    <h3>{{ p.title }}</h3>
-                    <a class="btn btn-block btn-success" href="{% url 'property' p.id p.title|slugify %}">View Full Listing</a>
-                </div>
-
+                <h3>{{ p.title }}</h3>
+                <a class="btn btn-block btn-success" href="{% url 'property' p.id p.title|slugify %}">View Full Listing</a>
                 {% if p.propertyvideo_set.first %}
-                {% with p.propertyvideo_set.first as main_video %}
-                <a class="btn btn-block btn-default btn-property-video" href="#" data-toggle="modal" data-target="#propertyVideoModal"
-                    data-title="{{ p.title }}" data-id={{ p.id }} data-video="{{ main_video.video_link }}" data-url="{% url 'property' p.id p.title|slugify %}">
-                    <span class="glyphicon glyphicon-facetime-video"></span> View Video
-                </a>
-                {% endwith %}
+                    {% with p.propertyvideo_set.first as main_video %}
+                        <a class="btn btn-block btn-default btn-property-video list-view-btn-row" href="#" data-toggle="modal" data-target="#propertyVideoModal"
+                            data-title="{{ p.title }}" data-id={{ p.id }} data-video="{{ main_video.video_link }}" data-url="{% url 'property' p.id p.title|slugify %}">
+                            <span class="glyphicon glyphicon-facetime-video"></span> View Video
+                        </a>
+                    {% endwith %}
                 {% endif %}
                 <div class="row list-view-btn-row">
                     <div class="col-xs-3">
