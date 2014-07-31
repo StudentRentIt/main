@@ -387,8 +387,7 @@ html, body, #map-canvas {
 }
 
 .info_content {
-    margin:15px;
-    max-width:10%;
+    margin:5px;
 }
 
 .search-video-modal-row {
