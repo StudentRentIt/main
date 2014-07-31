@@ -121,10 +121,21 @@ def search(request, pk=None, slug=None):
     '''
     bread and butter, the page that allows people to search in depth for properties
     '''
-    modal_title = "Find Housing, Apartments, Subleases and Information"
-    properties = Property.objects.filter(school=pk, lat__isnull=False, long__isnull=False)
+    if request.user.is_staff:
+        properties = Property.objects.filter(school=pk, lat__isnull=False, long__isnull=False)
+    else:
+        # exclude internal properties if not staff
+        properties = Property.objects.filter(school=pk, lat__isnull=False, long__isnull=False, internal=False)
+
+    # remove the property from the list if it is hidden for the user
+    if request.user.is_authenticated():
+        for p in properties:
+            if p.is_hidden(request.user):
+                properties = properties.exclude(id=p.id)
+
     rooms = PropertyRoom.objects.filter(property__in=properties).exclude(lease_start=3) #available
     favorited = get_favorites(request.user)
+    modal_title = "Find Housing, Apartments, Subleases and Information"
 
     #save the search for metrics
     if pk:

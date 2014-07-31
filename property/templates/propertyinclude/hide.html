@@ -1,0 +1,11 @@
+{# if the user is logged in trigger the toggle property, or else pop up the login modal #}
+{% if user.is_authenticated %}
+    <button data-id="{{ p.id }}" data-title="{{ p.title }}" data-toggle="tooltip" title="Hide property from your future searches"
+        class="btn btn-block btn-default btn-toggle-property">
+    <span class="glyphicon glyphicon-remove"></span></button>
+{% else %}
+    <div data-toggle="tooltip" title="Hide property from your future searches">
+        <button class="btn btn-block btn-default" data-toggle="modal" data-target="#loginModal">
+        <span class="glyphicon glyphicon-remove"></span></a>
+    </div>
+{% endif %}

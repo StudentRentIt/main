@@ -157,6 +157,7 @@
 <script src={% static "js/search.js" %}></script>
 <script src={% static "js/favorite.js" %}></script>
 <script src={% static "js/tooltip.js" %}></script>
+<script src={% static "js/property/hide.js" %}></script>
 {% include "maininclude/header.html" %}
 
 {% block body %}
@@ -166,67 +167,70 @@
 <div class="col-md-6" id="list-view" style="height:100%; max-height:100%; overflow:scroll;">
     <h1 class="hidden-xs hidden-sm page-header text-center">Apartments in {{ school.city }} </h1>
     {% for p in properties %}
-    {% if p.type != "BUS" %}
-    <div class="row list-view-row{% if p.sponsored %} sponsored{% endif %}">
-        <div class="col-xs-6 col-md-4">
-            <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
-            title="Apartments - {{ p.title }}" alt="Apartments - {{ p.title }}" class="img-responsive img-rounded" />
-        </div>
-        <div class="col-xs-6 col-md-4">
-            <h3>{{ p.title }}</h3>
-            <a class="btn btn-block btn-success" href="{% url 'property' p.id p.title|slugify %}">View Full Listing</a>
-            {% if p.propertyvideo_set.first %}
-            {% with p.propertyvideo_set.first as main_video %}
-            <a class="btn btn-block btn-default btn-property-video" href="#" data-toggle="modal" data-target="#propertyVideoModal"
-                data-title="{{ p.title }}" data-id={{ p.id }} data-video="{{ main_video.video_link }}" data-url="{% url 'property' p.id p.title|slugify %}">
-                <span class="glyphicon glyphicon-facetime-video"></span> View Video
-            </a>
-            {% endwith %}
-            {% endif %}
-            <div class="row list-view-btn-row">
-                <div class="col-xs-4">
-                    {% include "propertyinclude/favorite.html" %}
-                </div>
-                <div class="col-xs-4">
-                    <a href="{% url 'property-action' p.id p.title|slugify 'contact' %}" class="btn btn-default btn-block"
-                        data-toggle="tooltip" title="Contact Now">
-                        <span class="glyphicon glyphicon-envelope"></span>
-                    </a>
-                </div>
-                <div class="col-xs-4">
-                    <a class="btn btn-default btn-block" href="{% url 'property-action' p.id p.title|slugify 'reserve' %}"
-                        data-toggle="tooltip" title="Reserve Now">
-                        <span class="glyphicon glyphicon-check"></span>
-                    </a>
+        {% if p.type != "BUS" %}
+        <div class="row list-view-row{% if p.sponsored %} sponsored{% endif %}">
+            <div class="col-xs-6 col-md-4">
+                <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
+                title="Apartments - {{ p.title }}" alt="Apartments - {{ p.title }}" class="img-responsive img-rounded" />
+            </div>
+            <div class="col-xs-6 col-md-4">
+                <h3>{{ p.title }}</h3>
+                <a class="btn btn-block btn-success" href="{% url 'property' p.id p.title|slugify %}">View Full Listing</a>
+                {% if p.propertyvideo_set.first %}
+                    {% with p.propertyvideo_set.first as main_video %}
+                        <a class="btn btn-block btn-default btn-property-video list-view-btn-row" href="#" data-toggle="modal" data-target="#propertyVideoModal"
+                            data-title="{{ p.title }}" data-id={{ p.id }} data-video="{{ main_video.video_link }}" data-url="{% url 'property' p.id p.title|slugify %}">
+                            <span class="glyphicon glyphicon-facetime-video"></span> View Video
+                        </a>
+                    {% endwith %}
+                {% endif %}
+                <div class="row list-view-btn-row">
+                    <div class="col-xs-3">
+                        {% include "propertyinclude/favorite.html" %}
+                    </div>
+                    <div class="col-xs-3">
+                        <a href="{% url 'property-action' p.id p.title|slugify 'contact' %}" class="btn btn-default btn-block"
+                            data-toggle="tooltip" title="Contact Now">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                        </a>
+                    </div>
+                    <div class="col-xs-3">
+                        <a class="btn btn-default btn-block" href="{% url 'property-action' p.id p.title|slugify 'reserve' %}"
+                            data-toggle="tooltip" title="Reserve Now">
+                            <span class="glyphicon glyphicon-check"></span>
+                        </a>
+                    </div>
+                    <div class="col-xs-3">
+                        {% include "propertyinclude/hide.html" %}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-md-4">
-            <div class="table-responsive" style="margin-top:10px;">
-                <table class="table table-striped">
-                    <thead>
-                        <tr class="table-header">
-                            <td>Price</td>
-                            <td>Bed</td>
-                            <td>Bath</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for room in p.propertyroom_set.all %}
-                            {% if room in rooms %}
-                            <tr>
-                                <td>${{ room.price|floatformat:"0" }}</td>
-                                <td>{{ room.bed_count }}</td>
-                                <td>{{ room.bath_count }}</td>
+            <div class="col-xs-12 col-md-4">
+                <div class="table-responsive" style="margin-top:10px;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="table-header">
+                                <td>Price</td>
+                                <td>Bed</td>
+                                <td>Bath</td>
                             </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for room in p.propertyroom_set.all %}
+                                {% if room in rooms %}
+                                <tr>
+                                    <td>${{ room.price|floatformat:"0" }}</td>
+                                    <td>{{ room.bed_count }}</td>
+                                    <td>{{ room.bath_count }}</td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    {% endif %}
+        {% endif %}
     {% empty %}
     <div class="jumbotron">
         <h2>There were no results from your search, try searcing with less strict criteria.</h2>

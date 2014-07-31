@@ -1,14 +1,19 @@
 from django.utils import unittest
 from django.contrib.auth.models import User
-from django.test import Client, TestCase
+from django.test import Client, TestCase, LiveServerTestCase
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
 from main.models import City
 from property.models import Property, PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
-                            Amenity, Service, Package, PropertyImage, PropertyVideo, \
+                            Amenity, Service, Package, PropertyImage, PropertyVideo, PropertyHidden, \
                             PropertyRoom, PropertySchedule, PropertyFavorite, PropertyReserve
 from school.models import School, Deal, Event, Roommate
+
+from django_webtest import WebTest
+from django_dynamic_fixture import G
+
+from selenium import webdriver
 
 
 class PropertyTestCase(unittest.TestCase):
@@ -105,14 +110,19 @@ class ModelTests(unittest.TestCase):
         self.favorite = PropertyFavorite.objects.create(property=self.property,
                             user=self.user, note="test note")
 
+        self.property_hide = PropertyHidden.objects.create(property=self.property, user=self.user)
+
     def test_models(self):
         School.objects.get(id=1)
         Deal.objects.get(id=1)
         Event.objects.get(id=1)
-        Event.objects.get(id=1)
 
 
-class ViewTests(TestCase):
+        self.property.get_place_id()
+        self.property.get_place_rating()
+
+
+class TestUser(WebTest):
 
     def setUp(self):
         self.client = Client()
@@ -246,3 +256,57 @@ class ViewTests(TestCase):
         url = '/property/favorites/1/'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
+
+    def test_walkscore(self):
+        '''
+        verify that the walkscore is shown when accessing a property
+        '''
+
+        # pull up the property page
+        url = reverse('property', kwargs={'pk':'1', 'slug':'doesnt-matter'})
+        resp = self.client.get(url, user=self.user)
+
+        # browse the page and view that the walkscore is shown. Will not return an actual WalkScore in test.
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn(b'id="walkscore"', resp.content)
+
+    def test_toggle_property(self):
+        url = reverse('toggle-property', kwargs={'pk':'1'})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_hidden_properties(self):
+        url = reverse('hidden-properties')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+
+
+class SeleniumTests(unittest.TestCase):
+
+    def setUp(self):
+        self.driver = webdriver.Firefox()
+        self.url_prefix = "http://127.0.0.1:8000/"
+
+        # set up required model instances
+        self.city = City.objects.create(name="School Test Town", state="TX")
+        self.user = User.objects.create_user('seleniumtester', 'selenium@somewhere.com', 'testpassword')
+
+        # set up the school models
+        self.school = School.objects.create(city=self.city, name="School Test University",
+                        long=-97.1234123, lat=45.7801234)
+
+        # create property, not at top because school is required first
+        self.property = Property.objects.create(school=self.school, user=self.user, title="test property",
+                        addr="13 Test St.", city="Test Town", state="TX")
+
+    def test_internal_property(self):
+        # set a property to internal and make sure it doesn't return in a normal user's search
+        self.property.internal = True
+        self.property.save()
+
+        driver = self.driver
+        url = self.url_prefix + reverse('search', kwargs={'pk':'1', 'slug':'school-name'})
+        driver.get(url)
+
+    def tearDown(self):
+        self.driver.close()
