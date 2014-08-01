@@ -14,14 +14,13 @@ from blog.models import Article
 from school.models import Event, Roommate, Deal
 
 from property.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
-    Service, Package, PropertyVideo, PropertyHidden
+    Service, Package, PropertyVideo
 from property.forms import BasicPropertyForm, DetailPropertyForm, \
     RoomPropertyForm, ContactPropertyForm, ImagePropertyForm, ReserveForm, \
     BusinessDetailPropertyForm, VideoPropertyForm, ScheduleForm
 
 from main.utils import get_favorites, save_impression
 from main.forms import ContactForm, FavoriteForm
-from property.utils import get_walkscore
 
 from braces.views import LoginRequiredMixin
 
@@ -59,10 +58,6 @@ def property(request, pk, slug, action = None):
     property = get_object_or_404(Property, id=pk)
     save_impression(imp_type="P", imp_property=property)
 
-    # get the Google Place ID if we don't already have it.
-    if not property.place_id:
-        property.get_place_id()
-
     #perform certain actions that are passed in in the action kwarg
     if action == "reserve":
         load_modal = "propertyReserveModal"
@@ -82,8 +77,6 @@ def property(request, pk, slug, action = None):
     template = 'propertycontent/property.html'
     base_dir = settings.BASE_DIR
     related_properties = property.get_related_properties()
-
-    walkscore_json = get_walkscore(property)
 
     for p in related_properties:
         save_impression(imp_type="S", imp_property=p)
@@ -288,8 +281,7 @@ def property(request, pk, slug, action = None):
 
     return render(request, template,
         dict(render_dict, **{'reserve_form':initial_reserve_form,
-            'contact_form':initial_contact_form, 'schedule_form':initial_schedule_form,
-            'walkscore':walkscore_json}))
+            'contact_form':initial_contact_form, 'schedule_form':initial_schedule_form}))
 
 
 class ManagePropertyTemplateView(LoginRequiredMixin, TemplateView):
@@ -649,52 +641,6 @@ def favorite(request, action=None):
             return HttpResponse("Not an AJAX call")
     else:
         return HttpResponse("User Not Logged In")
-
-
-def toggle_property(request, pk):
-    '''
-    this is to hide or unhide a specific property. Will be passed in through an AJAX call
-    '''
-    if request.user.is_authenticated():
-        if request.is_ajax():
-            if request.method == 'POST':
-                p = get_object_or_404(Property, id=pk)
-                hidden = p.is_hidden(request.user)
-
-                if hidden:
-                    # show the property for the user
-                    ph = get_object_or_404(PropertyHidden, user=request.user, property=p)
-                    ph.delete()
-                    return HttpResponse(p.title + " is now showing for "  + str(request.user.username))
-                else:
-                    # hide the property for the user
-                    ph = PropertyHidden(property=p, user=request.user)
-                    ph.save()
-                    return HttpResponse(p.title + " was hidden for " + str(request.user.username))
-            else:
-                return HttpResponse("Not a POST request")
-        else:
-            return HttpResponse("Not an AJAX call")
-
-    else:
-        return HttpResponse("User Not Logged In")
-
-@login_required
-def hidden_properties(request):
-    '''
-    display a list of hidden properties for a user and allow them to unhide them
-    '''
-    template_name = "propertycontent/hidden.html"
-    user = request.user
-    properties = Property.objects.all()
-    hidden = []
-
-    # get list of hidden properties
-    for p in properties:
-        if p.is_hidden(user):
-            hidden.append(p)
-
-    return render(request, template_name, {'properties':hidden})
 
 '''
 the following 2 payment functions aren't currently used, and they will probably

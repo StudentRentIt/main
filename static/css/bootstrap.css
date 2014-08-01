@@ -3,7 +3,7 @@
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-
+/* #F67055 */
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: "Open Sans", sans-serif;
@@ -2159,6 +2159,48 @@ fieldset[disabled] .btn-success.active {
   color: #5cb85c;
   background-color: #fff;
 }
+.btn-rentsity {
+  color: #fff;
+  background-color: #F67055;
+  border-color: #E67055;
+}
+.btn-rentsity:hover,
+.btn-rentsity:focus,
+.btn-rentsity:active,
+.btn-rentsity.active,
+.open .dropdown-toggle.btn-rentsity {
+  color: #fff;
+  background-color: #CD5B45;
+  border-color: #BD5B45;
+}
+.btn-rentsity:active,
+.btn-rentsity.active,
+.open .dropdown-toggle.btn-rentsity {
+  background-image: none;
+}
+.btn-rentsity.disabled,
+.btn-rentsity[disabled],
+fieldset[disabled] .btn-rentsity,
+.btn-rentsity.disabled:hover,
+.btn-rentsity[disabled]:hover,
+fieldset[disabled] .btn-rentsity:hover,
+.btn-rentsity.disabled:focus,
+.btn-rentsity[disabled]:focus,
+fieldset[disabled] .btn-rentsity:focus,
+.btn-rentsity.disabled:active,
+.btn-rentsity[disabled]:active,
+fieldset[disabled] .btn-rentsity:active,
+.btn-rentsity.disabled.active,
+.btn-rentsity[disabled].active,
+fieldset[disabled] .btn-rentsity.active {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+.btn-rentsity .badge {
+  color: #F67055;
+  background-color: #fff;
+}
+
 .btn-heart {
   color: #333333;
   background-color: #e55ea2;
@@ -2196,7 +2238,7 @@ fieldset[disabled] .btn-heart.active {
   background-color: #e5e500;
   border-color: #cccc00;
 }
-.btn-success .badge {
+.btn-rentsity .badge {
   color: #e5e500;
   background-color: #333333;
 }
@@ -4080,7 +4122,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   color: #333;
 }
 .navbar-inverse {
-  background-color: #222;
+  background-color: #3D3E42;
   border-color: #080808;
 }
 .navbar-inverse .navbar-brand {
@@ -4088,18 +4130,18 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
-  color: #fff;
+  color: #F67055;
   background-color: transparent;
 }
 .navbar-inverse .navbar-text {
-  color: #999;
+  color: #fff;
 }
 .navbar-inverse .navbar-nav > li > a {
-  color: #999;
+  color: #fff;
 }
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
-  color: #fff;
+  color: #F67055;
   background-color: transparent;
 }
 .navbar-inverse .navbar-nav > .active > a,

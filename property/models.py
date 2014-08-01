@@ -10,7 +10,6 @@ from django.template.defaultfilters import slugify
 
 from localflavor.us.models import PhoneNumberField, USStateField
 from school.models import School
-from property.utils import get_place_data
 
 
 #property choice lists
@@ -168,7 +167,6 @@ class Property(models.Model):
     top_list = models.BooleanField(default=False)
 
     # optional detail fields for users to fill out after basic property has been created
-    place_id = models.CharField(max_length=30, blank=True, null=True)
     zip_cd = models.CharField(max_length=15, blank=True, null=True)
     lease_type = models.ManyToManyField(PropertyLeaseType, null=True, blank=True)
     lease_term = models.ManyToManyField(PropertyLeaseTerm, null=True, blank=True)
@@ -176,7 +174,6 @@ class Property(models.Model):
     description = models.TextField(null=True, blank=True)
     special = models.TextField(null=True, blank=True)
     fee_desc = models.TextField(null=True, blank=True)
-    internal = models.BooleanField(default=False)
 
     #contact fields
     contact_first_name = models.CharField(max_length=50, null=True, blank=True)
@@ -276,58 +273,6 @@ class Property(models.Model):
             related_properties = Property.objects.filter(school=self.school, type="APT").order_by("?")[:3]
             return related_properties
 
-    def get_place_id(self):
-        '''
-        Google Places API uses a place_id for individual places. Need to get that place ID so that
-        we can use it with getting various data items from Google. Store the place_id on the property
-        so that we don't have to run the API each time if we already have the place_id
-        '''
-
-
-        # if the property already has a place_id in our database, get it. If not, use the Google
-        # API to get the place_id
-        place_id = self.place_id
-
-        if not place_id:
-            # get the data and then save the place id to the property
-            data = get_place_data(self)
-            status = data.get('status') == 'OK'
-            if status == 'OK':
-                if data.get('results'):
-                    place_id = data.get('results')[0].get('place_id')
-                    self.place_id = place_id
-                    self.save()
-
-        return place_id
-
-    def get_place_rating(self):
-        # get the google place rating for the given property
-
-        data = get_place_data(self)
-        status = data.get('status')
-        if status == 'OK':
-            if data.get('results'):
-                rating = data.get('results')[0].get('rating')
-                return rating
-
-    def hide_toggle(self, user):
-        '''
-        hide a specific property from a user, or unhide that property
-        '''
-        from property.models import PropertyHidden
-        # find out if the property is already hidden
-
-    def is_hidden(self, user):
-        '''
-        determines if a property is hidden for the current user
-        '''
-        from property.models import PropertyHidden
-        try:
-            if PropertyHidden.objects.get(property=self, user=user):
-                return True
-        except:
-            return False
-
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property)
@@ -384,12 +329,6 @@ class PropertyFavorite(models.Model):
 
     def __str__(self):
         return str(self.user) + ' - ' + self.property.title
-
-
-class PropertyHidden(models.Model):
-    # used to hide certain properties from searches by a specific user
-    property = models.ForeignKey(Property)
-    user = models.ForeignKey(User)
 
 
 class PropertyReserve(models.Model):

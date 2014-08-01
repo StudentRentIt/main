@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-fixed-top main-nav" role="navigation">
+<nav class="navbar navbar-inverse navbar-fixed-top main-nav" role="navigation">
   <div class="container-fluid col-md-offset-1 col-md-10">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -26,7 +26,6 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-asterisk"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="{% url 'favorites' %}"><span class="glyphicon glyphicon-heart"></span>  Favorites</a></li>
-                <li><a href="{% url 'hidden-properties' %}"><span class="glyphicon glyphicon-remove"></span>  Hidden</a></li>
                 <li><a href="{% url 'user_profile' %}"><span class="glyphicon glyphicon-user"></span>  Edit Profile</a></li>
                 <li><a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-lock"></span>  Logout</a></li>
             </ul>

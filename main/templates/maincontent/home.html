@@ -1,53 +1,73 @@
 {% extends "maininclude/base.html" %}
+{% load staticfiles %}
 
 {% block title %}
 StudentRentIt.com | Student Apartments and Community
 {% endblock %}
 
 {% block body_extra %}
-    <script src="/static/js/plugins/stellar.js"></script>
-    <script src="/static/js/home.js"></script>
+    <script src="{% static 'js/plugins/stellar.js' %}"></script>
+    <script src="{% static '/js/home.js' %}"></script>
 {% endblock %}
 
 {% block body %}
-    <div data-stellar-background-ratio="0.4" id="home-background" style="background-image:url('/static/img/tubing_edited.jpg');
+    <div data-stellar-background-ratio="0.2" id="home-background" style="background-image:url('/static/img/tubing_edited.jpg');
         background-repeat:no-repeat; height:440px;">
-        <!--<img class="img-responsive home-banner" src="/static/img/tubing_edited.jpg"-->
-        <!--alt="Find Apartments for Students" title="Find Apartments for Students">-->
+    </div>
+    <div>
+        {% include "maininclude/searchlg.html" %}
     </div>
 
-    <div>
-        <div class="hidden-xs hidden-sm">
-            {% include "maininclude/searchlg.html" %}
-        </div>
-
-        <div class="hidden-md hidden-lg">
-            {% include "maininclude/searchsm.html" %}
-        </div>
-
-        <div id="howitworks">
-            <div class="jumbotron" style="padding:0;">
-                {% include "maininclude/howitworks.html" %}
+    <div id="home-content">
+        <div class="container">
+            <div class="row">
+                <div class="jumbotron home-text text-center">
+                    <p>We're not like the other guys</p>
+                </div>
             </div>
-        </div>
-
-        <div class="school-container">
-            <div class="row page-header jumbotron">
-                <h2 class="text-center">Pick your city and search now <span class="glyphicon glyphicon-search"></span></h2>
-            </div>
-            {% for s in schools %}
-                {% if s.image %}
+            <div id="home-tiles">
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-2 ">
-                        <a href="{% url 'search' s.id s.name|slugify %}">
-                            <img src="{{ s.image.url }}" class="img-responsive img-rounded"
-                                title="Find Apartments {{ s }} in {{ s.city }}" alt="Find Apartments {{ s }} in {{ s.city }}" />
-                            <h2 class="img-caption-overlay text-right">{{ s.city }}</h2>
-                        </a>
+                    <div class="col-xs-4">
+                        <img src="{% static 'img/misc/student1.png' %}" class="img-rounded"></img>
+                    </div>
+                    <div class="col-xs-4">
+                        <img src="{% static 'img/misc/student2.png' %}" class="img-rounded"></img>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <img src="{% static 'img/misc/student3.png' %}" class="img-rounded"></img>
                     </div>
                 </div>
-                {% endif %}
-            {% endfor %}
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="jumbotron">
+                            <h2>Your peers are finding you great housing</h2>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="jumbotron">
+                            <h2>Get a feel for the neighborhood</h2>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <div class="jumbotron">
+                            <h2>Read student reviews before you commit</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="jumbotron">
+                    <div class="col-md-6 text-center">
+                        <div class="fb-like" data-href="https://www.facebook.com/studentrentit" data-layout="standard"
+                            data-action="like" data-show-faces="true" data-share="true">
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        Social Media stuff
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

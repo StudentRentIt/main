@@ -104,15 +104,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6">
-                    {% include "maininclude/general/facebook_share.html" %}
-                </div>
-                <div id="walkscore" class="col-xs-6" style="padding-top:12px;">
-                    {% if walkscore %}
-                        <img src="{{ walkscore.logo_url }}" class="img-responsive score-image">
-                        <span class="score-text">{{ walkscore.walkscore }}</span>
-                    {% endif %}
-                </div>
+                {% include "maininclude/general/facebook_share.html" %}
             </div>
             <script src="/static/js/tooltip.js"></script>
             {% with property as p %}

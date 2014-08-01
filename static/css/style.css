@@ -6,6 +6,9 @@
 */
 
 /***** General *****/
+/* main color: #F67055 */
+/* alt color: #3D3E42 */
+
 html {
     overflow-x: hidden;
     font-family: 'Open Sans', sans-serif;
@@ -27,7 +30,7 @@ html, body {
 
 footer {
 	padding-top: 20px;
-	background-color: #2d2d2d;
+	background-color: #3D3E42;
 }
 
 .footer {
@@ -51,29 +54,54 @@ footer {
     position: absolute;
     z-index: 99;
     padding: 0 10px;
-    background: rgba(0,0,0,0.7);
-    left: 35%;
+    background: rgba(61,62,66,0.7);
+    left: 50%;
+    margin-left: -500px;
     top: 200px;
     padding: 20px;
-    /*margin: 20px 0 0 -448px;*/
+    color:#fff;
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     text-align:center;
+    width:1000px;
+    max-width:1000px;
 }
-#main-search-box h2 {
+#main-search-box h3 {
     font-weight:300;
+    font-size:225%;
 }
-.search-input {
+#main-search-box input {
+    color:#3D3E42;
     font-size:150%;
     text-align:center;
     border:0;
-    border-radius:15px;
 }
-
+#main-search-box .btn-rentsity {
+    margin-top:-8px;
+}
 .home-banners {
     position: relative;
 }
+#home-tiles h2 {
+    font-size:180%;
+    font-weight:300;
+    color:#3D3E42;
+}
+#home-tiles img {
+    max-width:100%;
+    height:auto;
+}
+#home-tiles .jumbotron {
+    margin-top:0;
+    padding-top:0;
+}
+.home-text p {
+    font-weight:300;
+    font-size:400%;
+    margin-top:50px;
+}
+
 
 .school-container img {
     opacity:0.8;
@@ -115,6 +143,17 @@ footer {
     max-width:70%;
 }
 
+.main-color {
+    color:#F67055;
+}
+.alt-color {
+    color:#3D3E42;
+}
+.slider {
+    width:100%;
+    display:inline-block;
+}
+
 @-webkit-keyframes spaceboots {
 	0% { -webkit-transform: translate(2px, 1px) rotate(0deg); }
 	10% { -webkit-transform: translate(-1px, -2px) rotate(-1deg); }
@@ -142,22 +181,6 @@ footer {
 
 .ui-autocomplete {
     z-index:9999;
-}
-
-
-/***** Walkscore Objects *****/
-.score-text {
-    position: relative;
-    color: #b14900;
-    padding-left: 7px;
-    text-decoration: none;
-    font-size: 15px;
-    vertical-align: bottom;
-}
-
-.score-image {
-    padding-bottom: 3px;
-    display:inline;
 }
 
 /***** footer objects *****/
@@ -314,7 +337,6 @@ manual forms and submission-form input,select */
 html, body, #map-canvas {
     height: 100%;
     margin: 0;
-    padding-top: 25px;
 }
 
 #map-canvas {
@@ -350,17 +372,18 @@ html, body, #map-canvas {
 
 }
 
+#search-box {
+    padding-top:15px;
+}
 .search-nav {
     margin-bottom:0;
     margin-top:45px;
     z-index:950;
 }
-
 .search-heading {
     color:white;
     margin-top:0;
 }
-
 .search-banner-prepend,
 .search-banner-input {
     padding:10px;
@@ -388,7 +411,6 @@ html, body, #map-canvas {
 
 .info_content {
     margin:15px;
-    max-width:10%;
 }
 
 .search-video-modal-row {
@@ -757,7 +779,7 @@ html, body, #map-canvas {
 .blog-page-header,
 .page-header,
 .report-header {
-    background-color: #5cb85c;
+    background-color: #F67055;
     border-radius: 5px;
     color: white;
     padding-top:15px;
@@ -912,9 +934,6 @@ html, body, #map-canvas {
     }
     .property-form-label {
         font-size:0.8em;
-    }
-    .list-view {
-        width:50%;
     }
 
     /***** Modals *****/

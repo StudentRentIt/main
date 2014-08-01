@@ -9,238 +9,241 @@
 {% endblock %}
 
 {% block wrap %}
-{# this javascript needs to stay on the page and not in a js file because it has property variables that get passed in #}
-<script type="text/javascript">
-    {% if not school %}
-    $( document ).ready(function() {
-        $('#schoolSearch').modal();
-    });
-    {% endif %}
+    {# this javascript needs to stay on the page and not in a js file because it has property variables that get passed in #}
+    <script type="text/javascript">
+        {% if not school %}
+            $( document ).ready(function() {
+                $('#schoolSearch').modal();
+            });
+        {% endif %}
 
-    {% if school %}
-    jQuery(function($) {
-        // Asynchronously Load the map API
-        var script = document.createElement('script');
-        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBRtU4CTQVy1GDDpwHxWhhAzYYFRkZ-jcw&sensor=false&callback=initialize";
-        <!-- script.src = "http://maps.googleapis.com/maps/api/js?sensor=false&callback=initialize";-->
-        document.body.appendChild(script);
-    });
+        {% if school %}
+        jQuery(function($) {
+            // Asynchronously Load the map API
+            var script = document.createElement('script');
+            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBRtU4CTQVy1GDDpwHxWhhAzYYFRkZ-jcw&sensor=false&callback=initialize";
+            <!-- script.src = "http://maps.googleapis.com/maps/api/js?sensor=false&callback=initialize";-->
+            document.body.appendChild(script);
+        });
 
-    function initialize() {
-        var lat = "{{ lat }}";
-        var long = "{{ long }}";
+        function initialize() {
+            $( ".slider" ).slider();
 
-        var mapOptions = {
-          zoom: 13,
-          center: new google.maps.LatLng(lat,long)
-        };
+            var lat = "{{ lat }}";
+            var long = "{{ long }}";
 
-        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            var mapOptions = {
+              zoom: 13,
+              center: new google.maps.LatLng(lat,long)
+            };
 
-        // Multiple Markers
-        var markers = [
-            {% for p in properties %}
-            ['{{ p.title }}', {{ p.lat }}, {{ p.long }}, '{{ p.type }}', '{{ p.sponsored }}']
-            {% if not forloop.last %},{% endif %}
-            {% endfor %}
-        ];
+            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-        // Info Window Content
-        var infoWindowContent = [
-            {% for p in properties %}
-            ['<div class="info_content">' +
-                '<h3 class="text-center">{{ p.title }}</h3>' +
-                '<img class="img-responsive img-rounded search-info-img hidden-xs hidden-sm" src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"></img>' +
-                '{% if p.type == "APT" %}' +
-                '<h4 class="text-center">Apartment rooms starting at:</h4>' +
-                '{% elif p.type == "SUB" %}<h4 class="text-center">{{ p.get_type_display }}</h4>' +
-                '{% elif p.type == "BUS" %}<p>{{ p.description|striptags|truncatechars:250 }}</p><p>{{ p.special|striptags|truncatechars:250 }}</p>' +
-                '{% endif %}' +
-                '<div class="row search-info-row">' +
-                '{% if p.propertyroom_set.all %}{% with p.propertyroom_set.all|first as room %}<div class="col-xs-4 text-center"><h3>Price</h3><h4>${{ room.price|floatformat:"0" }}</h4></div>' +
-                '<div class="col-xs-4 text-center"><h3>Bedroom</h3><h4>{{ room.get_bed_count_display }}</h4></div>' +
-                '<div class="col-xs-4 text-center"><h3>Bath</h3><h4>{{ room.bath_count }}</h4></div>' +
-                '{% endwith %}</div>{% endif %}</div>' +
-                '<div class="row" style="margin:10px inherit;">'+
-                '<div style="padding-left:5px; padding-right:5px;" class="text-center">' +
-                '{% if p.type != "BUS" %}<a class="btn btn-success btn-block" href="{% url "property" p.id p.title|slugify %}">View Full Listing</a>' +
-                '{% else %}<a class="btn btn-success btn-xlg" href="{% url "business" p.id p.title|slugify %}">View Deals and Info</a>{% endif %}' +
-                '</div>' +
-                // '<div style="padding-left:5px; padding-right:5px;" class="col-xs-8">' +
-                // '<button id="favorite{{ p.id }}" class="btn btn-block {% if p.id in favorited %}btn-star{% else %}btn-default{% endif %} btn-favorite"><span class="glyphicon glyphicon-star-empty"></span>' +
-                // '{% if p.id in favorited %}Remove Favorite{% else %}Add Favorite {% endif %}</button></div>' +
-            '</div>',
-            {{ p.id }}]
-            {% if not forloop.last %},{% endif %}
+            // Multiple Markers
+            var markers = [
+                {% for p in properties %}
+                ['{{ p.title }}', {{ p.lat }}, {{ p.long }}, '{{ p.type }}', '{{ p.sponsored }}']
+                {% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ];
 
-            {% endfor %}
-        ];
+            // Info Window Content
+            var infoWindowContent = [
+                {% for p in properties %}
+                ['<div class="info_content">' +
+                    '<h3 class="text-center">{{ p.title }}</h3>' +
+                    '<img class="img-responsive img-rounded search-info-img hidden-xs hidden-sm" src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"></img>' +
+                    '{% if p.type == "APT" %}' +
+                    '<h4 class="text-center">Apartment rooms starting at:</h4>' +
+                    '{% elif p.type == "SUB" %}<h4 class="text-center">{{ p.get_type_display }}</h4>' +
+                    '{% elif p.type == "BUS" %}<p>{{ p.description|striptags|truncatechars:250 }}</p><p>{{ p.special|striptags|truncatechars:250 }}</p>' +
+                    '{% endif %}' +
+                    '<div class="row search-info-row">' +
+                    '{% if p.propertyroom_set.all %}{% with p.propertyroom_set.all|first as room %}<div class="col-xs-4 text-center"><h3>Price</h3><h4>${{ room.price|floatformat:"0" }}</h4></div>' +
+                    '<div class="col-xs-4 text-center"><h3>Bedroom</h3><h4>{{ room.get_bed_count_display }}</h4></div>' +
+                    '<div class="col-xs-4 text-center"><h3>Bath</h3><h4>{{ room.bath_count }}</h4></div>' +
+                    '{% endwith %}</div>{% endif %}</div>' +
+                    '<div class="row" style="margin:10px inherit;">'+
+                    '<div style="padding-left:5px; padding-right:5px;" class="text-center">' +
+                    '{% if p.type != "BUS" %}<a class="btn btn-rentsity btn-block" href="{% url "property" p.id p.title|slugify %}">View Full Listing</a>' +
+                    '{% else %}<a class="btn btn-rentsity btn-xlg" href="{% url "business" p.id p.title|slugify %}">View Deals and Info</a>{% endif %}' +
+                    '</div>' +
+                    // '<div style="padding-left:5px; padding-right:5px;" class="col-xs-8">' +
+                    // '<button id="favorite{{ p.id }}" class="btn btn-block {% if p.id in favorited %}btn-star{% else %}btn-default{% endif %} btn-favorite"><span class="glyphicon glyphicon-star-empty"></span>' +
+                    // '{% if p.id in favorited %}Remove Favorite{% else %}Add Favorite {% endif %}</button></div>' +
+                '</div>',
+                {{ p.id }}]
+                {% if not forloop.last %},{% endif %}
 
-        // Display multiple markers on a map
-        var infoWindow = new google.maps.InfoWindow({ maxWidth: 450 }), marker, i;
+                {% endfor %}
+            ];
 
-        // Loop through our array of markers & place each one on the map
-        var iconBase = '/static/img/map/';
-        for( i = 0; i < markers.length; i++ ) {
-            /*
-            This is where we get the correct image to display for the marker
-            There are 3 options: Business, House/Apt/Sub sponsored and normal
-            */
-            if (markers[i][3] == "BUS") {
-                //business logo
-                img = 'business.png';
-            }
-            else {
-                if (markers[i][4] == 'True') {
-                    //if non-business sponsored
-                    img = 'logo_md.png';
+            // Display multiple markers on a map
+            var infoWindow = new google.maps.InfoWindow({ maxWidth: 450 }), marker, i;
+
+            // Loop through our array of markers & place each one on the map
+            var iconBase = '/static/img/map/';
+            for( i = 0; i < markers.length; i++ ) {
+                /*
+                This is where we get the correct image to display for the marker
+                There are 3 options: Business, House/Apt/Sub sponsored and normal
+                */
+                if (markers[i][3] == "BUS") {
+                    //business logo
+                    img = 'business.png';
                 }
                 else {
-                    //non-business non-sponsored aka normal
-                    img = 'logo_sm.png';
+                    if (markers[i][4] == 'True') {
+                        //if non-business sponsored
+                        img = 'logo_md.png';
+                    }
+                    else {
+                        //non-business non-sponsored aka normal
+                        img = 'logo_sm.png';
+                    }
                 }
-            }
-            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-            marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                title: markers[i][0],
-                icon: iconBase + img
+                var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+                marker = new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    title: markers[i][0],
+                    icon: iconBase + img
+            });
+
+            //can also have event on mouseover
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infoWindow.setContent(infoWindowContent[i][0]);
+                    infoWindow.open(map, marker);
+
+                    //save the impression
+                    $.post(
+                        "/internal/reports/saveimpression/",
+                        {
+                            "impClass": "property",
+                            "impType": "M",
+                            "propertyId" : infoWindowContent[i][1]
+                        },
+                        function(data) {
+                          alert("Response: " + data);
+                        },
+                        'json'
+                    );
+                }
+            })(marker, i));
+
+          }
+        }
+
+        $(document).ready(function(){
+            $("body").css("padding-top", "50px");
+
+            $(".btn-property-video").click(function(){
+                //add data elements necessary to show the video for selected property
+                // id = $(this).data('id');
+                video = $(this).data('video');
+                title = $(this).data('title');
+                url = $(this).data('url');
+                $("#video-property-title").text($(this).data('title'));
+                $(".search-video-modal-row").append('<div class="property-video">' + $(this).data('video') + '</div>');
+                $("#video-property-link").attr("href", url);
+            });
+
+            $('#propertyVideoModal').on('hidden.bs.modal', function (e) {
+                  //remove the video when modal is closed
+                  $('.property-video').detach();
+            })
         });
-
-        //can also have event on mouseover
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-                infoWindow.setContent(infoWindowContent[i][0]);
-                infoWindow.open(map, marker);
-
-                //save the impression
-                $.post(
-                    "/internal/reports/saveimpression/",
-                    {
-                        "impClass": "property",
-                        "impType": "M",
-                        "propertyId" : infoWindowContent[i][1]
-                    },
-                    function(data) {
-                      alert("Response: " + data);
-                    },
-                    'json'
-                );
-            }
-        })(marker, i));
-
-      }
-    }
-
-    $(document).ready(function(){
-        $("body").css("padding-top", "70px");
-
-        $(".btn-property-video").click(function(){
-            //add data elements necessary to show the video for selected property
-            // id = $(this).data('id');
-            video = $(this).data('video');
-            title = $(this).data('title');
-            url = $(this).data('url');
-            $("#video-property-title").text($(this).data('title'));
-            $(".search-video-modal-row").append('<div class="property-video">' + $(this).data('video') + '</div>');
-            $("#video-property-link").attr("href", url);
-        });
-
-        $('#propertyVideoModal').on('hidden.bs.modal', function (e) {
-              //remove the video when modal is closed
-              $('.property-video').detach();
-        })
-    });
-{% endif %}{# end if school block #}
-</script>
-<script src={% static "js/search.js" %}></script>
-<script src={% static "js/favorite.js" %}></script>
-<script src={% static "js/tooltip.js" %}></script>
-<script src={% static "js/property/hide.js" %}></script>
+    {% endif %}{# end if school block #}
+    </script>
+    <script src={% static "js/search.js" %}></script>
+    <script src={% static "js/favorite.js" %}></script>
+    <script src={% static "js/tooltip.js" %}></script>
 {% include "maininclude/header.html" %}
+{% include "propertyinclude/modals/video.html" %}
 
 {% block body %}
-{% include "propertyinclude/modals/video.html" %}
-{% if school %}
-{% include "maininclude/searchbanner.html" %}
-<div class="col-md-6" id="list-view" style="height:100%; max-height:100%; overflow:scroll;">
-    <h1 class="hidden-xs hidden-sm page-header text-center">Apartments in {{ school.city }} </h1>
-    {% for p in properties %}
-        {% if p.type != "BUS" %}
-        <div class="row list-view-row{% if p.sponsored %} sponsored{% endif %}">
-            <div class="col-xs-6 col-md-4">
-                <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
-                title="Apartments - {{ p.title }}" alt="Apartments - {{ p.title }}" class="img-responsive img-rounded" />
-            </div>
-            <div class="col-xs-6 col-md-4">
-                <h3>{{ p.title }}</h3>
-                <a class="btn btn-block btn-success" href="{% url 'property' p.id p.title|slugify %}">View Full Listing</a>
-                {% if p.propertyvideo_set.first %}
-                    {% with p.propertyvideo_set.first as main_video %}
-                        <a class="btn btn-block btn-default btn-property-video list-view-btn-row" href="#" data-toggle="modal" data-target="#propertyVideoModal"
-                            data-title="{{ p.title }}" data-id={{ p.id }} data-video="{{ main_video.video_link }}" data-url="{% url 'property' p.id p.title|slugify %}">
-                            <span class="glyphicon glyphicon-facetime-video"></span> View Video
-                        </a>
-                    {% endwith %}
-                {% endif %}
-                <div class="row list-view-btn-row">
-                    <div class="col-xs-3">
-                        {% include "propertyinclude/favorite.html" %}
-                    </div>
-                    <div class="col-xs-3">
-                        <a href="{% url 'property-action' p.id p.title|slugify 'contact' %}" class="btn btn-default btn-block"
-                            data-toggle="tooltip" title="Contact Now">
-                            <span class="glyphicon glyphicon-envelope"></span>
-                        </a>
-                    </div>
-                    <div class="col-xs-3">
-                        <a class="btn btn-default btn-block" href="{% url 'property-action' p.id p.title|slugify 'reserve' %}"
-                            data-toggle="tooltip" title="Reserve Now">
-                            <span class="glyphicon glyphicon-check"></span>
-                        </a>
-                    </div>
-                    <div class="col-xs-3">
-                        {% include "propertyinclude/hide.html" %}
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-4">
-                <div class="table-responsive" style="margin-top:10px;">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr class="table-header">
-                                <td>Price</td>
-                                <td>Bed</td>
-                                <td>Bath</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for room in p.propertyroom_set.all %}
-                                {% if room in rooms %}
-                                <tr>
-                                    <td>${{ room.price|floatformat:"0" }}</td>
-                                    <td>{{ room.bed_count }}</td>
-                                    <td>{{ room.bath_count }}</td>
-                                </tr>
-                                {% endif %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-    {% empty %}
-    <div class="jumbotron">
-        <h2>There were no results from your search, try searcing with less strict criteria.</h2>
-    </div>
-    {% endfor %}
-</div>
-<div id="map-canvas" class="list-view pull-right" style="background: transparent url(/static/img/misc/loading.gif) no-repeat center center;"/>
-{% endif %}
+    {% if school %}
+        <div id="map-canvas" class="col-md-5 pull-left" style="background: transparent url(/static/img/misc/loading.gif) no-repeat center center;">
 
-{% include "maininclude/modals/schoolsearch.html" %}
+        </div>
+
+        <div class="col-md-7" id="list-view" style="height:100%; max-height:100%; overflow:scroll;">
+            {% include "maininclude/searchbox.html" %}
+            <h1 class="hidden-xs hidden-sm text-center page-header" style="width:100%; border-radius:0; font-size:120%;">
+                Apartments in {{ school.city }}
+            </h1>
+            {% for p in properties %}
+                {% if p.type != "BUS" %}
+                    <div class="row list-view-row{% if p.sponsored %} sponsored{% endif %}">
+                        <div class="col-xs-6 col-md-4">
+                            <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
+                            title="Apartments - {{ p.title }}" alt="Apartments - {{ p.title }}" class="img-responsive img-rounded" />
+                        </div>
+                        <div class="col-xs-6 col-md-4">
+                            <h3>{{ p.title }}</h3>
+                            <a class="btn btn-block btn-rentsity" href="{% url 'property' p.id p.title|slugify %}">View Full Listing</a>
+                            {% if p.propertyvideo_set.first %}
+                                {% with p.propertyvideo_set.first as main_video %}
+                                    <a class="btn btn-block btn-default btn-property-video" href="#" data-toggle="modal" data-target="#propertyVideoModal"
+                                        data-title="{{ p.title }}" data-id={{ p.id }} data-video="{{ main_video.video_link }}" data-url="{% url 'property' p.id p.title|slugify %}">
+                                        <span class="glyphicon glyphicon-facetime-video"></span> View Video
+                                    </a>
+                                {% endwith %}
+                            {% endif %}
+                            <div class="row list-view-btn-row">
+                                <div class="col-xs-4">
+                                    {% include "propertyinclude/favorite.html" %}
+                                </div>
+                                <div class="col-xs-4">
+                                    <a href="{% url 'property-action' p.id p.title|slugify 'contact' %}" class="btn btn-default btn-block"
+                                        data-toggle="tooltip" title="Contact Now">
+                                        <span class="glyphicon glyphicon-envelope"></span>
+                                    </a>
+                                </div>
+                                <div class="col-xs-4">
+                                    <a class="btn btn-default btn-block" href="{% url 'property-action' p.id p.title|slugify 'reserve' %}"
+                                        data-toggle="tooltip" title="Reserve Now">
+                                        <span class="glyphicon glyphicon-check"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-4">
+                            <div class="table-responsive" style="margin-top:10px;">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="table-header">
+                                            <td>Price</td>
+                                            <td>Bed</td>
+                                            <td>Bath</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for room in p.propertyroom_set.all %}
+                                            {% if room in rooms %}
+                                            <tr>
+                                                <td>${{ room.price|floatformat:"0" }}</td>
+                                                <td>{{ room.bed_count }}</td>
+                                                <td>{{ room.bath_count }}</td>
+                                            </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% empty %}
+                <div class="jumbotron">
+                    <h2>There were no results from your search, try searcing with less strict criteria.</h2>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% include "maininclude/modals/schoolsearch.html" %}
 {% endblock %} {# end body #}
 
 {# hide the footer #}
