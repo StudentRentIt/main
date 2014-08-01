@@ -3,7 +3,8 @@
         var source = [
             {% for s in schools %}
             { value: "{% url 'search' s.id s.name|slugify %}",
-              label: "{{ s.name|safe }}"
+              label: "{{ s.name|safe }}",
+              id: "{{ s.id }}"
             },
             {% endfor %}
         ];
@@ -12,8 +13,14 @@
             source: source,
             select: function( event, ui ) {
                 event.preventDefault();
-                $(this).val(ui.item.label);
-                window.location.href = ui.item.value;
+                if (!$(this).hasClass("stay")) {
+                    $(this).val(ui.item.label);
+                    window.location.href = ui.item.value;
+                }
+                else {
+                    $(this).val(ui.item.label);
+                    $(this).data("link", ui.item.value)
+                }
             },
             focus: function(event, ui) {
                 event.preventDefault();

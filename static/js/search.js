@@ -1,12 +1,9 @@
 $(document).ready(function(){
-    $(".main-nav").css("border-bottom", "none");
-
     $("#search-view").click(function() {
         var mapObject = $('#map-canvas');
         var listObject = $('#list-view');
         var source = "";
         var target = "";
-
 
         //set source and target
         if ($("#search-view").text().match("^List")){

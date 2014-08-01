@@ -43,6 +43,7 @@ footer {
 
 #header-logo {
     margin-top: 5px;
+    height:40px;
 }
 
 .main-nav {
@@ -146,8 +147,16 @@ footer {
 .main-color {
     color:#F67055;
 }
+.main-inverse {
+    background-color:#F67055;
+    color:#fff;
+}
 .alt-color {
     color:#3D3E42;
+}
+.alt-inverse {
+    background-color:#3D3E42;
+    color:#fff;
 }
 .slider {
     width:100%;
@@ -194,7 +203,7 @@ footer {
 }
 .footer-column a:hover,
 .footer-column a:active {
-    color: #64aa00;
+    color: #F67055;
     text-decoration: none;
 }
 .footer-column-header {
@@ -348,13 +357,14 @@ html, body, #map-canvas {
 .map-view {
     width:100%;
 }
-
 .list-view-row {
     padding:10px;
 }
-
 .list-view-row:nth-of-type(even) {
     background: #eee;
+}
+.list-view h4 {
+    font-weight:300;
 }
 
 #btn-search-mobile {
@@ -404,6 +414,11 @@ html, body, #map-canvas {
     margin-left:auto;
     margin-right:auto;
 }
+.search-input {
+    text-align:center;
+    border-radius:15px;
+    font-size:150%;
+}
 
 .modal-dropdown-choices {
     font-size:120%;
@@ -446,7 +461,13 @@ html, body, #map-canvas {
 .search-multi-image-row .active li {
     opacity:1;
 }
-
+.price-overlay {
+    position:absolute;
+    bottom:30px;
+    left:0;
+    text-decoration:none;
+    padding:10px;
+}
 
 
 .row-howitworks {

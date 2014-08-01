@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'rentsity.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'studentrentit$prod',                      # Or path to database file if using sqlite3.
+        'NAME': 'studentrentit$test',                      # Or path to database file if using sqlite3.
         'USER': 'studentrentit',                      # Not used with sqlite3.
         'PASSWORD': 'student12',                  # Not used with sqlite3.
         'HOST': 'mysql.server',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -206,3 +206,6 @@ STRIPE_PUBLIC_KEY = 'pk_test_Myf83zAyJEPV6SinLgrgYc29'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 SECURE_SSL_REDIRECT = False
+
+GOOGLE_API_KEY = 'AIzaSyD6nho-ZVEEwhtvSY4A6PDFDQ7Ver12ETk'
+WALKSCORE_API_KEY = 'df07b2fb3c9c862c3d960e4802c352be'
