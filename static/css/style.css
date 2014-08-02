@@ -8,7 +8,6 @@
 /***** General *****/
 /* main color: #F67055 */
 /* alt color: #3D3E42 */
-
 html {
     overflow-x: hidden;
     font-family: 'Open Sans', sans-serif;
@@ -347,7 +346,21 @@ html, body, #map-canvas {
     height: 100%;
     margin: 0;
 }
-
+.ui-slider-range {
+    background:#3D3E42;
+    border-color:#3D3E42;
+}
+.slider-text {
+    border:0;
+    font-weight:300;
+    text-align:center;
+}
+.slider-label {
+    font-size:140%;
+    font-weight:300;
+    margin-bottom:0;
+    padding-bottom:0;
+}
 #map-canvas {
     -webkit-transition: width 1s ease;
             transition: width 1s ease;
@@ -383,7 +396,10 @@ html, body, #map-canvas {
 }
 
 #search-box {
-    padding-top:15px;
+    padding-top:40px;
+}
+#search-box > .row {
+    margin-bottom:15px;
 }
 .search-nav {
     margin-bottom:0;
@@ -805,6 +821,7 @@ html, body, #map-canvas {
     color: white;
     padding-top:15px;
     padding-bottom:15px;
+    font-weight:300;
 }
 
 .report-header {
