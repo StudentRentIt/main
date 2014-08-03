@@ -8,10 +8,11 @@
     <div class="row">
         <form id="main-search-form" method="post" action="">
             <input name="maxPrice" tabindex="1" id="search-rent" placeholder="Max Rent Per Student"></input>
-            <input tabindex="2" id="search-school" data-link="" class="search-input stay" style="border-radius:0" placeholder="Enter School"></input>
-            <input name="bedMax" tabindex="3" id="search-bed" placeholder="Bedrooms"></input>
+            <input tabindex="2" id="search-school" data-link="" data-toggle="popover" title="Choose School"
+                data-content="You must search apartments for a specific school campus" class="search-input stay" style="border-radius:0" placeholder="Enter School"></input>
+            <input name="beds" tabindex="3" id="search-bed" placeholder="Bedrooms"></input>
             <input name="home-search" type="hidden"></input>
-            <button tabindex="4" class="btn btn-rentsity text-center" id="home-search" type="submit">Search
+            <button tabindex="4" class="btn btn-rentsity text-center" id="home-search" type="button">Search
                 <span class="glyphicon glyphicon-arrow-right"></span></button>
             {% csrf_token %}
         </form>

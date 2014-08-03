@@ -149,10 +149,16 @@ def search(request, pk=None, slug=None):
 
         if 'home-search' in request.POST:
             # search comes from the home page and will only include the couple search criteria
-            max_bed = request.POST['bedMax']
+            beds = request.POST['beds']
             max_price = request.POST['maxPrice']
 
-            rooms = rooms.filter(price__lte=max_price, bed_count=max_bed)
+            if not max_price:
+                max_price = 2000
+
+            if beds:
+                rooms = rooms.filter(price__lte=max_price, bed_count=beds)
+            else:
+                rooms = rooms.filter(price__lte=max_price)
 
         else:
             '''

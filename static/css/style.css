@@ -61,7 +61,6 @@ footer {
     margin-left: -500px;
     top: 200px;
     padding: 20px;
-    color:#fff;
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -69,7 +68,7 @@ footer {
     width:1000px;
     max-width:1000px;
 }
-#main-search-box h3 {
+#main-search-box h3.search-heading {
     font-weight:300;
     font-size:225%;
 }
