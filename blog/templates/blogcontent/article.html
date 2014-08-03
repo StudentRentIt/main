@@ -64,16 +64,16 @@
                 </div>
                 <div class="row">
                     {% if school %}
-                        <a href="{% url 'school-articles' school.id school.name|slugify %}" class="btn btn-lg btn-success">All Articles for {{ school }}</a>
+                        <a href="{% url 'school-articles' school.id school.name|slugify %}" class="btn btn-lg btn-default">All Articles for {{ school }}</a>
                         <a href="{% url 'school-articles' school.id school.name|slugify 'articles' %}"
-                            class="btn btn-success btn-lg">{{ school }} Home</a>
+                            class="btn btn-default btn-lg">{{ school }} Home</a>
                     {% elif property %}
-                        <a href="{% url 'property-articles' property.id property.title|slugify %}" class="btn btn-lg btn-success">All Articles for {{ property }}</a>
+                        <a href="{% url 'property-articles' property.id property.title|slugify %}" class="btn btn-lg btn-default">All Articles for {{ property }}</a>
                         <a href="{% url 'property' property.id property.title|slugify %}"
-                            class="btn btn-success btn-lg">{{ property }} Home</a>
-                        <a href="{% url 'property-community' property.id property.title|slugify %}" class="btn btn-success btn-lg">{{ property }} Community</a>
+                            class="btn btn-default btn-lg">{{ property }} Home</a>
+                        <a href="{% url 'property-community' property.id property.title|slugify %}" class="btn btn-default btn-lg">{{ property }} Community</a>
                     {% else %}
-                        <a href="{% url 'blog-home'  %}" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-home"></span> Blog Home</a>
+                        <a href="{% url 'blog-home'  %}" class="btn btn-lg btn-default"><span class="glyphicon glyphicon-home"></span> Blog Home</a>
                     {% endif %}
                 </div>
             </div>

@@ -181,6 +181,10 @@
                         {{ r.text }}
                     </div>
                 </div>
+            {% empty %}
+            <div class="jumbotron text-center">
+                <h2>There are no reviews for this property</h2>
+            </div>
             {% endfor %}
         </div>
     </div>

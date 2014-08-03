@@ -10,6 +10,7 @@
 
 {% block wrap %}
     {# this javascript needs to stay on the page and not in a js file because it has property variables that get passed in #}
+    <script src={% static 'js/main/markercluster.js' %}></script>
     <script type="text/javascript">
         {% if not school %}
             $( document ).ready(function() {
@@ -179,7 +180,6 @@
                     );
                 }
             })(marker, i));
-
           }
         }
 

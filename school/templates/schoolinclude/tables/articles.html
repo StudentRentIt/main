@@ -10,7 +10,7 @@
             <td class="col-xs-6 col-md-6 col-sm-6">
                 <h3>{{ a.title }}</h3>
                 <p>{{ a.body|safe|slice:":250" }} ...</p>
-                <a href="{% url 'blog-article' a.id a.title|slugify %}" class="btn btn-success btn-block btn-sm">Keep Reading</a>
+                <a href="{% url 'blog-article' a.id a.title|slugify %}" class="btn btn-rentsity btn-block btn-sm">Keep Reading</a>
             </td>
         </tr>
         {% endif %}
