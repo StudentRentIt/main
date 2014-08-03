@@ -49,11 +49,8 @@ class BusinessDetailView(DetailView):
 def property(request, pk, slug, action = None):
     '''
     displays the full listing for properties and functions such as contact owner,
-    or set up a reservation. Need to gather the property information room/pictures, contactform,
-    and reserveform.
-
-    FBV because would need to redifine pretty much all of the post function in CBV
-    to handle multiple form submission
+    or set up a reservation. Need to gather the property information room/pictures
+    and forms
     '''
     property = get_object_or_404(Property, id=pk)
     save_impression(imp_type="P", imp_property=property)
@@ -68,20 +65,29 @@ def property(request, pk, slug, action = None):
     else:
         load_modal = slug
 
-    property_images = PropertyImage.objects.filter(property=pk, floorplan=False)
-    floorplan_images = PropertyImage.objects.filter(property=pk, floorplan=True)
-    property_rooms = PropertyRoom.objects.filter(property=pk)
-    property_videos = PropertyVideo.objects.filter(property=pk)
-
     favorited = get_favorites(request.user)
     template = 'propertycontent/property.html'
     base_dir = settings.BASE_DIR
     related_properties = property.get_related_properties()
 
+
+    # get the images, videos, rooms for properties
+    property_images = PropertyImage.objects.filter(property=pk, floorplan=False)
+    floorplan_images = PropertyImage.objects.filter(property=pk, floorplan=True)
+    property_rooms = PropertyRoom.objects.filter(property=pk)
+    property_videos = PropertyVideo.objects.filter(property=pk)
+
+    # add nearby businesses to display in the nearby section. Right now there
+    # is no logic, but we will need to build in a model method
+    try:
+        nearby = Property.objects.filter(school=property.school, type="BUS")[0:4]
+    except:
+        nearby = []
+
     for p in related_properties:
         save_impression(imp_type="S", imp_property=p)
 
-    #set form defaults if the user is logged in
+    #set form defaults based on if the user is logged in
     if request.user.is_authenticated():
         email = request.user.email
         first_name = request.user.first_name
@@ -109,11 +115,16 @@ def property(request, pk, slug, action = None):
     schedule_form = ScheduleForm()
     initial_schedule_form = ScheduleForm(initial=initial_dict)
 
+    '''
+    build a shared dictionary to be used with all renders. We will tack on other
+    values to the dictionary, but these will be included in all
+    '''
     render_dict = {'property':property, 'property_images':property_images,
         'property_rooms':property_rooms, 'favorited':favorited, 'contact_form':contact_form,
         'reserve_form':reserve_form, 'floorplan_images':floorplan_images,
         'related_properties': related_properties, 'load_modal':load_modal,
-        'schedule_form':schedule_form, 'property_videos':property_videos}
+        'schedule_form':schedule_form, 'property_videos':property_videos,
+        'nearby':nearby}
 
     if request.method == "POST":
         #only send to property contact if in production

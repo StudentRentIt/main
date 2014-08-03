@@ -1,4 +1,5 @@
 {% extends "maininclude/base.html" %}
+{% load main_extras %}
 
 {% block title %}
     {{ property.title }} {{ property.get_type_display }} {{ property.city }}, {{ property.state }} {{ property.zip_cd }}
@@ -15,172 +16,171 @@
         {% include "propertyinclude/modals/reserve.html" %}
         {% include "propertyinclude/modals/schedule.html" %}
     {% endif %}
+    <script src="/static/js/favorite.js"></script>
+    <script src="/static/js/tooltip.js"></script>
 {% endblock %}
 
 {% block body %}
-<script src="/static/js/favorite.js"></script>
-
-<div class="col-md-offset-1 col-md-10">
-    <div class="row">
-        <div class="jumbotron text-center page-header" style="padding:10px 0 10px 0;"><h1>{{ property.title }}</h1></div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="text-center">
-                <a class="btn btn-default btn-lg" href="{% url 'search' property.school.id property.school.name|slugify %}">Search more at {{ property.school }}</a>
-            </div>
-            {% include "propertyinclude/visual.html" %}
-            {% if property.has_community %}
-                <div class="alert alert-success">
-                  Looking for more detail? Check out the <a href="{% url 'property-community' property.id property.title|slugify %}" class="alert-link">Community</a> for {{ property.title }}
-                </div>
-            {% endif %}
-        </div>
-
-        <div class="col-md-6 col-xs-12">
-            <div class="row">
+<img class="img-responsive img-full" src="/static/img/misc/landscape.jpg" />
+<div class="container">
+    <div class="row" id="property-summary-row">
+        <div class="col-md-8" id="property-content-column">
+            <h1 class="skinny">{{ property.title }}</h1>
+            <h3 class="skinny">{{ property.get_full_address }}</h3>
+            <span class="skinny col-md-6">Distance to Campus:</span>
+            <span class="skinny col-md-6">Noise Level:</span>
+            <div class="row" id="rooms-row">
                 {% include "propertyinclude/post_status.html" %}
-                <h1 class="text-center">Room Options</h1>
                 <table class="table table-striped">
-                <thead>
-                    <tr class="table-header">
-                        <td>Price</td>
-                        <td>Bedroom</td>
-                        <td>Bath</td>
-                        <td>Sq Ft</td>
-                        <td>Availability</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for r in property_rooms %}
-                        <tr>
-                            <td>{{ r.price }}</td>
-                            <td>{{ r.get_bed_count_display }}</td>
-                            <td>{{ r.get_bath_count_display }}</td>
-                            <td>{{ r.sq_ft }}</td>
-                            <td>{% if r.lease_start %}{{ r.lease_start }}{% else %}Unknown{% endif %}</td>
+                    <thead>
+                        <tr class="table-header">
+                            <td>Price</td>
+                            <td>Bedroom</td>
+                            <td>Bath</td>
+                            <td>Sq Ft</td>
+                            <td>Availability</td>
                         </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                        {% for r in property_rooms %}
+                            <tr>
+                                <td>{{ r.price }}</td>
+                                <td>{{ r.get_bed_count_display }}</td>
+                                <td>{{ r.get_bath_count_display }}</td>
+                                <td>{{ r.sq_ft }}</td>
+                                <td>{% if r.lease_start %}{{ r.lease_start }}{% else %}Unknown{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            <h2 class="text-center">{{ property.contact_phone }}</h2>
-            <h4 class="text-center">{{ property.get_full_address }}</h4>
-            <div class="row" style="margin-top:15px;">
-                <div class="container-fluid">
-                    {# contact email required to contact or reserve #}
-                    {% if property.contact_email %}
-                        <div class="row row-margin">
-                            <div class="col-md-6">
-                                <a class="btn btn-success btn-block" href="#" data-toggle="modal"
-                                    data-target="#propertyScheduleModal"><span class="glyphicon glyphicon-time"></span> Schedule Tour</a>
-                            </div>
-                            <div class="col-md-6">
-                                <a class="btn btn-success btn-block" href="#" data-toggle="modal"
-                                    data-target="#propertyReserveModal"><span class="glyphicon glyphicon-check"></span> Reserve Now</a>
-                            </div>
-                        </div>
-                        <div class="row row-margin">
-                            <div class="col-md-6">
-                                <a class="btn btn-default btn-block" href="#" data-toggle="modal"
-                                    data-target="#propertyContactModal"><span class="glyphicon glyphicon-envelope"></span> Contact Apartment</a>
-                            </div>
-                            <div class="col-md-6">
-                                {% with property as p %}
-                                    {% include "propertyinclude/favorite.html" %}
-                                {% endwith %}
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="row row-margin">
-                            <div class="col-md-6">
-                                {% with property as p %}
-                                    {% include "propertyinclude/favorite.html" %}
-                                {% endwith %}
-                            </div>
-                        </div>
-                    {% endif %}
-
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-offset-1 col-md-10" id="room-detail">
+                <div class="row" style="position:absolute; top:-40px;">
+                    <div class="dropdown">
+                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                        Choose Floorplan
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">0BR/1BA/$500</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">1BR/1BA/$620</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">3BR/2BA/$1050</a></li>
+                      </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        Monthly Rent
+                    </div>
+                    <div class="col-md-5">
+                        $1000
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        Security Deposit
+                    </div>
+                    <div class="col-md-5">
+                        $500
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        Last Month's Rent
+                    </div>
+                    <div class="col-md-5">
+                        Required
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        Utilities
+                    </div>
+                    <div class="col-md-5">
+                        Included
+                    </div>
+                </div>
+                <div class="row total-row">
+                    <div class="col-md-7">
+                        Total Due Upfront
+                    </div>
+                    <div class="col-md-5">
+                        $1500 <span class="glyphicon glyphicon-question-sign" id="price-info"
+                            data-toggle="tooltip" title="This price is 100% accurate and if it turns out to be more expensive Brenden Martin will pay the difference"></span>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                {% include "maininclude/general/facebook_share.html" %}
+            <div class="col-md-offset-1 col-md-10" id="contact-detail">
+                <div class="col-md-4">
+                    <img src="/static/img/temp/ambassador.jpg" class="img-circle img-responsive" style="margin-top:25px;" />
+                </div>
+                <div class="col-md-8">
+                    <p>Jane Doe</p>
+                    <p>Ambassador since 1/1/2013</p>
+                    <p>Average Response Time: Never</p>
+                </div>
             </div>
-            <script src="/static/js/tooltip.js"></script>
-            {% with property as p %}
-                {% include "propertyinclude/special_amenity_row.html" %}
-            {% endwith %}
+            <div class="col-md-12 text-center" style="margin:15px 0;">
+                <div class="btn btn-lg btn-rentsity">
+                    Schedule Tour <span class="glyphicon glyphicon-time"></span>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="row hidden-xs hidden-sm">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <ul class="nav nav-justified nav-pills nav-pills-success">
-                    <li class="active"><a href="#description" data-toggle="tab">Description</a></li>
-                    <li><a href="#amenities" data-toggle="tab">Amenities</a></li>
-                    <li><a href="#specialsfees" data-toggle="tab">Specials And Fees</a></li>
-                </ul>
+</div>
+<div class="container-fluid">
+    <div class="row" id="property-detail-row">
+        <div class="col-md-5 col-md-offset-1">
+            {% include "propertyinclude/visual.html" %}
+        </div>
+        <div class="col-md-5" id="property-details">
+            <div class="row">
+                <div class="col-md-4 property-detail-label">
+                    Amenities
+                </div>
+                <div class="col-md-8">
+                    {% for a in property.amenities.all %}
+                        <div class="col-md-6">{{ a }}</div>
+                    {% endfor %}
+                </div>
             </div>
-            <div class="panel-body">
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div class="tab-pane content-tab fade in active" id="description">
-                        {{ property.description|safe }}
-                    </div>
-                    <div class="tab-pane fade" id="amenities">
-                        <div class="col-md-9 col-md-offset-2">
-
-                            <div class="col-md-4">
-                            <h3>In Your Apartment</h3>
-                            {% for a in property.amenities.all %}
-                            {% if a.type == "CMW" %}
-                                {% include "propertyinclude/display_amenity.html" %}
-                            {% endif %}
-                            {% endfor %}
-                            </div>
-
-                            <div class="col-md-4">
-                            <h3>Property Amenities</h3>
-                            {% for a in property.amenities.all %}
-                            {% if a.type == "PRO" %}
-                                {% include "propertyinclude/display_amenity.html" %}
-                            {% endif %}
-                            {% endfor %}
-                            </div>
-
-                            <div class="col-md-4">
-                            <h3>Bills Included</h3>
-                            {% for a in property.amenities.all %}
-                            {% if a.type == "BIN" %}
-                                {% include "propertyinclude/display_amenity.html" %}
-                            {% endif %}
-                            {% endfor %}
-                            </div>
-
+            <div class="row" style="margin-top:30px;">
+                <div class="col-md-4 property-detail-label">
+                    Nearby
+                </div>
+                <div class="col-md-8" id="nearby-container">
+                    {% for p in nearby %}
+                        <div class="col-md-6">
+                            <a href="{% url 'business' p.id p.title|slugify %}">
+                                <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
+                                    class="img-responsive" />
+                                <h4>{{ p.title }}</h4>
+                            </a>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="specialsfees">
-                        <h3>Specials:</h3>{{ property.special|safe }}
-                        <h3>Fees:</h3>{{ property.fee_desc|safe }}
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 text-center page-header">
-                <h2>Similar Properties</h2>
-            </div>
-            {% for p in related_properties %}
-            <div class="col-md-3 {% if forloop.first %}col-md-offset-half{% else %}col-md-offset-1{% endif %} well well-lg related-property-well">
-                <h3 class="text-center">{{ p.title }}</h3>
-                {% if p.propertyroom_set.all %}{% with p.propertyroom_set.all|first as room %}
-                    <p><span class="glyphicon glyphicon-arrow-right"></span> Rooms starting at <b>${{ room.price|floatformat:"0" }}</b> for a {{ room.get_bed_count_display }} Bedroom {{ room.get_bath_count_display }} Bath</p>
-                {% endwith %}{% endif %}
-                <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}" alt="Student Housing - {{ p.title }}" class="text-center img-rounded img-responsive" />
-                {% include "propertyinclude/special_amenity_row.html" %}
-                <a href="{% url 'property' p.id p.title|slugify %}" class="btn btn-success btn-block">Full Listing</a>
-            </div>
+    </div>
+    <div class="row" id="review-row-container">
+        <div class="col-md-10 col-md-offset-1">
+            {% for r in property.get_place_review_details %}
+                <div class="row review-row">
+                    <div class="col-md-3 text-center">
+                        <img src="{{ r.author_url|get_image_url }}" class="img-responsive img-circle" style="margin-left:auto; margin-right:auto;"/>
+                        <p>{{ r.author_name }}</p>
+                        <p>
+                            {% with r.rating as rating %}
+                                {% include "maininclude/rating.html" %}
+                            {% endwith %}
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                        {{ r.text }}
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </div>

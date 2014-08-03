@@ -234,19 +234,16 @@
                             <h3>{{ a.title }}</h3>
                             <h4>{{ a.addr }}</h4>
                             {% if a.rating %}
-                                {% if a.rating > 0.4 %}{% include "maininclude/full_star.html" %}{% else %}{% include "maininclude/empty_star.html" %}{% endif %}
-                                {% if a.rating > 1.4 %}{% include "maininclude/full_star.html" %}{% else %}{% include "maininclude/empty_star.html" %}{% endif %}
-                                {% if a.rating > 2.4 %}{% include "maininclude/full_star.html" %}{% else %}{% include "maininclude/empty_star.html" %}{% endif %}
-                                {% if a.rating > 3.4 %}{% include "maininclude/full_star.html" %}{% else %}{% include "maininclude/empty_star.html" %}{% endif %}
-                                {% if a.rating > 4.4 %}{% include "maininclude/full_star.html" %}{% else %}{% include "maininclude/empty_star.html" %}{% endif %}
-                                ({{ a.rating }})
+                                {% with a.rating as rating %}
+                                    {% include "maininclude/rating.html" %}
+                                {% endwith %}
                             {% endif %}
                         </div>
                     </div>
                 {% if forloop.last or forloop.counter|divisibleby:"2" %}</div>{% endif %}
             {% empty %}
             <div class="jumbotron">
-                <h2>There were no results from your search, try searcing with less strict criteria.</h2>
+                <h2>There were no results from your search, try searching with less strict criteria.</h2>
             </div>
             {% endfor %}
         </div>

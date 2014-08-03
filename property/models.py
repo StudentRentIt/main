@@ -1,5 +1,6 @@
 import os
 import random
+
 from decimal import Decimal
 
 from django.db import models
@@ -10,7 +11,7 @@ from django.template.defaultfilters import slugify
 
 from localflavor.us.models import PhoneNumberField, USStateField
 from school.models import School
-from property.utils import get_place_data
+from property.utils import get_place_data, get_place_detail_data
 
 
 #property choice lists
@@ -299,7 +300,7 @@ class Property(models.Model):
         if not place_id:
             # get the data and then save the place id to the property
             data = get_place_data(self)
-            status = data.get('status') == 'OK'
+            status = data.get('status')
             if status == 'OK':
                 if data.get('results'):
                     place_id = data.get('results')[0].get('place_id')
@@ -321,12 +322,18 @@ class Property(models.Model):
                 rating = data.get('results')[0].get('rating')
                 return rating
 
-    def hide_toggle(self, user):
+    def get_place_review_details(self):
         '''
-        hide a specific property from a user, or unhide that property
+        returns the rating details for a specific property
         '''
-        from property.models import PropertyHidden
-        # find out if the property is already hidden
+        if self.place_id:
+            data = get_place_detail_data(self)
+            status = data.get('status')
+            if status == 'OK':
+                if data.get('result'):
+                    reviews = data.get('result').get('reviews')
+
+                    return reviews
 
     def is_hidden(self, user):
         '''
