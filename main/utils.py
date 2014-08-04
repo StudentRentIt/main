@@ -1,3 +1,5 @@
+import math
+
 from django.contrib.sitemaps import Sitemap
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
@@ -114,5 +116,17 @@ class GenericSubdomainSitemap(SubdomainSitemap):
         return None
 
 
+def distance(origin, destination):
+    # using the haversine formula to get the distance
+    lat1, lon1 = origin
+    lat2, lon2 = destination
+    radius = 3959 # mi
 
+    dlat = math.radians(lat2-lat1)
+    dlon = math.radians(lon2-lon1)
+    a = math.sin(dlat/2) * math.sin(dlat/2) + math.cos(math.radians(lat1)) \
+        * math.cos(math.radians(lat2)) * math.sin(dlon/2) * math.sin(dlon/2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    d = radius * c
 
+    return d

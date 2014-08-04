@@ -121,7 +121,7 @@ def search(request, pk=None, slug=None):
     '''
     the page that allows people to search in depth for properties
     '''
-    modal_title = "Find Housing, Apartments, Subleases and Information"
+    modal_title = "Find apartments at your school"
     properties = Property.objects.filter(school=pk, lat__isnull=False, long__isnull=False)
     rooms = PropertyRoom.objects.filter(property__in=properties).exclude(lease_start=3) #available
     favorited = get_favorites(request.user)

@@ -346,6 +346,18 @@ class Property(models.Model):
         except:
             return False
 
+    def get_distance_from_campus(self):
+        '''
+        get the distance from campus center
+        '''
+        from main.utils import distance
+
+        if self.lat and self.long:
+            school_loc = [self.school.lat, self.school.long]
+            prop_loc = [self.lat, self.long]
+            d = distance(school_loc, prop_loc)
+            return d
+
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property)

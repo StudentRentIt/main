@@ -27,7 +27,7 @@
         <div class="col-md-8" id="property-content-column">
             <h1 class="skinny">{{ property.title }}</h1>
             <h3 class="skinny">{{ property.get_full_address }}</h3>
-            <span class="skinny col-md-6">Distance to Campus:</span>
+            <span class="skinny col-md-6">Distance to Campus: {{ property.get_distance_from_campus|floatformat:1 }} miles</span>
             <span class="skinny col-md-6">Noise Level:</span>
             <div class="row" id="rooms-row">
                 {% include "propertyinclude/post_status.html" %}
