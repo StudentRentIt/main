@@ -21,6 +21,7 @@ from property.forms import BasicPropertyForm, DetailPropertyForm, \
 
 from main.utils import get_favorites, save_impression
 from main.forms import ContactForm, FavoriteForm
+from property.utils import get_walkscore
 
 from braces.views import LoginRequiredMixin
 
@@ -83,6 +84,8 @@ def property(request, pk, slug, action = None):
         nearby = Property.objects.filter(school=property.school, type="BUS")[0:4]
     except:
         nearby = []
+
+    walkscore_json = get_walkscore(property)
 
     for p in related_properties:
         save_impression(imp_type="S", imp_property=p)
@@ -292,7 +295,8 @@ def property(request, pk, slug, action = None):
 
     return render(request, template,
         dict(render_dict, **{'reserve_form':initial_reserve_form,
-            'contact_form':initial_contact_form, 'schedule_form':initial_schedule_form}))
+            'contact_form':initial_contact_form, 'schedule_form':initial_schedule_form,
+            'walkscore':walkscore_json }))
 
 
 class ManagePropertyTemplateView(LoginRequiredMixin, TemplateView):

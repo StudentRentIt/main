@@ -28,7 +28,12 @@
             <h1 class="skinny">{{ property.title }}</h1>
             <h3 class="skinny">{{ property.get_full_address }}</h3>
             <span class="skinny col-md-6">Distance to Campus: {{ property.get_distance_from_campus|floatformat:1 }} miles</span>
-            <span class="skinny col-md-6">Noise Level:</span>
+            <span class="skinny col-md-6">
+                {% if walkscore %}
+                    <img src="{{ walkscore.logo_url }}" class="img-responsive score-image">
+                    <span class="score-text">{{ walkscore.walkscore }}</span>
+                {% endif %}
+            </span>
             <div class="row" id="rooms-row">
                 {% include "propertyinclude/post_status.html" %}
                 <table class="table table-striped">

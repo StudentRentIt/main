@@ -192,6 +192,20 @@ footer {
     z-index:9999;
 }
 
+/***** Walkscore Objects *****/
+.score-text {
+    position: relative;
+    color: #b14900;
+    text-decoration: none;
+    font-size: 15px;
+    vertical-align: bottom;
+}
+
+.score-image {
+    padding-bottom: 3px;
+    display:inline;
+}
+
 /***** footer objects *****/
 .footer-column {
     text-align:center;
