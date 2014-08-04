@@ -28,55 +28,116 @@
         });
 
         function initialize() {
+            // set initial values for the filters
+            if ( $( "#min-price" ).val() ) {
+                min_price = $( "#min-price" ).val()
+            }
+            else {
+                min_price = 300
+            }
+            if ( $( "#max-price" ).val() ) {
+                max_price = $( "#max-price" ).val()
+            }
+            else {
+                max_price = 800
+            }
+
+            if ( $( "#min-bed" ).val() ) {
+                min_bed = $( "#min-bed" ).val()
+            }
+            else {
+                min_bed = 1
+            }
+            if ( $( "#max-bed" ).val() ) {
+                max_bed = $( "#max-bed" ).val()
+            }
+            else {
+                max_bed = 3
+            }
+
+            if ( $( "#min-bath" ).val() ) {
+                min_bath = $( "#min-bath" ).val()
+            }
+            else {
+                min_bath = 1
+            }
+            if ( $( "#max-bath" ).val() ) {
+                max_bath = $( "#max-bath" ).val()
+            }
+            else {
+                max_bath = 3
+            }
+
+            if ( $( "#distance" ).val() ) {
+                distance = $( "#distance" ).val()
+            }
+            else {
+                distance = 5
+            }
+
             $( "#price-slider" ).slider({
                 range:true,
                 min: 0,
                 max: 2000,
-                values: [ 300, 800 ],
+                values: [ min_price, max_price ],
                 slide: function( event, ui ) {
-                  $( "#price-amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+                  $( "#price-text" ).text( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+                  $( "#min-price" ).val($( "#price-slider" ).slider( "values", 0 ));
+                  $( "#max-price" ).val($( "#price-slider" ).slider( "values", 1 ));
                 }
             });
-            $( "#price-amount" ).val( "$" + $( "#price-slider" ).slider( "values", 0 ) +
+            $( "#price-text" ).text( "$" + $( "#price-slider" ).slider( "values", 0 ) +
               " - $" + $( "#price-slider" ).slider( "values", 1 )
             );
+            $( "#min-price" ).val($( "#price-slider" ).slider( "values", 0 ));
+            $( "#max-price" ).val($( "#price-slider" ).slider( "values", 1 ));
 
             $( "#bath-slider" ).slider({
                 range:true,
+                step: 0.5,
                 min: 0,
                 max: 5.5,
-                values: [ 1, 2 ],
+                values: [ min_bath, max_bath ],
                 slide: function( event, ui ) {
-                  $( "#bath-amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                  $( "#bath-text" ).text( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                  $( "#min-bath" ).val($( "#bath-slider" ).slider( "values", 0 ));
+                  $( "#max-bath" ).val($( "#bath-slider" ).slider( "values", 1 ));
                 }
             });
-            $( "#bath-amount" ).val( $( "#bath-slider" ).slider( "values", 0 ) +
+            $( "#bath-text" ).text( $( "#bath-slider" ).slider( "values", 0 ) +
               " - " + $( "#bath-slider" ).slider( "values", 1 )
             );
+            $( "#min-bath" ).val($( "#bath-slider" ).slider( "values", 0 ));
+            $( "#max-bath" ).val($( "#bath-slider" ).slider( "values", 1 ));
 
             $( "#bed-slider" ).slider({
                 range:true,
                 min: 0,
                 max: 8,
-                values: [ 0, 2 ],
+                values: [ min_bed, max_bed ],
                 slide: function( event, ui ) {
-                  $( "#bed-amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                  $( "#bed-text" ).text( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                  $( "#min-bed" ).val($( "#bed-slider" ).slider( "values", 0 ));
+                  $( "#max-bed" ).val($( "#bed-slider" ).slider( "values", 1 ));
                 }
             });
-            $( "#bed-amount" ).val( $( "#bed-slider" ).slider( "values", 0 ) +
+            $( "#bed-text" ).text( $( "#bed-slider" ).slider( "values", 0 ) +
               " - " + $( "#bed-slider" ).slider( "values", 1 )
             );
+            $( "#min-bed" ).val($( "#bed-slider" ).slider( "values", 0 ));
+            $( "#max-bed" ).val($( "#bed-slider" ).slider( "values", 1 ));
 
             $( "#distance-slider" ).slider({
               range: "min",
-              value: 5,
+              value: distance,
               min: 0,
               max: 10,
               slide: function( event, ui ) {
-                $( "#distanceamount" ).val( "$" + ui.value );
+                $( "#distance-text" ).text( "less than " + $( "#distance-slider" ).slider( "value" ) + " miles" );
+                $( "#distance-input" ).val($( "#distance-slider" ).slider( "value" ));
               }
             });
-            $( "#distance-amount" ).val("less than " + $( "#distance-slider" ).slider( "value" ) + " miles" );
+            $( "#distance-text" ).text("less than " + $( "#distance-slider" ).slider( "value" ) + " miles" );
 
             var lat = "{{ lat }}";
             var long = "{{ long }}";

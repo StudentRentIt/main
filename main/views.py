@@ -126,6 +126,9 @@ def search(request, pk=None, slug=None):
     rooms = PropertyRoom.objects.filter(property__in=properties).exclude(lease_start=3) #available
     favorited = get_favorites(request.user)
 
+    min_price = None
+    min_bed = None
+
     #save the search for metrics
     if pk:
         school = get_object_or_404(School, id=pk)
@@ -133,9 +136,6 @@ def search(request, pk=None, slug=None):
         search.school = school
         search.save()
 
-    lease_types = PropertyLeaseType.objects.filter(active=True)
-    lease_starts = PropertyLeaseStart.objects.filter(active=True)
-    lease_terms = PropertyLeaseTerm.objects.filter(active=True)
     special_amenities = Amenity.objects.filter(special=True)
 
     #if the request is a POST, filter the properties. If not, show all properties for the school.
@@ -161,43 +161,16 @@ def search(request, pk=None, slug=None):
                 rooms = rooms.filter(price__lte=max_price)
 
         else:
-            '''
-            this section is for the multi valued post variables. The choices are passed
-            in by concatenating a string and then splitting the values
-            '''
-            lease_type_string = request.POST['leaseType']
-            lease_type_list = lease_type_string.split(", ")
-            lease_term_string = request.POST['leaseTerm']
-            lease_term_list = lease_term_string.split(", ")
-            lease_start_string = request.POST['leaseStart']
-            lease_start_list = lease_start_string.split(", ")
+            # search from the main search page
 
             #take the post data and create variables
-            min_price = request.POST['priceMin']
-            max_price = request.POST['priceMax']
-            min_bath = request.POST['bathMin']
-            max_bath = request.POST['bathMax']
-            min_bed = request.POST['bedMin']
-            max_bed = request.POST['bedMax']
-            keyword = request.POST['keyword']
-
-            #clean price inputs
-            min_price = min_price.replace("$", "")
-            max_price = max_price.replace("$", "")
-            min_price = min_price.replace(",", "")
-            max_price = max_price.replace(",", "")
-
-            #clean bedroom input to allow "studio"
-            if min_bed == "studio":
-                min_bed = "0"
-            if max_bed == "studio":
-                max_bed = "0"
-
-            #checkbox post needs to be set to blank if unchecked
-            try:
-                business = request.POST['business']
-            except:
-                business = ''
+            min_price = request.POST['minPrice']
+            max_price = request.POST['maxPrice']
+            min_bath = request.POST['minBath']
+            max_bath = request.POST['maxBath']
+            min_bed = request.POST['minBed']
+            max_bed = request.POST['maxBed']
+            distance = request.POST['distance']
 
             '''
             filter rooms based on post filters. We'll get a list of rooms and then
@@ -221,36 +194,21 @@ def search(request, pk=None, slug=None):
             if max_bed:
                 rooms = rooms.filter(bed_count__lte=max_bed)
 
-            if lease_start_string:
-                rooms = rooms.filter(lease_start__in=lease_start_list)
+            # if distance:
+            #     #TODO after we put distance from campus as an attribute for properties
+            #     rooms = rooms
 
-            if keyword:
-                '''
-                get the keyword and search the property fields for the keyword.
-                then need to filter the rooms based on that property
-                '''
-                keyword_properties = Property.get_keyword_property(keyword)
-                rooms = rooms.filter(property__in=keyword_properties)
 
-            if lease_type_string:
-                lease_type_properties = Property.objects.filter(lease_type__in=lease_type_list)
-                rooms = rooms.filter(property__in=lease_type_properties)
-
-            if lease_term_string:
-                lease_term_properties = Property.objects.filter(lease_term__in=lease_term_list)
-                rooms = rooms.filter(property__in=lease_term_properties)
-
-            if business:
-                businesses = Property.objects.filter(school=pk, type="BUS")
-                properties = properties | businesses
 
         #create list of properties that are filtered
         property_filtered_list = []
         for r in rooms:
             property_filtered_list.append(r.property.id)
 
-        #filter properties and if the business checkbox was checked include businesses
+        #filter properties and add in businesses
         properties = properties.filter(id__in=property_filtered_list)
+        businesses = Property.objects.filter(school=pk, type="BUS")
+        properties = properties | businesses
 
     apartments = properties.exclude(type="BUS")
 
@@ -267,8 +225,8 @@ def search(request, pk=None, slug=None):
     return render(request, 'maincontent/search.html',
         {'lat':lat, 'long':long, 'school':school, 'url_prefix':'search',
         'modal_title':modal_title, 'properties':properties, 'favorited':favorited, 'rooms':rooms,
-        'lease_types':lease_types, 'lease_terms':lease_terms, 'lease_starts':lease_starts,
-        'special_amenities':special_amenities, 'apartments':apartments})
+        'special_amenities':special_amenities, 'apartments':apartments, 'min_price':min_price,
+        'min_bed':min_bed})
 
 
 class ContactView(FormView, FormValidateMixin):
