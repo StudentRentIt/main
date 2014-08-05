@@ -44,14 +44,14 @@
 {% block body %}
 <div class="col-md-offset-2 col-md-8">
     {% if status == "choose" %}
-    <div class="panel panel-default">
+    <div class="panel panel-default panel-margin-top">
         <div class="panel-heading">
             Choose a property to manage
         </div>
         <div class="panel-body">
             <div class="col-md-offset-3 col-md-6">
                 {% for p in properties %}
-                <a href="/property/update/{{ p.id }}/" class="btn btn-success btn-lg btn-block">{{ p.title }}</a>
+                <a href="/property/update/{{ p.id }}/" class="btn btn-default btn-lg btn-block">{{ p.title }}</a>
                 {% endfor %}
             </div>
         </div>
@@ -66,7 +66,7 @@
                 <div class="row text-center jumbotron">
                     <h1>Update Property {{active_tab}}</h1>
                 </div>
-                <ul class="nav nav-justified nav-pills nav-pills-success" id="propertyTab">
+                <ul class="nav nav-justified nav-pills nav-pills-default" id="propertyTab">
                     <li class="active"><a href="#basic" data-toggle="tab">Basic Info</a></li>
                     <li><a href="#details" data-toggle="tab">Detail Info</a></li>
                     {% if property.type != "BUS" %}<li><a href="#rooms" data-toggle="tab">Room Info</a></li>{% endif %}
@@ -103,7 +103,7 @@
                             </div>
                             <div class="submission-form-field">{{ f }}</div>
                             {% endfor %}
-                            <input type="submit" class="btn btn-success btn-block" value="{% include 'flowcore/forms/general/form_submit_text.html' %}">{% csrf_token %}
+                            <input type="submit" class="btn btn-rentsity btn-block" value="{% include 'flowcore/forms/general/form_submit_text.html' %}">{% csrf_token %}
                         </form>
                     </div>
                 </div>

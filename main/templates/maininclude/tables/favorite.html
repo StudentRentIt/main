@@ -5,15 +5,11 @@
         <tr>
             <td class="text-center hidden-xs hidden-sm">
                 <h3>{{ f.property.title }}</h3>
-                <a class="btn btn-success btn-lg" href="{% url 'property' f.property.id f.property.title|slugify %}">View Listing</a>
+                <a class="btn btn-rentsity btn-lg" href="{% url 'property' f.property.id f.property.title|slugify %}">View Listing</a>
             </td>
             <td>
                 <img class="img-rounded img-responsive" style="max-width:200px;" src="{% with f.property.propertyimage_set.all|first as img %}
-<<<<<<< HEAD
-                {{ img.image.url }}{% endwith %}"></img>
-=======
-                {{ img.get_url }}{% endwith %}"></img>
->>>>>>> 953247464bbd149e315d738b8a76f7bf52aa9a66
+                {{ img.get_url }}{% endwith %}" />
             </td>
             <td class="favorite-note-td">
                 {% if f.note %}<p>{{ f.note|safe }}</p>{% else %} Create a note by clicking the pencil below{% endif %}

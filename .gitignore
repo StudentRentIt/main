@@ -10,3 +10,4 @@ testenv/
 prod/
 db/
 main/templates/maininclude/head.html
+manage.py

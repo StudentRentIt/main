@@ -14,12 +14,12 @@
 {% block table_body %}
 {% for i in images %}
 <tr>
-    <td class="property-image-table-cell"><img src="{{ i.image.url }}" class="img-responsive img-rounded" /></td>
+    <td class="property-image-table-cell"><img src="{{ i.get_url }}" class="img-responsive img-rounded" /></td>
     <td>{{ i.order }}</td>
     <td>{{ i.caption }}</td>
     <td>{% if i.main %}Yes{% else %}No{% endif %}</td>
     <td>
-        <a class="btn btn-sm btn-success btn-block" href="{% url "property-type" property.id 'image' i.id %}">Update</a>
+        <a class="btn btn-sm btn-default btn-block" href="{% url "property-type" property.id 'image' i.id %}">Update</a>
     </td>
     <td>
         <a class="btn btn-sm btn-danger btn-block" href="{% url "property-type-delete" property.id 'image' i.id 'delete' %}"><span class="glyphicon glyphicon-trash"></span></a>

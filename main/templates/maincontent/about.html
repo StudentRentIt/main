@@ -1,20 +1,20 @@
 {% extends "maininclude/base.html" %}
 
 {% block javascript %}
-{% if status == "sent" %}
-<script>
-$(document).ready(function(){
-    var tab = "#contact";
+    {% if status == "sent" %}
+        <script>
+        $(document).ready(function(){
+            var tab = "#contact";
 
-    $("#aboutTab a[href=" + tab + "]").tab('show');
-});
-</script>
-{% endif %}
+            $("#aboutTab a[href=" + tab + "]").tab('show');
+        });
+        </script>
+    {% endif %}
 {% endblock %}
 
 {% block body %}
 <div class="col-md-8 col-md-offset-2">
-    <div class="panel panel-default">
+    <div class="panel panel-default panel-margin-top" id="about-panel">
         <div class="panel-heading">
             <ul class="nav nav-pills nav-justified nav-pills-rentsity" id="aboutTab">
               <li class="parent-tabs active"><a href="#about" data-toggle="tab">About Us</a></li>
@@ -44,7 +44,7 @@ $(document).ready(function(){
                       </div>
                     </div>
                   </div>
-                  <div class="panel panel-rentsity">
+                  <div class="panel panel-default">
                     <div class="panel-heading">
                       <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
@@ -61,7 +61,7 @@ $(document).ready(function(){
                       </div>
                     </div>
                   </div>
-                  <div class="panel panel-rentsity">
+                  <div class="panel panel-default">
                     <div class="panel-heading">
                       <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">

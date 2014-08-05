@@ -34,7 +34,7 @@ class ContactForm(ModelForm):
                 'body'
             ),
             ButtonHolder(
-                Submit('submit', 'Contact Now', css_class='btn-success btn-lg'), css_class="text-center"
+                Submit('submit', 'Contact Now', css_class='btn-rentsity btn-lg'), css_class="text-center"
             )
         )
 
@@ -84,6 +84,6 @@ class UserUpdateForm(ModelForm):
                 Div('email', css_class="col-md-12")
             ),
             ButtonHolder(
-                Submit('submit', 'Save', css_class='btn-success btn-lg'), css_class="text-center"
+                Submit('submit', 'Save', css_class='btn-rentsity btn-lg'), css_class="text-center"
             )
         )

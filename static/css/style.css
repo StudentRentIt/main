@@ -15,7 +15,8 @@ html {
 html, body {
     height: 100%;
 }
-.skinny {
+.skinny,
+.jumbotron h1 {
     font-weight:300;
 }
 #wrap {
@@ -102,7 +103,6 @@ footer {
     font-size:400%;
     margin-top:50px;
 }
-
 
 .school-container img {
     opacity:0.8;
@@ -325,6 +325,10 @@ manual forms and submission-form input,select */
 .submission-form-label,
 .panel-form-label {
     font-size:150%;
+}
+
+.panel-margin-top {
+    margin-top:70px;
 }
 
 .submission-form-label p {
