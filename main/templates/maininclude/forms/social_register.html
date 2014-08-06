@@ -1,13 +1,13 @@
 <form class="submission-form" method="POST">
 {% for f in form %}
-<div class="panel-form-label">
-    {{ f.label }}
-    {% if f.errors %}
-    <div class="alert alert-danger">
-        {{ f.errors }}
-    </div>{% endif %}
-</div>
-<div class="panel-form-field">{{ f }}</div>
+    <div class="panel-form-label">
+        {{ f.label }}
+        {% if f.errors %}
+        <div class="alert alert-danger">
+            {{ f.errors }}
+        </div>{% endif %}
+    </div>
+    <div class="panel-form-field">{{ f }}</div>
 {% endfor %}
-<input type="submit" class="btn btn-success btn-block" value="Finish">{% csrf_token %}
+<input type="submit" class="btn btn-rentsity btn-block" value="Finish">{% csrf_token %}
 </form>
