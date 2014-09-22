@@ -3,11 +3,16 @@
     General, Footer, Modals, Forms,
     Search, Property, Bootstrap Mods,
     Registration
+
+    rentversity mint: #0fab72
+    rentversity dark: #282929
+    rentversity gray: #dedede
+    
+    rentsity main color: #F67055
+    rentsity alt color: #3D3E42
 */
 
 /***** General *****/
-/* main color: #F67055 */
-/* alt color: #3D3E42 */
 html {
     overflow-x: hidden;
     font-family: 'Open Sans', sans-serif;
@@ -20,7 +25,7 @@ html, body {
     font-weight:300;
 }
 #wrap {
-    /*background-color: #eeeeee;*/
+    /*background-color: #dedede;*/
 	min-height: 100%;
 	width: 100%;
 }
@@ -57,7 +62,7 @@ footer {
     position: absolute;
     z-index: 99;
     padding: 0 10px;
-    background: rgba(61,62,66,0.7);
+    background: rgba(61,62,66,0.9);
     left: 50%;
     margin-left: -500px;
     top: 200px;
@@ -79,7 +84,7 @@ footer {
     text-align:center;
     border:0;
 }
-#main-search-box .btn-rentsity {
+#main-search-box .btn-brand {
     margin-top:-8px;
 }
 .home-banners {
@@ -145,10 +150,10 @@ footer {
 }
 
 .main-color {
-    color:#F67055;
+    color:#0fab72;
 }
 .main-inverse {
-    background-color:#F67055;
+    background-color:#0fab72;
     color:#fff;
 }
 .alt-color {
@@ -217,7 +222,7 @@ footer {
 }
 .footer-column a:hover,
 .footer-column a:active {
-    color: #F67055;
+    color: #0fab72;
     text-decoration: none;
 }
 .footer-column-header {
@@ -432,7 +437,7 @@ html, body, #map-canvas {
 .search-banner-prepend,
 .search-banner-input {
     padding:10px;
-    background-color:#eeeeee;
+    background-color:#dedede;
     border-top-left-radius:5px;
     border-bottom-left-radius:5px;
     line-height:1;
@@ -482,7 +487,7 @@ html, body, #map-canvas {
 
 .search-multi-row li {
     display:inline-block;
-    background:#eeeeee;
+    background:#dedede;
     padding:10px;
     margin:5px 0 5px 0;
     border-radius:10px;
@@ -651,12 +656,12 @@ html, body, #map-canvas {
 }
 #room-detail,
 #contact-detail {
-    border:1px #eeeeee solid;
+    border:1px #dedede solid;
     border-top:none;
     padding:5px;
 }
 #property-detail-row {
-    background-color:#eeeeee;
+    background-color:#dedede;
     padding:30px 0;
 }
 .property-detail-label {
@@ -741,7 +746,7 @@ html, body, #map-canvas {
 }
 
 .school-blog-content {
-    border:1px solid #eeeeee;
+    border:1px solid #dedede;
     padding:5px;
     background: white;
 }
@@ -870,7 +875,7 @@ html, body, #map-canvas {
 .blog-page-header,
 .page-header,
 .report-header {
-    background-color: #F67055;
+    background-color: #0fab72;
     border-radius: 5px;
     color: white;
     padding-top:15px;
@@ -1061,7 +1066,7 @@ html, body, #map-canvas {
 .admin-city-input {
     font-size:130%;
     border-radius:10px;
-    border: 1px solid #eeeeee;
+    border: 1px solid #dedede;
     margin-top:10px;
     text-align:center;
 }

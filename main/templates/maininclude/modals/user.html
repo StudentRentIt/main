@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <script type="text/javascript" src="/static/js/usermodal.js"></script>
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -15,9 +16,9 @@
         <div id="mLogin" class="login-modal-section">
             <div class="submission-form-modal-container">
                 <a href="javascript:allauth.facebook.login('', 'authenticate', 'login')">
-                    <img class="social-btn img-responsive img-rounded" src="/static/img/fb_btn.png" /></a>
+                    <img class="social-btn img-responsive img-rounded" src="{% static 'img/social/facebook_account.png' %}" /></a>
                 <a href="/accounts/google/login/?process=login&openid=">
-                    <img class="social-btn img-responsive img-rounded" src="/static/img/google_register.png" /></a>
+                    <img class="social-btn img-responsive img-rounded" src="{% static 'img/social/google_account.png' %}" /></a>
                 <h3 class="text-center">OR</h3>
                 {% include "maininclude/forms/login.html" %}
                 <p class="pull-right">Not Registered? <button id="btn-register" class="btn btn-xs btn-default">Sign Up</button></p>
@@ -27,9 +28,9 @@
         <div id="mRegister" class="login-modal-section hidden">
             <div class="submission-form-modal-container">
                 <a href="javascript:allauth.facebook.login('', 'authenticate', 'login')">
-                    <img class="social-btn img-responsive img-rounded" src="/static/img/fb_btn.png" /></a>
+                    <img class="social-btn img-responsive img-rounded" src="{% static 'img/social/facebook_account.png' %}" /></a>
                 <a href="/accounts/google/login/?process=login&openid=">
-                    <img class="social-btn img-responsive img-rounded" src="/static/img/social/google_register.png" /></a>
+                    <img class="social-btn img-responsive img-rounded" src="{% static 'img/social/google_account.png' %}" /></a>
                 <h3 class="text-center">OR</h3>
                 {% include "maininclude/forms/register.html" %}
                 <p class="pull-right" style="margin-top:10px;">Already Registered? <button id="btn-login" class="btn btn-xs btn-default">Sign In</button></p>

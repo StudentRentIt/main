@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
+    {% block head %}
+        {% include "flowcore/head.html" %}
+    {% endblock %}
 
-{% block head %}
-{% include "flowcore/head.html" %}
-{% endblock %}
-
-{% block extra_head %}
-{# add app-level static files here without overwriting default head #}
-{% endblock %}
-
+    {% block extra_head %}
+        {# add app-level static files here without overwriting default head #}
+    {% endblock %}
 </head>
     <body>
         {% block body_extra %}{% endblock %}{# things such as extra css or js files #}

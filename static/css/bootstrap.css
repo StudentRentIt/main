@@ -3,7 +3,7 @@
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-/* #F67055 */
+/* #0fab72 */
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: "Open Sans", sans-serif;
@@ -2159,45 +2159,46 @@ fieldset[disabled] .btn-success.active {
   color: #5cb85c;
   background-color: #fff;
 }
-.btn-rentsity {
+.btn-brand {
   color: #fff;
-  background-color: #F67055;
-  border-color: #E67055;
+  background-color: #0fab72;
+  border-color: #1fab72;
 }
-.btn-rentsity:hover,
-.btn-rentsity:focus,
-.btn-rentsity:active,
-.btn-rentsity.active,
-.open .dropdown-toggle.btn-rentsity {
+.btn-brand:hover,
+.btn-brand:focus,
+.btn-brand:active,
+.btn-brand.active,
+.open .dropdown-toggle.btn-brand {
   color: #fff;
-  background-color: #CD5B45;
-  border-color: #BD5B45;
+  background-color: #0fab72;
+  border-color: #1fab72;
+  opacity: 0.7;
 }
-.btn-rentsity:active,
-.btn-rentsity.active,
-.open .dropdown-toggle.btn-rentsity {
+.btn-brand:active,
+.btn-brand.active,
+.open .dropdown-toggle.btn-brand {
   background-image: none;
 }
-.btn-rentsity.disabled,
-.btn-rentsity[disabled],
-fieldset[disabled] .btn-rentsity,
-.btn-rentsity.disabled:hover,
-.btn-rentsity[disabled]:hover,
-fieldset[disabled] .btn-rentsity:hover,
-.btn-rentsity.disabled:focus,
-.btn-rentsity[disabled]:focus,
-fieldset[disabled] .btn-rentsity:focus,
-.btn-rentsity.disabled:active,
-.btn-rentsity[disabled]:active,
-fieldset[disabled] .btn-rentsity:active,
-.btn-rentsity.disabled.active,
-.btn-rentsity[disabled].active,
-fieldset[disabled] .btn-rentsity.active {
+.btn-brand.disabled,
+.btn-brand[disabled],
+fieldset[disabled] .btn-brand,
+.btn-brand.disabled:hover,
+.btn-brand[disabled]:hover,
+fieldset[disabled] .btn-brand:hover,
+.btn-brand.disabled:focus,
+.btn-brand[disabled]:focus,
+fieldset[disabled] .btn-brand:focus,
+.btn-brand.disabled:active,
+.btn-brand[disabled]:active,
+fieldset[disabled] .btn-brand:active,
+.btn-brand.disabled.active,
+.btn-brand[disabled].active,
+fieldset[disabled] .btn-brand.active {
   background-color: #5cb85c;
   border-color: #4cae4c;
 }
-.btn-rentsity .badge {
-  color: #F67055;
+.btn-brand .badge {
+  color: #0fab72;
   background-color: #fff;
 }
 
@@ -2238,7 +2239,7 @@ fieldset[disabled] .btn-heart.active {
   background-color: #e5e500;
   border-color: #cccc00;
 }
-.btn-rentsity .badge {
+.btn-brand .badge {
   color: #e5e500;
   background-color: #333333;
 }
@@ -3677,7 +3678,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
   color: #fff;
-  background-color: #F67055;
+  background-color: #0fab72;
 }
 .nav-stacked > li {
   float: none;
@@ -4130,7 +4131,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
-  color: #F67055;
+  color: #0fab72;
   background-color: transparent;
 }
 .navbar-inverse .navbar-text {
@@ -4141,7 +4142,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
-  color: #F67055;
+  color: #0fab72;
   background-color: transparent;
 }
 .navbar-inverse .navbar-nav > .active > a,
