@@ -1,13 +1,11 @@
 {% extends "schoolinclude/base.html" %}
 
 {% block title %}
-    Apartment School Community
+    Apartment School Community for {{ school }}
 {% endblock %}
 
 {% block body %}
     <div class="container margin-top">
-        {% for s in schools %}
-            <a href="{{ s.get_absolute_url }}">{{ s }}</a><br>
-        {% endfor %}
+        page for {{ school }}
     </div>
 {% endblock %}

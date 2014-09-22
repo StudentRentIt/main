@@ -6,8 +6,6 @@ from main import views
 
 urlpatterns = patterns('',
     url(r'^$', views.HomeListView.as_view(), name='home-list'),
-    url(r'^search/$', views.search, name="search"),
-    url(r'^search/(?P<pk>\d+)/(?P<slug>\D+)/$', views.search, name="search"),
     url(r'^contact/$', views.ContactView.as_view(), name="contact-view"),
     url(r'^schools/$', TemplateView.as_view(
         template_name="maincontent/school_list.html"), name="school-list"),

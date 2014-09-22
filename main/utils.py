@@ -130,3 +130,13 @@ def distance(origin, destination):
     d = radius * c
 
     return d
+
+
+def unslugify(string):
+    '''
+    reverse the slugify function. replace hyphen with space and capitalize first letter
+    of each word
+    '''
+    string = string.replace('-', ' ').title
+
+    return string

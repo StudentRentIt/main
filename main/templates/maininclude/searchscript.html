@@ -2,7 +2,7 @@
     $(document).ready(function() {
         var source = [
             {% for s in schools %}
-            { value: "{% url 'search' s.id s.name|slugify %}",
+            { value: "{{ s.get_absolute_url }}",
               label: "{{ s.name|safe }}",
               id: "{{ s.id }}"
             },

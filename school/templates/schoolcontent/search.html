@@ -22,7 +22,7 @@
         jQuery(function($) {
             // Asynchronously Load the map API
             var script = document.createElement('script');
-            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBRtU4CTQVy1GDDpwHxWhhAzYYFRkZ-jcw&sensor=false&callback=initialize";
+            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyD6nho-ZVEEwhtvSY4A6PDFDQ7Ver12ETk&sensor=false&callback=initialize";
             <!-- script.src = "http://maps.googleapis.com/maps/api/js?sensor=false&callback=initialize";-->
             document.body.appendChild(script);
         });
@@ -277,11 +277,11 @@
         </div>
 
         <div class="col-md-7" id="list-view" style="height:100%; max-height:100%; overflow:scroll;">
-            {% include "maininclude/searchbox.html" %}
+            {% include "schoolinclude/searchbox.html" %}
             <h1 class="hidden-xs hidden-sm text-center page-header">
                 Apartments in {{ school.city }}
             </h1>
-            {% for a in apartments %}
+            {% for a in properties %}
                 {% if forloop.first or forloop.counter0|divisibleby:"2" %}<div class="row list-view-row">{% endif %}
                     <div class="col-xs-6">
                         <a href="{% url 'property' a.id a.title|slugify %}" style="position:relative;">
@@ -310,7 +310,8 @@
         </div>
     {% endif %}
 
-    {% include "maininclude/modals/schoolsearch.html" %}
+    {# if no school is passed in, pop up the modal for user to choose #}
+    {% include "schoolinclude/modals/schoolsearch.html" %}
 {% endblock %} {# end body #}
 
 {# hide the footer #}

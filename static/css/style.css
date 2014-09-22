@@ -24,6 +24,9 @@ html, body {
 .jumbotron h1 {
     font-weight:300;
 }
+.margin-top {
+    margin-top: 50px;
+}
 #wrap {
     /*background-color: #dedede;*/
 	min-height: 100%;
