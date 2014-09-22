@@ -11,7 +11,7 @@ from django.views.generic import TemplateView, DetailView
 from django.views.generic.edit import CreateView
 
 from blog.models import Article
-from school.models import Event, Roommate, Deal
+from school.models import Event, Deal
 
 from property.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
     Service, Package, PropertyVideo
@@ -341,7 +341,7 @@ class PropertyCreateView(LoginRequiredMixin, CreateView):
 @login_required
 def updateproperty(request, pk=None, type=None, type_id=None, function=None):
     '''
-    allows users to manage their listings which can be roommate listing or property
+    allows users to manage their listings
     '''
     update_template = 'propertycontent/update.html'
 
@@ -851,67 +851,7 @@ def community(request, **kwargs):
 
     articles = Article.objects.filter(property=property)
     events = Event.objects.filter(property=property)
-    roommates = Roommate.objects.filter(property=property)
     deals = Deal.objects.filter(property=property)
 
     return render(request, template_name, {'property':property,
-        'articles':articles, 'events':events, 'roommates':roommates, 'deals':deals})
-
-'''
-Removing these 2 Property Article views and replacing with the blog app.
-AWW 20140606
-
-class PropertyArticleListView(ListView):
-
-    template_name = "maincontent/blog/all.html"
-
-    def get_context_data(self, **kwargs):
-        #set some static context variables to pass into panel form
-        context = super(PropertyArticleListView, self).get_context_data(**kwargs)
-        context['property'] = get_object_or_404(Property, id=self.kwargs['pk'])
-        return context
-
-    def get_queryset(self):
-        property_id = self.kwargs['pk']
-        qs = Article.objects.filter(property=property_id)
-        return qs
-
-
-class PropertyArticleDetailView(DetailView):
-
-    model = Article
-    template_name = 'maincontent/blog/article.html'
-
-    def get_object(self):
-        pk = self.kwargs['pk']
-        qs = get_object_or_404(Article, id=pk)
-        return qs
-
-    def get_context_data(self, **kwargs):
-        #set some static context variables to pass into panel form
-        context = super(PropertyArticleDetailView, self).get_context_data(**kwargs)
-        property = get_object_or_404(Property, id=self.kwargs['property_pk'])
-        context['property'] = property
-        object_id = get_object_or_404(Article, id=kwargs['object'].id).id
-        previous_article = Article.objects.filter(property=property, id__lt=object_id)
-        next_article = Article.objects.filter(property=property, id__gt=object_id)
-
-        try:
-            context['author'] = TeamMember.objects.get(user=kwargs['object'].user)
-        except:
-            pass
-
-        try:
-            previous_id = previous_article[0].id
-            context['previous_article'] = get_object_or_404(Article, id=previous_id)
-        except:
-            context['previous_article'] = None
-
-        try:
-            next_id = next_article.reverse()[0].id
-            context['next_article'] = get_object_or_404(Article, id=next_id)
-        except:
-            context['next_article'] = None
-
-        return context
-'''
+        'articles':articles, 'events':events, 'deals':deals})

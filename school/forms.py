@@ -3,7 +3,7 @@ from django.forms import ModelForm
 
 from blog.models import Article
 from property.models import Property
-from school.models import Event, Deal, Roommate
+from school.models import Event, Deal
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, Fieldset, ButtonHolder
@@ -97,13 +97,3 @@ class DealForm(ModelForm):
                 Submit('submit', 'Submit', css_class='btn-success btn-lg'), css_class="text-center"
             )
         )
-
-
-
-class RoommateForm(ModelForm):
-    hidden_roommate = forms.IntegerField(widget=forms.HiddenInput, label="",
-        required=False)
-
-    class Meta:
-        model = Roommate
-        exclude = ['school', 'user']

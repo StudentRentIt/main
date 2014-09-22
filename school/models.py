@@ -11,22 +11,21 @@ from localflavor.us.models import PhoneNumberField
 #need to do this to avoid circular reference on ForeignKey fields
 Property = 'property.Property'
 
-#####images#####
+
 def get_school_image_path(instance, filename):
     return os.path.join('school/' + str(instance.id), filename)
 
 def get_deal_image_path(instance, filename):
     return os.path.join('deals/' + str(instance.school.id) , filename)
 
-def get_roommate_image_path(instance, filename):
-    return os.path.join('roommates/' + str(instance.school.id) , filename)
-
 def get_event_image_path(instance, filename):
     return os.path.join('events/' + str(instance.school.id) , filename)
 
 
-#####models#####
 class School(models.Model):
+    '''
+    information about the schools that we have in our system
+    '''
     city = models.ForeignKey(City, null=True, blank=True)
     name = models.CharField(max_length=100)
     link = models.CharField(max_length=100, null=True, blank=True)
@@ -44,10 +43,9 @@ class School(models.Model):
 
 class Deal(models.Model):
     '''
-    can only be entered by a business owner
+    deals or promotions for local businesses or apartments
     '''
     user = models.ForeignKey(User)
-    school = models.ForeignKey(School)
     property = models.ForeignKey(Property)
     title = models.CharField(max_length=50)
     description= models.TextField()
@@ -58,14 +56,23 @@ class Deal(models.Model):
     class Meta:
         ordering = ['-sponsored', '-id']
 
+    def get_school(self):
+        # return the school that the deal belongs to
+        property = self.property
+        school = property.school
+        return school
+
     def __str__(self):
         return self.property.title + ' - ' + self.title
 
 
 class Event(models.Model):
+    '''
+    events that are listed. Will show up in the school sections.
+    '''
     user = models.ForeignKey(User)
-    school = models.ForeignKey(School)
     property = models.ForeignKey(Property, null=True, blank=True)
+    school = models.ForeignKey(School)
     title = models.CharField(max_length=50)
     description = models.TextField()
     date = models.DateField(null=True, blank=True)
@@ -80,21 +87,3 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class Roommate(models.Model):
-    user = models.ForeignKey(User)
-    school = models.ForeignKey(School)
-    property = models.ForeignKey(Property, null=True, blank=True)
-    name = models.CharField(max_length=100)
-    message = models.TextField()
-    phone = PhoneNumberField(null=True, blank=True)
-    email = models.EmailField(null=True, blank=True)
-    image = models.ImageField(upload_to=get_roommate_image_path, null=True, blank=True)
-    create_date = models.DateField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-id']
-
-    def __str__(self):
-        return self.name

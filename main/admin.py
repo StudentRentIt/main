@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin
 #from django.contrib.auth.admin import UserAdmin
 
 from main.models import UserProfile, City, Payment, TeamMember
-from school.models import School, Roommate, Event, Deal
+from school.models import School, Event, Deal
 from blog.models import Article, Tag
 from property.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
                             PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
@@ -65,7 +65,5 @@ admin.site.register(Service)
 admin.site.register(Payment)
 admin.site.register(Article)
 admin.site.register(TeamMember)
-
-admin.site.register(Roommate, Media = CommonMedia,)
 admin.site.register(Deal, Media = CommonMedia,)
 admin.site.register(Event, Media = CommonMedia,)

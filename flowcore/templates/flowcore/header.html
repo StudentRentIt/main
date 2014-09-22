@@ -1,4 +1,5 @@
-<nav class="navbar navbar-default navbar-fixed-top main-nav" role="navigation">
+{% load staticfiles %}
+<nav class="navbar navbar-inverse navbar-fixed-top main-nav" role="navigation">
   <div class="container-fluid col-md-offset-1 col-md-10">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -8,7 +9,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/"><img src="/static/img/logo.png" /></a>
+      <a href="{% url 'home-list' %}"><img id="header-logo" class="img-responsive" src="{% static 'img/misc/rv_banner_light.png' %}" /></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -16,38 +17,28 @@
       <ul class="nav navbar-nav">
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/search/">Search <span class="glyphicon glyphicon-search"></span></a></li>
+        <li>{% include "maininclude/general/social_links.html" %}</li>
+        <li><a href="{% url 'search' %}">Search <span class="glyphicon glyphicon-search"></span></a></li>
         <li><a href="#" data-toggle="modal" data-target="#manageModal">Manage <span class="glyphicon glyphicon-pencil"></span></a></li>
-        <!-- <li><a href="/property/manage/">Manage <span class="glyphicon glyphicon-pencil"></span></a></li>-->
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Resources <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Find Roommate</a></li>
-            <li><a href="/schoolinfo/">School Information</a></li>
-            <li><a href="/parent/">Parent Center</a></li>
-            <li><a href="/about/">About Us</a></li>
-            <!--<li><a href="/resources/">Relevant Resources</a></li>
-            <li><a href="/blog/">Blog</a></li>
-            <li><a href="/contact/">Contact Us</a></li>-->
-          </ul>
-        </li>
+        <li><a href="#" data-toggle="modal" data-target="#chooseSchoolModal">School Information <span class="glyphicon glyphicon-flag"></span></a></li>
         {% if user.is_authenticated %}
-        <li><a>Welcome, {{ user.first_name }}!</a></li>
+        <li><a>Welcome, {% if user.first_name%}{{ user.first_name }}{% else %}User{% endif %}!</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-asterisk"></span></a>
             <ul class="dropdown-menu">
-                <li><a href="/favorites/"><span class="glyphicon glyphicon-star"></span> My Favorites</a></li>
-                <li><a href="/accounts/profile/">Edit Profile</a></li>
-                <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                <li><a href="{% url 'favorites' %}"><span class="glyphicon glyphicon-heart"></span>  Favorites</a></li>
+                <li><a href="{% url 'user_profile' %}"><span class="glyphicon glyphicon-user"></span>  Edit Profile</a></li>
+                <li><a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-lock"></span>  Logout</a></li>
             </ul>
           </li>
         {% else %}
-        <li><a href="#" data-toggle="modal" data-target="#loginModal">Log In <span class="glyphicon glyphicon-user"></span></a></li>
+        <li><a href="#" data-toggle="modal" data-target="#loginModal">Log In/Register <span class="glyphicon glyphicon-user"></span></a></li>
         {% endif %}
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
-{% include "maininclude/modals/property/manage.html" %}
+{% include "maininclude/modals/manage.html" %}
 {% include "maininclude/modals/user.html" %}
+{% include "schoolinclude/modals/schoolinfo.html" %}

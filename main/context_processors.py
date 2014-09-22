@@ -1,4 +1,4 @@
-from school.models import School, Deal, Roommate, Event
+from school.models import School, Deal, Event
 from property.models import Property
 from blog.models import Article
 from main.models import City
@@ -50,18 +50,12 @@ def get_user_items(request):
         else:
             has_deals = False
 
-        my_roommates = Roommate.objects.filter(user=request.user)
-        if my_roommates:
-            has_roommates =True
-        else:
-            has_roommates = False
-
         if has_articles or has_events or has_deals or has_roommates:
             has_school_items = True
         else:
             has_school_items = False
 
         return {'has_properties': has_properties, 'has_articles':has_articles,
-                'has_events':has_events, 'has_roommates':has_roommates, 'has_deals':has_deals,
+                'has_events':has_events, 'has_deals':has_deals,
                 'has_school_items':has_school_items}
     return {}

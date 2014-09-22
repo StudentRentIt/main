@@ -8,7 +8,7 @@ from main.models import City
 from property.models import Property, PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
                             Amenity, Service, Package, PropertyImage, PropertyVideo, \
                             PropertyRoom, PropertySchedule, PropertyFavorite, PropertyReserve
-from school.models import School, Deal, Event, Roommate
+from school.models import School, Deal, Event
 
 
 class PropertyTestCase(unittest.TestCase):
@@ -98,9 +98,6 @@ class ModelTests(unittest.TestCase):
 
         self.event = Event.objects.create(user=self.user, school=self.school, title="test event",
                     description="this is the test event object", location="somewhere yonder")
-
-        self.roomate = Roommate.objects.create(user=self.user, school=self.school, property=self.property,
-                        name="Billy", message="Looking for you!")
 
         self.favorite = PropertyFavorite.objects.create(property=self.property,
                             user=self.user, note="test note")
