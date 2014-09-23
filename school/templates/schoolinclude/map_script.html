@@ -160,18 +160,15 @@
                     '{% elif p.type == "BUS" %}<p>{{ p.description|striptags|truncatechars:250 }}</p><p>{{ p.special|striptags|truncatechars:250 }}</p>' +
                     '{% endif %}' +
                     '<div class="row search-info-row">' +
-                    '{% if p.propertyroom_set.all %}{% with p.propertyroom_set.all|first as room %}<div class="col-xs-4 text-center"><h3>Price</h3><h4>${{ room.price|floatformat:"0" }}</h4></div>' +
-                    '<div class="col-xs-4 text-center"><h3>Bedroom</h3><h4>{{ room.get_bed_count_display }}</h4></div>' +
-                    '<div class="col-xs-4 text-center"><h3>Bath</h3><h4>{{ room.bath_count }}</h4></div>' +
+                    '{% if p.propertyroom_set.all %}{% with p.propertyroom_set.all|first as room %}<div class="col-xs-4 text-center"><h4 >Price</h4><h4>${{ room.price|floatformat:"0" }}</h4></div>' +
+                    '<div class="col-xs-4 text-center"><h4>Beds</h4><h4>{{ room.get_bed_count_display }}</h4></div>' +
+                    '<div class="col-xs-4 text-center"><h4>Bath</h4><h4>{{ room.bath_count }}</h4></div>' +
                     '{% endwith %}</div>{% endif %}</div>' +
                     '<div class="row" style="margin:10px inherit;">'+
                     '<div style="padding-left:5px; padding-right:5px;" class="text-center">' +
-                    '{% if p.type != "BUS" %}<a class="btn btn-rentsity btn-block" href="{% url "property" p.id p.title|slugify %}">View Full Listing</a>' +
+                    '{% if p.type != "BUS" %}<div class="btn btn-brand btn-block" href="{% url "property" p.id p.title|slugify %}">View Full Listing</a>' +
                     '{% else %}<a class="btn btn-rentsity btn-xlg" href="{% url "business" p.id p.title|slugify %}">View Deals and Info</a>{% endif %}' +
                     '</div>' +
-                    // '<div style="padding-left:5px; padding-right:5px;" class="col-xs-8">' +
-                    // '<button id="favorite{{ p.id }}" class="btn btn-block {% if p.id in favorited %}btn-star{% else %}btn-default{% endif %} btn-favorite"><span class="glyphicon glyphicon-star-empty"></span>' +
-                    // '{% if p.id in favorited %}Remove Favorite{% else %}Add Favorite {% endif %}</button></div>' +
                 '</div>',
                 {{ p.id }}]
                 {% if not forloop.last %},{% endif %}

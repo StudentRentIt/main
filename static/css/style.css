@@ -474,7 +474,11 @@ html, body, #map-canvas {
 
 .info_content {
     margin:5px;
-    width:275px;
+    width:250px;
+    color: #282929;
+}
+.info_content img {
+    max-height:30%;
 }
 
 .search-video-modal-row {
