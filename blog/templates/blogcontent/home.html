@@ -18,13 +18,12 @@
                 {% if forloop.first %}
                 <div class="row">
                     <div class="col-xs-12">
-                        <img src="{{ o.image.url }}" class="img-responsive img-rounded" alt="Find Student Apartments - {{ o.title }}"
-                            style="margin-left:auto; margin-right:auto; max-height:400px;">
+                        <img src="{{ o.image.url }}" class="img-responsive img-rounded" alt="Find Student Apartments - {{ o.title }}">
                         <div>
                             <h2>{{ o.title }}</h2>
                             <h4>{{ o.headline|safe }}</h4>
                             {{ o.body|striptags|truncatechars:700 }}
-                            <div class="text-center" style="margin:15px;">
+                            <div class="text-center">
                                 <a href="{% url 'blog-article' o.id o.title|slugify %}" class="btn btn-rentsity btn-lg">Keep Reading</a>
                             </div>
                         </div>
@@ -32,7 +31,7 @@
                 </div>
                 {% else %}
                 {% if forloop.counter == 2 or forloop.counter == 4 %}<div class="row">{% endif %}
-                <div class="col-md-6" style="margin-top:30px;">
+                <div class="col-md-6">
                     <img src="{{ o.image.url }}" class="img-responsive"  style="width:100%" alt="Find Student Housing, Apartments, Subleases - {{ o.title }}" />
                     <div class="blog-home-content">
                         <div class="blog-home-content-inner">

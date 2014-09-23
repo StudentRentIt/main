@@ -6,7 +6,7 @@
 
     rentversity mint: #0fab72
     rentversity dark: #282929
-    rentversity gray: #dedede
+    rentversity gray: #eeeeee
     
     rentsity main color: #F67055
     rentsity alt color: #3D3E42
@@ -28,7 +28,7 @@ html, body {
     margin-top: 50px;
 }
 #wrap {
-    /*background-color: #dedede;*/
+    /*background-color: #eeeeee;*/
 	min-height: 100%;
 	width: 100%;
 }
@@ -397,6 +397,7 @@ html, body, #map-canvas {
     height:100%;
     max-height:100%;
     overflow:scroll;
+    background-color:#eeeeee;
 }
 
 .map-view {
@@ -445,7 +446,7 @@ html, body, #map-canvas {
 .search-banner-prepend,
 .search-banner-input {
     padding:10px;
-    background-color:#dedede;
+    background-color:#eeeeee;
     border-top-left-radius:5px;
     border-bottom-left-radius:5px;
     line-height:1;
@@ -499,7 +500,7 @@ html, body, #map-canvas {
 
 .search-multi-row li {
     display:inline-block;
-    background:#dedede;
+    background:#eeeeee;
     padding:10px;
     margin:5px 0 5px 0;
     border-radius:10px;
@@ -668,12 +669,12 @@ html, body, #map-canvas {
 }
 #room-detail,
 #contact-detail {
-    border:1px #dedede solid;
+    border:1px #eeeeee solid;
     border-top:none;
     padding:5px;
 }
 #property-detail-row {
-    background-color:#dedede;
+    background-color:#eeeeee;
     padding:30px 0;
 }
 .property-detail-label {
@@ -753,12 +754,36 @@ html, body, #map-canvas {
     opacity:0.6;
 }
 
+#school-item-list div.item-header {
+    background-color:#0fab72;
+    color:white;
+    text-align:center;
+    font-weight:300;
+    border-top-right-radius:3px;
+    border-top-left-radius:3px;
+
+}
+#school-item-list div.item-body {
+    backbround-color:white;
+}
+.school-item {
+    padding-left:30px;
+    padding-right:30px;
+    margin-bottom:20px;
+}
+.school-item > .item-body {
+    background-color: white;
+    padding:5px;
+    border-bottom-right-radius:3px;
+    border-bottom-left-radius:3px;
+}
+
 #school-main-banner {
     width:100%;
 }
 
 .school-blog-content {
-    border:1px solid #dedede;
+    border:1px solid #eeeeee;
     padding:5px;
     background: white;
 }
@@ -1078,7 +1103,7 @@ html, body, #map-canvas {
 .admin-city-input {
     font-size:130%;
     border-radius:10px;
-    border: 1px solid #dedede;
+    border: 1px solid #eeeeee;
     margin-top:10px;
     text-align:center;
 }

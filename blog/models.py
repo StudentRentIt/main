@@ -13,11 +13,7 @@ School = 'school.School'
 
 #####images#####
 def get_article_image_path(instance, filename):
-    if instance.school:
-        group = str(instance.school.id)
-    else:
-        group = 'general'
-    return os.path.join('blog/' + group, filename)
+    return os.path.join('blog/' + filename)
 
 
 #####blog models######

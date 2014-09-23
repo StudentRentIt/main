@@ -20,20 +20,20 @@
       <div class="modal-body default-modal-body text-center">
         <div id="choose-manage-section">
             <div id="manage-new" class="manage-choice">
-                <a href="/property/add/" class="btn btn-rentsity manage-modal-btn">
+                <a href="/property/add/" class="btn btn-brand manage-modal-btn">
                     <span class="glyphicon glyphicon-plus"></span> Add New Property
                 </a>
             </div>
             {% if has_properties %}
             <div id="manage-update" class="manage-choice">
-                <a href="/property/update/" class="btn btn-rentsity manage-modal-btn">
+                <a href="/property/update/" class="btn btn-brand manage-modal-btn">
                     <span class="glyphicon glyphicon-edit"></span> Update Property
                 </a>
             </div>
             {% endif %}
             {% if has_school_items %}
             <div id="manage-school" class="manage-choice">
-                <a href="#" class="btn btn-rentsity manage-modal-btn">
+                <a href="#" class="btn btn-brand manage-modal-btn">
                     <span class="glyphicon glyphicon-edit"></span> Update School Items
                 </a>
             </div>
@@ -41,25 +41,15 @@
         </div>
 
         <div id="choose-school-section" class="hidden">
-            {% if has_articles %}
-            <div id="manage-new" class="manage-choice">
-                <a href="{% url 'update-articles' %}" class="btn btn-rentsity manage-modal-btn">Update Articles</a>
-            </div>
-            {% endif %}
             {% if has_events %}
-            <div id="manage-new" class="manage-choice">
-                <a href="{% url 'update-events' %}" class="btn btn-rentsity manage-modal-btn">Update Events</a>
-            </div>
+                <div id="manage-new" class="manage-choice">
+                    <a href="{% url 'update-events' %}" class="btn btn-brand manage-modal-btn">Update Events</a>
+                </div>
             {% endif %}
             {% if has_deals %}
-            <div id="manage-new" class="manage-choice">
-                <a href="{% url 'update-deals' %}" class="btn btn-rentsity manage-modal-btn">Update Deals</a>
-            </div>
-            {% endif %}
-            {% if has_roommates %}
-            <div id="manage-new" class="manage-choice">
-                <a href="{% url 'update-roommates' %}" class="btn btn-rentsity manage-modal-btn">Update Roommates</a>
-            </div>
+                <div id="manage-new" class="manage-choice">
+                    <a href="{% url 'update-deals' %}" class="btn btn-brand manage-modal-btn">Update Deals</a>
+                </div>
             {% endif %}
         </div>
       </div><!-- end body -->

@@ -22,6 +22,7 @@ def get_event_image_path(instance, filename):
     return os.path.join('events/' + str(instance.school.id) , filename)
 
 
+
 class School(models.Model):
     '''
     information about the schools that we have in our system
@@ -64,46 +65,46 @@ class Neighborhood(models.Model):
         return self.name
 
 
-class Deal(models.Model):
+class SchoolItem(models.Model):
     '''
-    deals or promotions for local businesses or apartments
+    used as a base class for school items. We need to force fields in common in order
+    to display them effectively on the front-end
     '''
     user = models.ForeignKey(User)
-    property = models.ForeignKey(Property)
+    school = models.ForeignKey(School)
     title = models.CharField(max_length=50)
-    description= models.TextField()
-    image = models.ImageField(upload_to=get_deal_image_path, null=True, blank=True)
+    description = models.TextField()
+    heading = models.CharField(max_length=60, null=True, blank=True)
+    image = models.ImageField(upload_to=get_event_image_path, null=True, blank=True)
     active = models.BooleanField(default=True)
     sponsored = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['-sponsored', '-id']
+        abstract = True
 
-    def get_school(self):
-        # return the school that the deal belongs to
-        property = self.property
-        school = property.school
-        return school
+
+
+class Deal(SchoolItem):
+    '''
+    deals or promotions for local businesses or apartments
+    '''
+    property = models.ForeignKey(Property)
+
+    class Meta:
+        ordering = ['-sponsored', '-id']
 
     def __str__(self):
         return self.property.title + ' - ' + self.title
 
 
-class Event(models.Model):
+class Event(SchoolItem):
     '''
     events that are listed. Will show up in the school sections.
     '''
-    user = models.ForeignKey(User)
     property = models.ForeignKey(Property, null=True, blank=True)
-    school = models.ForeignKey(School)
-    title = models.CharField(max_length=50)
-    description = models.TextField()
     date = models.DateField(null=True, blank=True)
     time = models.TimeField(null=True, blank=True)
     location = models.CharField(max_length=100)
-    image = models.ImageField(upload_to=get_event_image_path, null=True, blank=True)
-    active = models.BooleanField(default=True)
-    sponsored = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-sponsored', '-id']

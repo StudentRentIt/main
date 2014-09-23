@@ -39,4 +39,3 @@ def type(request, **kwargs):
 
     return render(request, template_name, {'object':object, 'object_list':object_list,
                                             'type':type})
-

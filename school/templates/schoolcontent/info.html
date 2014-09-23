@@ -14,6 +14,7 @@
             <h1 class="page-header text-center">
                 {% if neighborhood %}
                     {{ neighborhood }} Community
+                    <p>Show Events, Deals, Articles in Neighborhood</p>
                 {% else %}
                     {{ school }} Community
                 {% endif %}
@@ -21,11 +22,23 @@
             {% if neighborhood %}
                 <a href="{{ school.get_info_url }}">{{ school }}</a>
             {% elif school %}
-                {% for n in neighborhoods %}
-                    <a href="{{ n.get_absolute_url }}">{{ n }}</a><br>
-                {% empty %}
-                    There are no neighborhoods for this school. Sorry!
-                {% endfor %}
+                <div id="school-item-list">
+                    {% for i in items %}
+                        {% if forloop.first or forloop.counter0|divisibleby:"2" %}<div class="row">{% endif %}
+                            <div class="col-xs-6 school-item">
+                                <div class="row item-header">
+                                    <h4>{{ i.title }}</h4>
+                                </div>
+                                <div class="row item-picture">
+                                    <img class="img-responsive" src="{{ i.image }}" />
+                                </div>
+                                <div class="row item-body">
+                                    {{ i.content|safe }}
+                                </div>
+                            </div>
+                        {% if forloop.last or forloop.counter|divisibleby:"2" %}</div>{% endif %}
+                    {% endfor %}
+                </div>
             {% endif %}
         </div>
     {% endblock %}

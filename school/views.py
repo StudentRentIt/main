@@ -10,6 +10,8 @@ from school.utils import get_school
 
 from main.utils import get_favorites, unslugify
 
+from blog.models import Article
+
 from flowreport.models import SchoolSearch
 
 
@@ -226,7 +228,25 @@ def school_info(request, **kwargs):
             'long':school.long
         }
 
+        items = []
+
+        # get the social feed items
+
+        # get the desired articles
+        articles = Article.objects.filter(school=school)
+
+        for a in articles:
+            # build an item to add to dictionary
+            item = {'date':a.create_date,
+                    'type':'article',
+                    'title':a.title,
+                    'image':a.image.url,
+                    'content':'<h4>content would go here</h4>'}
+            items.append(item)
+
+
 
     return render(request, 'schoolcontent/info.html',
                   {'school':school, 'type':type, 'google_api_key':settings.GOOGLE_API_KEY,
-                   'map_dict':map_dict, 'neighborhood':neighborhood, 'neighborhoods':neighborhoods})
+                   'map_dict':map_dict, 'neighborhood':neighborhood, 'neighborhoods':neighborhoods,
+                   'items':items})
