@@ -50,7 +50,7 @@ def get_user_items(request):
         else:
             has_deals = False
 
-        if has_articles or has_events or has_deals or has_roommates:
+        if has_articles or has_events or has_deals:
             has_school_items = True
         else:
             has_school_items = False

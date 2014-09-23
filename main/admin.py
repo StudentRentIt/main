@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin
 #from django.contrib.auth.admin import UserAdmin
 
 from main.models import UserProfile, City, Payment, TeamMember
-from school.models import School, Event, Deal
+from school.models import School, Event, Deal, Neighborhood
 from blog.models import Article, Tag
 from property.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
                             PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
@@ -51,6 +51,7 @@ class PropertyAdmin(admin.ModelAdmin):
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(School)
+admin.site.register(Neighborhood)
 admin.site.register(Property, PropertyAdmin)
 admin.site.register(Amenity)
 admin.site.register(PropertyFavorite)

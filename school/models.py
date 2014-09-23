@@ -37,6 +37,29 @@ class School(models.Model):
     def get_absolute_url(self):
         return reverse('school-search', kwargs={'slug':slugify(self.name)})
 
+    def get_info_url(self):
+        # url for the school info page
+        return reverse('school-info', kwargs={'slug':slugify(self.name),
+                                              'type':'info'})
+
+    def __str__(self):
+        return self.name
+
+
+class Neighborhood(models.Model):
+    '''
+    be able to split up a school into neighborhoods to filter data and searches
+    '''
+    school = models.ForeignKey(School)
+    name = models.CharField(max_length=30)
+    lat =  models.DecimalField(max_digits=10, decimal_places=6)
+    long = models.DecimalField(max_digits=10, decimal_places=6)
+
+    def get_absolute_url(self):
+        return reverse('school-neighborhood', kwargs={'slug':slugify(self.school.name),
+                                                      'type':'neighborhood',
+                                                      'n_slug':slugify(self.name)})
+
     def __str__(self):
         return self.name
 

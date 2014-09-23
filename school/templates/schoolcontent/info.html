@@ -9,11 +9,24 @@
     {% include "schoolinclude/header.html" %}
 
     {% block body %}
-        <div class="row" style="height:100%;">
-            {% include "schoolinclude/object_list_map.html" %}
-            <div class="col-md-7 col-md-sm-12 map-side">
-                data list
-            </div>
+        {% include "schoolinclude/object_list_map.html" %}
+        <div class="col-md-7 col-md-sm-12 map-side">
+            <h1 class="page-header text-center">
+                {% if neighborhood %}
+                    {{ neighborhood }} Community
+                {% else %}
+                    {{ school }} Community
+                {% endif %}
+            </h1>
+            {% if neighborhood %}
+                <a href="{{ school.get_info_url }}">{{ school }}</a>
+            {% elif school %}
+                {% for n in neighborhoods %}
+                    <a href="{{ n.get_absolute_url }}">{{ n }}</a><br>
+                {% empty %}
+                    There are no neighborhoods for this school. Sorry!
+                {% endfor %}
+            {% endif %}
         </div>
     {% endblock %}
 {% endblock %}

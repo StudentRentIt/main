@@ -5,10 +5,10 @@ from django.conf import settings
 from property.models import Property, PropertyRoom, Amenity, PropertyLeaseType, \
                             PropertyLeaseStart, PropertyLeaseTerm
 
-from school.models import School
+from school.models import School, Neighborhood
 from school.utils import get_school
 
-from main.utils import get_favorites
+from main.utils import get_favorites, unslugify
 
 from flowreport.models import SchoolSearch
 
@@ -205,15 +205,28 @@ def school_info(request, **kwargs):
 
     type = kwargs['type']
 
+    if type == "neighborhood":
+        # info page for a neighborhood
+        neighborhood_slug = kwargs["n_slug"]
+        neighborhoods = None
+        neighborhood = get_object_or_404(Neighborhood, name=unslugify(neighborhood_slug))
+        map_dict = {
+            'zoom':14,
+            'lat':neighborhood.lat,
+            'long':neighborhood.long
+        }
 
-    # determine if we're looking at a neighborhood or a school
-
-
-    # if it's a neighborhood, then we need to gather the data points for the neighborhood
-
-
-    # if it's a school, gather data points for the school
+    elif type == "info":
+        # info page for a school
+        neighborhood = None
+        neighborhoods = Neighborhood.objects.filter(school=school)
+        map_dict = {
+            'zoom':13,
+            'lat':school.lat,
+            'long':school.long
+        }
 
 
     return render(request, 'schoolcontent/info.html',
-                  {'school':school, 'type':type, 'google_api_key':settings.GOOGLE_API_KEY})
+                  {'school':school, 'type':type, 'google_api_key':settings.GOOGLE_API_KEY,
+                   'map_dict':map_dict, 'neighborhood':neighborhood, 'neighborhoods':neighborhoods})
