@@ -1,0 +1,263 @@
+{% load staticfiles %}
+
+{# this javascript needs to stay on the page and not in a js file because it has property variables that get passed in #}
+    <script src={% static 'js/main/markercluster.js' %}></script>
+    <script type="text/javascript">
+        {% if not school %}
+            $( document ).ready(function() {
+                $('#schoolSearch').modal();
+            });
+        {% endif %}
+
+        {% if school %}
+        jQuery(function($) {
+            // Asynchronously Load the map API
+            var script = document.createElement('script');
+            script.src = "https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&sensor=false&callback=initialize";
+            <!-- script.src = "http://maps.googleapis.com/maps/api/js?sensor=false&callback=initialize";-->
+            document.body.appendChild(script);
+        });
+
+        function initialize() {
+            // set initial values for the filters
+            if ( $( "#min-price" ).val() ) {
+                min_price = $( "#min-price" ).val()
+            }
+            else {
+                min_price = 300
+            }
+            if ( $( "#max-price" ).val() ) {
+                max_price = $( "#max-price" ).val()
+            }
+            else {
+                max_price = 800
+            }
+
+            if ( $( "#min-bed" ).val() ) {
+                min_bed = $( "#min-bed" ).val()
+            }
+            else {
+                min_bed = 1
+            }
+            if ( $( "#max-bed" ).val() ) {
+                max_bed = $( "#max-bed" ).val()
+            }
+            else {
+                max_bed = 3
+            }
+
+            if ( $( "#min-bath" ).val() ) {
+                min_bath = $( "#min-bath" ).val()
+            }
+            else {
+                min_bath = 1
+            }
+            if ( $( "#max-bath" ).val() ) {
+                max_bath = $( "#max-bath" ).val()
+            }
+            else {
+                max_bath = 3
+            }
+
+            if ( $( "#distance" ).val() ) {
+                distance = $( "#distance" ).val()
+            }
+            else {
+                distance = 5
+            }
+
+            $( "#price-slider" ).slider({
+                range:true,
+                min: 0,
+                max: 2000,
+                values: [ min_price, max_price ],
+                slide: function( event, ui ) {
+                  $( "#price-text" ).text( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+                  $( "#min-price" ).val($( "#price-slider" ).slider( "values", 0 ));
+                  $( "#max-price" ).val($( "#price-slider" ).slider( "values", 1 ));
+                }
+            });
+            $( "#price-text" ).text( "$" + $( "#price-slider" ).slider( "values", 0 ) +
+              " - $" + $( "#price-slider" ).slider( "values", 1 )
+            );
+            $( "#min-price" ).val($( "#price-slider" ).slider( "values", 0 ));
+            $( "#max-price" ).val($( "#price-slider" ).slider( "values", 1 ));
+
+            $( "#bath-slider" ).slider({
+                range:true,
+                step: 0.5,
+                min: 0,
+                max: 5.5,
+                values: [ min_bath, max_bath ],
+                slide: function( event, ui ) {
+                  $( "#bath-text" ).text( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                  $( "#min-bath" ).val($( "#bath-slider" ).slider( "values", 0 ));
+                  $( "#max-bath" ).val($( "#bath-slider" ).slider( "values", 1 ));
+                }
+            });
+            $( "#bath-text" ).text( $( "#bath-slider" ).slider( "values", 0 ) +
+              " - " + $( "#bath-slider" ).slider( "values", 1 )
+            );
+            $( "#min-bath" ).val($( "#bath-slider" ).slider( "values", 0 ));
+            $( "#max-bath" ).val($( "#bath-slider" ).slider( "values", 1 ));
+
+            $( "#bed-slider" ).slider({
+                range:true,
+                min: 0,
+                max: 8,
+                values: [ min_bed, max_bed ],
+                slide: function( event, ui ) {
+                  $( "#bed-text" ).text( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                  $( "#min-bed" ).val($( "#bed-slider" ).slider( "values", 0 ));
+                  $( "#max-bed" ).val($( "#bed-slider" ).slider( "values", 1 ));
+                }
+            });
+            $( "#bed-text" ).text( $( "#bed-slider" ).slider( "values", 0 ) +
+              " - " + $( "#bed-slider" ).slider( "values", 1 )
+            );
+            $( "#min-bed" ).val($( "#bed-slider" ).slider( "values", 0 ));
+            $( "#max-bed" ).val($( "#bed-slider" ).slider( "values", 1 ));
+
+            $( "#distance-slider" ).slider({
+              range: "min",
+              value: distance,
+              min: 0,
+              max: 10,
+              slide: function( event, ui ) {
+                $( "#distance-text" ).text( "less than " + $( "#distance-slider" ).slider( "value" ) + " miles" );
+                $( "#distance-input" ).val($( "#distance-slider" ).slider( "value" ));
+              }
+            });
+            $( "#distance-text" ).text("less than " + $( "#distance-slider" ).slider( "value" ) + " miles" );
+
+            var lat = "{{ lat }}";
+            var long = "{{ long }}";
+
+            var mapOptions = {
+              zoom: 13,
+              center: new google.maps.LatLng(lat,long)
+            };
+
+            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+            // Multiple Markers
+            var markers = [
+                {% for p in properties %}
+                ['{{ p.title }}', {{ p.lat }}, {{ p.long }}, '{{ p.type }}', '{{ p.sponsored }}']
+                {% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ];
+
+            // Info Window Content
+            var infoWindowContent = [
+                {% for p in properties %}
+                ['<div class="info_content">' +
+                    '<h3 class="text-center">{{ p.title }}</h3>' +
+                    '<img class="img-responsive img-rounded search-info-img hidden-xs hidden-sm" src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"></img>' +
+                    '{% if p.type == "APT" %}' +
+                    '<h4 class="text-center">Apartment rooms starting at:</h4>' +
+                    '{% elif p.type == "SUB" %}<h4 class="text-center">{{ p.get_type_display }}</h4>' +
+                    '{% elif p.type == "BUS" %}<p>{{ p.description|striptags|truncatechars:250 }}</p><p>{{ p.special|striptags|truncatechars:250 }}</p>' +
+                    '{% endif %}' +
+                    '<div class="row search-info-row">' +
+                    '{% if p.propertyroom_set.all %}{% with p.propertyroom_set.all|first as room %}<div class="col-xs-4 text-center"><h3>Price</h3><h4>${{ room.price|floatformat:"0" }}</h4></div>' +
+                    '<div class="col-xs-4 text-center"><h3>Bedroom</h3><h4>{{ room.get_bed_count_display }}</h4></div>' +
+                    '<div class="col-xs-4 text-center"><h3>Bath</h3><h4>{{ room.bath_count }}</h4></div>' +
+                    '{% endwith %}</div>{% endif %}</div>' +
+                    '<div class="row" style="margin:10px inherit;">'+
+                    '<div style="padding-left:5px; padding-right:5px;" class="text-center">' +
+                    '{% if p.type != "BUS" %}<a class="btn btn-rentsity btn-block" href="{% url "property" p.id p.title|slugify %}">View Full Listing</a>' +
+                    '{% else %}<a class="btn btn-rentsity btn-xlg" href="{% url "business" p.id p.title|slugify %}">View Deals and Info</a>{% endif %}' +
+                    '</div>' +
+                    // '<div style="padding-left:5px; padding-right:5px;" class="col-xs-8">' +
+                    // '<button id="favorite{{ p.id }}" class="btn btn-block {% if p.id in favorited %}btn-star{% else %}btn-default{% endif %} btn-favorite"><span class="glyphicon glyphicon-star-empty"></span>' +
+                    // '{% if p.id in favorited %}Remove Favorite{% else %}Add Favorite {% endif %}</button></div>' +
+                '</div>',
+                {{ p.id }}]
+                {% if not forloop.last %},{% endif %}
+
+                {% endfor %}
+            ];
+
+            // Display multiple markers on a map
+            var infoWindow = new google.maps.InfoWindow({ maxWidth: 450 }), marker, i;
+
+            // Loop through our array of markers & place each one on the map
+            var iconBase = '/static/img/map/';
+            for( i = 0; i < markers.length; i++ ) {
+                /*
+                This is where we get the correct image to display for the marker
+                There are 3 options: Business, House/Apt/Sub sponsored and normal
+                */
+                if (markers[i][3] == "BUS") {
+                    //business logo
+                    img = 'business.png';
+                }
+                else {
+                    if (markers[i][4] == 'True') {
+                        //if non-business sponsored
+                        img = 'logo_md.png';
+                    }
+                    else {
+                        //non-business non-sponsored aka normal
+                        img = 'logo_sm.png';
+                    }
+                }
+                var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+                marker = new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    title: markers[i][0],
+                    icon: iconBase + img
+            });
+
+            //can also have event on mouseover
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infoWindow.setContent(infoWindowContent[i][0]);
+                    infoWindow.open(map, marker);
+
+                    //save the impression
+                    $.post(
+                        "/internal/reports/saveimpression/",
+                        {
+                            "impClass": "property",
+                            "impType": "M",
+                            "propertyId" : infoWindowContent[i][1]
+                        },
+                        function(data) {
+                          alert("Response: " + data);
+                        },
+                        'json'
+                    );
+                }
+            })(marker, i));
+          }
+        }
+
+        $(document).ready(function(){
+            $("body").css("padding-top", "50px");
+
+            $(".btn-property-video").click(function(){
+                //add data elements necessary to show the video for selected property
+                // id = $(this).data('id');
+                video = $(this).data('video');
+                title = $(this).data('title');
+                url = $(this).data('url');
+                $("#video-property-title").text($(this).data('title'));
+                $(".search-video-modal-row").append('<div class="property-video">' + $(this).data('video') + '</div>');
+                $("#video-property-link").attr("href", url);
+            });
+
+            $('#propertyVideoModal').on('hidden.bs.modal', function (e) {
+                  //remove the video when modal is closed
+                  $('.property-video').detach();
+            })
+        });
+    {% endif %}{# end if school block #}
+    </script>
+    <script src={% static "js/search.js" %}></script>
+    <script src={% static "js/favorite.js" %}></script>
+    <script src={% static "js/tooltip.js" %}></script>
+{% include "maininclude/header.html" %}
+{% include "propertyinclude/modals/video.html" %}

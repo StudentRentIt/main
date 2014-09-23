@@ -393,6 +393,11 @@ html, body, #map-canvas {
             transition: width 1s ease;
     background: transparent url(/static/img/misc/loading.gif) no-repeat center center;
 }
+.map-side {
+    height:100%;
+    max-height:100%;
+    overflow:scroll;
+}
 
 .map-view {
     width:100%;

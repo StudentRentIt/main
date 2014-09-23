@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
+from django.conf import settings
 
 from property.models import Property, PropertyRoom, Amenity, PropertyLeaseType, \
                             PropertyLeaseStart, PropertyLeaseTerm
@@ -28,11 +29,16 @@ def school_search(request, **kwargs):
     '''
     search a school for apartments
     '''
-    if kwargs['slug']:
-        #school was passed in
-        school = get_school(kwargs['slug'])
-        slug = slugify(school.name)
-        pk = school.id
+    try:
+        if kwargs['slug']:
+            #school was passed in
+            school = get_school(kwargs['slug'])
+            slug = slugify(school.name)
+            pk = school.id
+    except KeyError:
+        school = None
+        slug = None
+        pk = None
 
     if request.user.is_staff:
         properties = Property.objects.filter(school=pk, lat__isnull=False, long__isnull=False)
@@ -181,7 +187,7 @@ def school_search(request, **kwargs):
         {'lat':lat, 'long':long, 'school':school, 'url_prefix':'search',
         'modal_title':modal_title, 'properties':properties, 'favorited':favorited, 'rooms':rooms,
         'lease_types':lease_types, 'lease_terms':lease_terms, 'lease_starts':lease_starts,
-        'special_amenities':special_amenities})
+        'special_amenities':special_amenities, 'google_api_key':settings.GOOGLE_API_KEY})
 
 
 
@@ -194,7 +200,7 @@ def school_info(request, **kwargs):
 
     If the whole school is passed in, then we're going to see just T1 data about school.
     '''
-    school_slug = kwargs['school']
+    school_slug = kwargs['slug']
     school = get_school(school_slug)
 
     type = kwargs['type']
@@ -209,5 +215,5 @@ def school_info(request, **kwargs):
     # if it's a school, gather data points for the school
 
 
-    return render(request, 'schoolcontent/school_info.html',
-                  {'school':school})
+    return render(request, 'schoolcontent/info.html',
+                  {'school':school, 'type':type, 'google_api_key':settings.GOOGLE_API_KEY})

@@ -1,0 +1,21 @@
+{% extends "schoolinclude/base.html" %}
+
+{% block title %}
+    Apartment School Community for {{ school }}
+{% endblock %}
+
+{% block wrap %}
+    {# override wrap to enable the full map #}
+    {% include "schoolinclude/header.html" %}
+
+    {% block body %}
+        <div class="row" style="height:100%;">
+            {% include "schoolinclude/object_list_map.html" %}
+            <div class="col-md-7 col-md-sm-12 map-side">
+                data list
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{% block footer %}{% endblock %}
