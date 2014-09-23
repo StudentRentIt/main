@@ -1,6 +1,7 @@
 *.pyc
 __pycache__/
 .idea/
+migrations/
 bin/
 media/
 dev/
