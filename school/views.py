@@ -6,7 +6,7 @@ from property.models import Property, PropertyRoom, Amenity, PropertyLeaseType, 
                             PropertyLeaseStart, PropertyLeaseTerm
 
 from school.models import School, Neighborhood
-from school.utils import get_school
+from school.utils import get_school, get_school_items
 
 from main.utils import get_favorites, unslugify
 
@@ -213,38 +213,26 @@ def school_info(request, **kwargs):
         neighborhoods = None
         neighborhood = get_object_or_404(Neighborhood, name=unslugify(neighborhood_slug))
         map_dict = {
+            # create map varibles to determine the center and zoom
             'zoom':14,
             'lat':neighborhood.lat,
-            'long':neighborhood.long
+            'long':neighborhood.long,
         }
+
+        items = get_school_items(type, school)
 
     elif type == "info":
         # info page for a school
         neighborhood = None
         neighborhoods = Neighborhood.objects.filter(school=school)
         map_dict = {
+            # create map varibles to determine the center and zoom
             'zoom':13,
             'lat':school.lat,
             'long':school.long
         }
 
-        items = []
-
-        # get the social feed items
-
-        # get the desired articles
-        articles = Article.objects.filter(school=school)
-
-        for a in articles:
-            # build an item to add to dictionary
-            item = {'date':a.create_date,
-                    'type':'article',
-                    'title':a.title,
-                    'image':a.image.url,
-                    'content':'<h4>content would go here</h4>'}
-            items.append(item)
-
-
+        items = get_school_items(type, school)
 
     return render(request, 'schoolcontent/info.html',
                   {'school':school, 'type':type, 'google_api_key':settings.GOOGLE_API_KEY,

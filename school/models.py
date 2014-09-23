@@ -22,7 +22,6 @@ def get_event_image_path(instance, filename):
     return os.path.join('events/' + str(instance.school.id) , filename)
 
 
-
 class School(models.Model):
     '''
     information about the schools that we have in our system
@@ -65,29 +64,30 @@ class Neighborhood(models.Model):
         return self.name
 
 
-class SchoolItem(models.Model):
+class SchoolBaseItem(models.Model):
     '''
     used as a base class for school items. We need to force fields in common in order
     to display them effectively on the front-end
     '''
+    create_date = models.DateField(auto_now_add=True)
     user = models.ForeignKey(User)
     school = models.ForeignKey(School)
     title = models.CharField(max_length=50)
     description = models.TextField()
-    heading = models.CharField(max_length=60, null=True, blank=True)
-    image = models.ImageField(upload_to=get_event_image_path, null=True, blank=True)
+    heading = models.CharField(max_length=200, null=True, blank=True)
     active = models.BooleanField(default=True)
     sponsored = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
+        ordering = ['-create_date']
 
 
-
-class Deal(SchoolItem):
+class Deal(SchoolBaseItem):
     '''
     deals or promotions for local businesses or apartments
     '''
+    image = models.ImageField(upload_to=get_deal_image_path, null=True, blank=True)
     property = models.ForeignKey(Property)
 
     class Meta:
@@ -97,10 +97,11 @@ class Deal(SchoolItem):
         return self.property.title + ' - ' + self.title
 
 
-class Event(SchoolItem):
+class Event(SchoolBaseItem):
     '''
     events that are listed. Will show up in the school sections.
     '''
+    image = models.ImageField(upload_to=get_event_image_path, null=True, blank=True)
     property = models.ForeignKey(Property, null=True, blank=True)
     date = models.DateField(null=True, blank=True)
     time = models.TimeField(null=True, blank=True)

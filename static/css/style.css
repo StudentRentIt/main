@@ -755,13 +755,11 @@ html, body, #map-canvas {
 }
 
 #school-item-list div.item-header {
-    background-color:#0fab72;
     color:white;
     text-align:center;
     font-weight:300;
     border-top-right-radius:3px;
     border-top-left-radius:3px;
-
 }
 #school-item-list div.item-body {
     backbround-color:white;
@@ -771,11 +769,21 @@ html, body, #map-canvas {
     padding-right:30px;
     margin-bottom:20px;
 }
+.school-item > .item-picture {
+    padding:10px;
+    background-color: white;
+}
 .school-item > .item-body {
     background-color: white;
-    padding:5px;
+    padding:10px;
     border-bottom-right-radius:3px;
     border-bottom-left-radius:3px;
+}
+.event-item-header {
+    background-color:#eb6923;
+}
+.article-item-header {
+    background-color:#2a98d4;
 }
 
 #school-main-banner {

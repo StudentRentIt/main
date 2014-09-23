@@ -1,12 +1,3 @@
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#manage-school").click(function(){
-           $("#choose-school-section").removeClass("hidden");
-           $("#choose-manage-section").addClass("hidden");
-        });
-    });
-</script>
-
 <!-- Modal -->
 <div class="modal fade" id="manageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -30,26 +21,6 @@
                     <span class="glyphicon glyphicon-edit"></span> Update Property
                 </a>
             </div>
-            {% endif %}
-            {% if has_school_items %}
-            <div id="manage-school" class="manage-choice">
-                <a href="#" class="btn btn-brand manage-modal-btn">
-                    <span class="glyphicon glyphicon-edit"></span> Update School Items
-                </a>
-            </div>
-            {% endif %}
-        </div>
-
-        <div id="choose-school-section" class="hidden">
-            {% if has_events %}
-                <div id="manage-new" class="manage-choice">
-                    <a href="{% url 'update-events' %}" class="btn btn-brand manage-modal-btn">Update Events</a>
-                </div>
-            {% endif %}
-            {% if has_deals %}
-                <div id="manage-new" class="manage-choice">
-                    <a href="{% url 'update-deals' %}" class="btn btn-brand manage-modal-btn">Update Deals</a>
-                </div>
             {% endif %}
         </div>
       </div><!-- end body -->

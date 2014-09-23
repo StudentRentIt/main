@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 from localflavor.us.models import PhoneNumberField, USStateField
-from school.models import School
+from school.models import School, Neighborhood
 from property.utils import get_place_data, get_place_detail_data
 
 
@@ -154,6 +154,7 @@ class PropertyLeaseStart(models.Model):
 class Property(models.Model):
     #REQUIRED FIELDS - these are displayed on the first Add New Property section
     school= models.ForeignKey(School)
+    neighborhood = models.ForeignKey(Neighborhood, null=True, blank=True)
     type = models.CharField(max_length=20, choices=PROPERTY_TYPE_CHOICES, default="APT")
     user = models.ForeignKey(User, null=True)
     title = models.CharField(max_length=50)
