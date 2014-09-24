@@ -22,18 +22,20 @@
                 <h1 class="page-header text-center">
                     {{ school }} Community
                 </h1>
-                <div class="well text-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        Looking for a specific neighborhood? <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-right text-left" role="menu">
-                        {% for n in neighborhoods %}
-                            <li><a href="{{ n.get_absolute_url }}">{{ n }}</a></li>
-                        {% endfor %}
-                      </ul>
+                {% if neighborhoods %}
+                    <div class="well text-center">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            Looking for a specific neighborhood? <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-right text-left" role="menu">
+                            {% for n in neighborhoods %}
+                                <li><a href="{{ n.get_absolute_url }}">{{ n }}</a></li>
+                            {% endfor %}
+                          </ul>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             {% endif %}
             <div id="school-item-list">
                 {% for i in items %}
@@ -52,6 +54,16 @@
                             {% endif %}
                         </div>
                     {% if forloop.last or forloop.counter|divisibleby:"2" %}</div>{% endif %}
+                {% empty %}
+                    {% if neighborhood %}
+                        <div class="row text-center">
+                            <h3>{{ neighborhood }} does not have any community items yet</h3>
+                        </div>
+                    {% else %}
+                        <div class="row text-center">
+                            <h3>{{ school }} does not have any community items yet</h3>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
