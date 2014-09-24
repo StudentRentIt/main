@@ -23,6 +23,7 @@ General Models
 '''
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
+    # test_field = models.BooleanField()
     user_type = models.CharField(max_length=30, null=True, blank = True,
         choices=USER_TYPE_CHOICES)
 
