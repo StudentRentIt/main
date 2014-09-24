@@ -1162,17 +1162,18 @@ html, body, #map-canvas {
 #ca-menu a:hover {
     cursor:hand;
 }
-#ca-menu .menu-icon {
-    background-color:#eee;
-    text-align:center;
-    height:50px;
-}
 #ca-menu .row {
     border: 1px solid #dedede;
 }
 #ca-menu .row:hover {
     background-color:#0fab72;
     color:white;
+}
+#ca-menu .menu-icon {
+    background-color:#eee;
+    text-align:center;
+    height:50px;
+    color:black;
 }
 #ca-menu .row {
     border: 1px solid #dedede;
