@@ -30,7 +30,11 @@
                         {% if i.type == "event" %}
                             '<p>Join our {{ i.title }} event!</p>' +
                         {% elif i.type == "article" %}
-                            '<p>{{ i.content }}</p>' +
+                            {% if i.content %}
+                                '<h3 class="text-center">{{ i.title }}</h3><p>{{ i.content }}</p>' +
+                            {% else %}
+                                '<h3 class="text-center">{{ i.title }}</h3>' +
+                            {% endif %}
                         {% elif i.type == "deal" %}
                             '<p class="school-item-content">{{ i.content }}</p>' +
                         {% elif i.type == "social" %}

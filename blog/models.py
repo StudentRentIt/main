@@ -32,6 +32,7 @@ class Article(models.Model):
     school = models.ForeignKey(School, null=True, blank=True)
     property = models.ForeignKey(Property, null=True, blank=True)
     title = models.CharField(max_length=100)
+    test_field = models.BooleanField(default=False)
     heading = models.CharField(max_length=200, null=True, blank=True)
     create_date = models.DateField(auto_now_add=True)
     body = models.TextField()
