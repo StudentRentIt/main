@@ -6,7 +6,7 @@ from property.models import Property, PropertyRoom, Amenity, PropertyLeaseType, 
                             PropertyLeaseStart, PropertyLeaseTerm
 
 from school.models import School, Neighborhood
-from school.utils import get_school, get_school_items
+from school.utils import get_school, get_school_items, get_neighborhood_items
 
 from main.utils import get_favorites, unslugify
 
@@ -202,16 +202,16 @@ def school_info(request, **kwargs):
 
     If the whole school is passed in, then we're going to see just T1 data about school.
     '''
+    type = kwargs['type']
     school_slug = kwargs['slug']
     school = get_school(school_slug)
-
-    type = kwargs['type']
 
     if type == "neighborhood":
         # info page for a neighborhood
         neighborhood_slug = kwargs["n_slug"]
-        neighborhoods = None
         neighborhood = get_object_or_404(Neighborhood, name=unslugify(neighborhood_slug))
+        neighborhoods = None
+
         map_dict = {
             # create map varibles to determine the center and zoom
             'zoom':14,
@@ -219,12 +219,12 @@ def school_info(request, **kwargs):
             'long':neighborhood.long,
         }
 
-        items = get_school_items(type, school)
-
+        items = get_neighborhood_items(type, neighborhood)
     elif type == "info":
         # info page for a school
         neighborhood = None
         neighborhoods = Neighborhood.objects.filter(school=school)
+
         map_dict = {
             # create map varibles to determine the center and zoom
             'zoom':13,

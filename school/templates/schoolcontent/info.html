@@ -10,38 +10,50 @@
 
     {% block body %}
         {% include "schoolinclude/object_list_map.html" %}
-        <div class="col-md-7 col-md-sm-12 map-side">
-            <h1 class="page-header text-center">
-                {% if neighborhood %}
-                    {{ neighborhood }} Community
-                    <p>Show Events, Deals, Articles in Neighborhood</p>
-                {% else %}
-                    {{ school }} Community
-                {% endif %}
-            </h1>
+        <div class="col-md-8 col-col-sm-12 map-side">
             {% if neighborhood %}
-                <a href="{{ school.get_info_url }}">{{ school }}</a>
-            {% elif school %}
-                <div id="school-item-list">
-                    {% for i in items %}
-                        {% if forloop.first or forloop.counter0|divisibleby:"2" %}<div class="row">{% endif %}
-                            <div class="col-xs-6 school-item">
-                                <div class="row {{ i.type }}-item-header item-header">
-                                    <h4>{{ i.title }}</h4>
-                                </div>
-                                <div class="row item-picture">
-                                    <img class="img-responsive" src="{{ i.image_url }}" />
-                                </div>
-                                {% if i.content %}
-                                    <div class="row item-body">
-                                        {{ i.content }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% if forloop.last or forloop.counter|divisibleby:"2" %}</div>{% endif %}
-                    {% endfor %}
+                <h1 class="page-header text-center">
+                    {{ neighborhood }} Community
+                </h1>
+                <div class="well text-center">
+                    Want to see the full community of <a href="{{ school.get_info_url }}">{{ school }}</a>?
+                </div>
+            {% else %}
+                <h1 class="page-header text-center">
+                    {{ school }} Community
+                </h1>
+                <div class="well text-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Looking for a specific neighborhood? <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-right text-left" role="menu">
+                        {% for n in neighborhoods %}
+                            <li><a href="{{ n.get_absolute_url }}">{{ n }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
                 </div>
             {% endif %}
+            <div id="school-item-list">
+                {% for i in items %}
+                    {% if forloop.first or forloop.counter0|divisibleby:"2" %}<div class="row">{% endif %}
+                        <div class="col-xs-6 school-item">
+                            <div class="row {{ i.type }}-item-header item-header">
+                                <h4>{{ i.title }}</h4>
+                            </div>
+                            <div class="row item-picture">
+                                <img class="img-responsive" src="{{ i.image_url }}" />
+                            </div>
+                            {% if i.content %}
+                                <div class="row item-body">
+                                    {{ i.content }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% if forloop.last or forloop.counter|divisibleby:"2" %}</div>{% endif %}
+                {% endfor %}
+            </div>
         </div>
     {% endblock %}
 {% endblock %}

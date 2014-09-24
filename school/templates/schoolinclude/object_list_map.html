@@ -11,53 +11,61 @@
         mapOptions);
 
         // Multiple Markers
-            var markers = [
-                {% for i in items %}
-                    {% if i.property %}
-                        ['{{ i.property.title }}', {{ i.property.lat }}, {{ i.property.long }}, '{{ i.type }}']
-                    {% endif %}
+        var markers = [
+            {% for i in items %}
+                {% if i.property %}
+                    ['{{ i.property.title }}', {{ i.property.lat }}, {{ i.property.long }}, '{{ i.type }}']
+                {% endif %}
+                {% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+
+        // Info Window Content
+        var infoWindowContent = [
+            {% for i in items %}
+                {% if i.property %}
+                    ['<div class="info_content">' +
+                        '<h3 class="text-center page-header">{{ i.property.title }}</h3>' +
+                        '<img class="img-responsive search-info-img hidden-xs hidden-sm" src="{% with i.property.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"></img>' +
+                        {% if i.type == "event" %}
+                            '<p>Join our {{ i.title }} event!</p>' +
+                        {% elif i.type == "article" %}
+                            '<p>{{ i.content }}</p>' +
+                        {% elif i.type == "deal" %}
+                            '<p class="school-item-content">{{ i.content }}</p>' +
+                        {% elif i.type == "social" %}
+                        {% endif %}
+                    '</div>',
+                    {{ p.id }}]
                     {% if not forloop.last %},{% endif %}
-                {% endfor %}
-            ];
+                {% endif %}
+            {% endfor %}
+        ];
 
-            // Info Window Content
-            var infoWindowContent = [
-                {% for i in items %}
-                    {% if i.property %}
-                        ['<div class="info_content">' +
-                            '<h3 class="text-center">item:{{ i.title }}</h3>' +
-                            '<p>property:{{ i.property.title }}</p>' +
-                        '</div>',
-                        {{ p.id }}]
-                        {% if not forloop.last %},{% endif %}
-                    {% endif %}
-                {% endfor %}
-            ];
+        // Display multiple markers on a map
+        var infoWindow = new google.maps.InfoWindow({ maxWidth: 450 }), marker, i;
 
-            // Display multiple markers on a map
-            var infoWindow = new google.maps.InfoWindow({ maxWidth: 450 }), marker, i;
-
-            // Loop through our array of markers & place each one on the map
-            var iconBase = '/static/img/map/';
-            for( i = 0; i < markers.length; i++ ) {
-                img = 'logo_md.png';
-                var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-                marker = new google.maps.Marker({
-                    position: position,
-                    map: map,
-                    title: markers[i][0],
-                    icon: iconBase + img
-                });
+        // Loop through our array of markers & place each one on the map
+        var iconBase = '/static/img/map/';
+        for( i = 0; i < markers.length; i++ ) {
+            img = 'logo_md.png';
+            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+            marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: markers[i][0],
+                icon: iconBase + img
+            });
 
 
-                //can also have event on mouseover
-                google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                    return function() {
-                        infoWindow.setContent(infoWindowContent[i][0]);
-                        infoWindow.open(map, marker);
-                    }
-                })(marker, i));
-            }
+            //can also have event on mouseover
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infoWindow.setContent(infoWindowContent[i][0]);
+                    infoWindow.open(map, marker);
+                }
+            })(marker, i));
+        }
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -66,5 +74,5 @@
     });
 </script>
 
-<div id="map-canvas" class="col-sm-5 hidden-xs pull-left">
+<div id="map-canvas" class="col-sm-4 hidden-xs pull-left">
 </div>
