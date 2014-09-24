@@ -1,0 +1,17 @@
+{% extends "calayouts/control.html" %}
+{% load crispy_forms_tags %}
+
+{% block data %}
+    <div class="inner">
+        {% include "cainclude/content_nav.html" %}
+        <!-- eventually I'd like to have a breadcrumb so the user can go back -->
+        <div class="ca-form-container hidden">
+            <ol class="breadcrumb">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Library</a></li>
+              <li class="active">Data</li>
+            </ol>
+        </div>
+
+    </div>
+{% endblock %}

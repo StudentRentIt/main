@@ -13,6 +13,8 @@ urlpatterns = patterns('',
     url(r'^property/manage/$', views.manage_property, name=app_prefix + 'manage-property'),
     url(r'^property/edit/(?P<pk>\d+)/$', views.edit_property, name=app_prefix + 'edit-property'),
 
-    url(r'^content/add/$', views.add_content, name=app_prefix + 'add-content'),
+    url(r'^content/(?P<type>\S+)/add/$', views.add_content, name=app_prefix + 'add-content'),
+
+    url(r'^content/manage/$', views.manage_content, name=app_prefix + 'manage-content'),
     url(r'^content/edit/$', views.edit_content, name=app_prefix + 'edit-content'),
 )
