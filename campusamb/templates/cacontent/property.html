@@ -1,5 +1,11 @@
 {% extends "calayouts/control.html" %}
+{% load crispy_forms_tags %}
 
 {% block data %}
-
+    <div class="inner">
+        {% include "cainclude/property_nav.html" %}
+        <div class="ca-form-container">
+            {% crispy form %}
+        </div>
+    </div>
 {% endblock %}

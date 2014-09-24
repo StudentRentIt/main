@@ -25,6 +25,10 @@ html, body {
 .jumbotron h1 {
     font-weight:300;
 }
+.no-gutter {
+    padding-left:0;
+    padding-right:0;
+}
 .margin-top {
     margin-top: 50px;
 }
@@ -1148,6 +1152,9 @@ html, body, #map-canvas {
     padding:10px;
     border-radius:5px;
 }
+#ca-data .inner {
+    color:#292929;
+}
 
 #ca-menu {
     padding-right:0;
@@ -1218,4 +1225,13 @@ div.testimonial > div.person {
 }
 div.testimonial > p {
     padding:19px;
+}
+
+.ca-form-container {
+    padding-top:15px;
+}
+.ca-form-container legend {
+    text-align: center;
+    font-size: 250%;
+    font-weight:300;
 }
