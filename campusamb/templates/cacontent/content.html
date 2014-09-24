@@ -3,9 +3,7 @@
 
 {% block data %}
     <div class="inner">
-        <ul class="nav nav-pills nav-justified" role="tablist">
-          <li{% if action == "add" %} class="active"{% endif %}><a href="{% url 'ca-add-content' %}"><span class="glyphicon glyphicon-plus"></span> Add Content</a></li>
-          <li{% if action == "edit" %} class="active"{% endif %}><a href="{% url 'ca-edit-content' %}"><span class="glyphicon glyphicon-edit"></span> Edit Content</a></li>
-        </ul>
+        {% include "cainclude/content_nav.html" %}
+        {{ type }}
     </div>
 {% endblock %}

@@ -47,5 +47,9 @@ class Article(models.Model):
     def get_absolute_url(self):
         return reverse('blog-article', kwargs={'pk':self.id, 'slug':slugify(self.title)})
 
+    def get_ca_edit_url(self):
+        return reverse('ca-edit-article', kwargs={'pk':self.id})
+
+
     class Meta:
         ordering = ['-create_date']

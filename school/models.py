@@ -93,6 +93,9 @@ class Deal(SchoolBaseItem):
     class Meta:
         ordering = ['-sponsored', '-id']
 
+    def get_ca_edit_url(self):
+        return reverse('ca-edit-deal', kwargs={'pk':self.id})
+
     def __str__(self):
         return self.property.title + ' - ' + self.title
 
@@ -109,6 +112,9 @@ class Event(SchoolBaseItem):
 
     class Meta:
         ordering = ['-sponsored', '-id']
+
+    def get_ca_edit_url(self):
+        return reverse('ca-edit-event', kwargs={'pk':self.id})
 
     def __str__(self):
         return self.title

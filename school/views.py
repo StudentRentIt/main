@@ -93,12 +93,36 @@ def school_search(request, **kwargs):
         '''
 
         #take the post data and create variables
-        min_price = request.POST['minPrice']
-        max_price = request.POST['maxPrice']
-        min_bath = request.POST['minBath']
-        max_bath = request.POST['maxBath']
-        min_bed = request.POST['minBed']
-        max_bed = request.POST['maxBed']
+        try:
+            min_price = request.POST['minPrice']
+        except:
+            min_price = "0"
+
+        try:
+            max_price = request.POST['maxPrice']
+        except:
+            max_price = "5000"
+
+        try:
+            min_bath = request.POST['minBath']
+        except:
+            min_bath = "0"
+
+        try:
+            max_bath = request.POST['maxBath']
+        except:
+            max_bath = "10"
+
+        try:
+            min_bed = request.POST['minBed']
+        except:
+            min_bed = "0"
+
+        try:
+            max_bed = request.POST['maxBed']
+        except:
+            max_bed = "10"
+
         # keyword = request.POST['keyword']
 
         #clean price inputs
