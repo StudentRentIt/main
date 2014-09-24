@@ -1,5 +1,10 @@
 {% extends "calayouts/control.html" %}
 
 {% block data %}
-
+    <div class="inner">
+        <ul class="nav nav-pills nav-justified" role="tablist">
+          <li{% if action == "add" %} class="active"{% endif %}><a href="{% url 'ca-add-property' %}"><span class="glyphicon glyphicon-plus"></span> Add Property</a></li>
+          <li{% if action == "edit" %} class="active"{% endif %}><a href="{% url 'ca-edit-property' %}"><span class="glyphicon glyphicon-edit"></span> Edit Property</a></li>
+        </ul>
+    </div>
 {% endblock %}
