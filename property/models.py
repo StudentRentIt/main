@@ -72,7 +72,6 @@ class Amenity(models.Model):
     type = models.CharField(max_length=3, choices=AMENITY_TYPE_CHOICES, null=True, blank=True)
     image = models.ImageField(upload_to=get_amenity_image_path, null=True, blank=True)
     link = models.CharField(max_length=100, null=True, blank=True)
-    test_field = models.BooleanField(default=False)
     special = models.BooleanField(default=False)
 
     def __str__(self):
