@@ -27,6 +27,10 @@ html, body {
 .margin-top {
     margin-top: 50px;
 }
+.full-height {
+    height:100%;
+}
+
 #wrap {
     /*background-color: #eeeeee;*/
 	min-height: 100%;
@@ -1125,4 +1129,25 @@ html, body, #map-canvas {
     border: 1px solid #eeeeee;
     margin-top:10px;
     text-align:center;
+}
+
+
+/***** Campus Ambassador *****/
+.ca-container {
+    margin-top:50px;
+    height:100%;
+}
+#ca-data {
+    background-color:#eee;
+    height:100%;
+}
+#ca-data .inner {
+    margin:25px;
+    background-color:#fff;
+    height:90%;
+    padding:10px;
+    border-radius:5px;
+}
+#ca-menu {
+    padding:25px;
 }

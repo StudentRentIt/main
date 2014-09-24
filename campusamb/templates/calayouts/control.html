@@ -1,0 +1,21 @@
+{% extends "cainclude/base.html" %}
+
+{% block wrap %}
+    {% include "schoolinclude/map_script.html" %}
+
+    {% block body %}
+        <div class="ca-container">
+            <div class="row full-height">
+                <div id="ca-menu" class="col-sm-2">
+                    {% block menu %}{% endblock %}
+                </div>
+                <div id="ca-data" class="col-sm-10">
+                    <div class="inner">
+                        {% block data %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %} {# end body #}
+
+{% endblock %} {# end wrap #}
