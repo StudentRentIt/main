@@ -1,7 +1,44 @@
 {% extends "cainclude/base.html" %}
+{% load staticfiles %}
 
 {% block body %}
-    <div class="container-fluid ca-container">
-        home page for the campus ambassadors
+    <div id="ca-home-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <img src="{% static 'img/ca_temp/ca_students.jpg' %}" class="img-responsive" />
+                    <div id="ca-home-text">
+                        <h2>Get Hired</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac lacus quis metus feugiat dapibus. Vivamus pellentesque orci non arcu eleifend fringilla. Praesent libero velit, aliquet nec imperdiet quis, rhoncus in purus. Aenean sodales diam metus, quis volutpat elit laoreet sed. Sed in consectetur magna. Ut sapien nulla, rutrum eu pharetra nec, venenatis a felis. Donec neque justo, convallis nec posuere sit amet, ultrices in purus. Sed dui neque, dignissim ac nisl eu, euismod interdum lorem. Proin scelerisque gravida vulputate. Fusce molestie lacus libero, ac convallis justo iaculis vel. Proin vel nibh sit amet orci sagittis luctus ac eu odio. Morbi ornare nulla vitae dui lacinia, dignissim commodo nulla porta. Etiam sed augue id orci vestibulum lacinia eu eu risus.</p>
+                        <h2>Earn Money</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac lacus quis metus feugiat dapibus. Vivamus pellentesque orci non arcu eleifend fringilla. Praesent libero velit, aliquet nec imperdiet quis, rhoncus in purus. Aenean sodales diam metus, quis volutpat elit laoreet sed. Sed in consectetur magna. Ut sapien nulla, rutrum eu pharetra nec, venenatis a felis. Donec neque justo, convallis nec posuere sit amet, ultrices in purus. Sed dui neque, dignissim ac nisl eu, euismod interdum lorem. Proin scelerisque gravida vulputate. Fusce molestie lacus libero, ac convallis justo iaculis vel. Proin vel nibh sit amet orci sagittis luctus ac eu odio. Morbi ornare nulla vitae dui lacinia, dignissim commodo nulla porta. Etiam sed augue id orci vestibulum lacinia eu eu risus.</p>
+                        <h2>Apply Today</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac lacus quis metus feugiat dapibus. Vivamus pellentesque orci non arcu eleifend fringilla. Praesent libero velit, aliquet nec imperdiet quis, rhoncus in purus. Aenean sodales diam metus, quis volutpat elit laoreet sed. Sed in consectetur magna. Ut sapien nulla, rutrum eu pharetra nec, venenatis a felis. Donec neque justo, convallis nec posuere sit amet, ultrices in purus. Sed dui neque, dignissim ac nisl eu, euismod interdum lorem. Proin scelerisque gravida vulputate. Fusce molestie lacus libero, ac convallis justo iaculis vel. Proin vel nibh sit amet orci sagittis luctus ac eu odio. Morbi ornare nulla vitae dui lacinia, dignissim commodo nulla porta. Etiam sed augue id orci vestibulum lacinia eu eu risus.</p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div id="ca-testimonials">
+                        <div class="testimonial">
+                            <div class="person">
+                                Katie - University of Oregon
+                            </div>
+                            <p>Being able to work with RentVersity to earn money AND improve the community has been a blessing.</p>
+                        </div>
+                        <div class="testimonial">
+                            <div class="person">
+                                Jack - Washington State University
+                            </div>
+                            <p>I'm so glad I found the Campus Ambassador program with RentVersity, it has changed my life!</p>
+                        </div>
+                        <div class="testimonial">
+                            <div class="person">
+                                Sarah - University of Washington
+                            </div>
+                            <p>WSU is clearly better than UW, I can honestly say I made a mistake. Oh well, at least I found the RentVersity Campus Ambassador program.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

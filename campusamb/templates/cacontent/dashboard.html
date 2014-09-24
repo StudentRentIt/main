@@ -1,9 +1,15 @@
 {% extends "calayouts/control.html" %}
+{% load staticfiles %}
 
 {% block menu %}
     this is the menu
 {% endblock %}
 
 {% block data %}
-    this is where stuff happens
+    <div id="ca-dashboard">
+        <img src="{% static 'img/ca_temp/CA-dashboard-02_03.jpg' %}" />
+        <img src="{% static 'img/ca_temp/CA-dashboard-02_06.jpg' %}" />
+        <img src="{% static 'img/ca_temp/CA-dashboard-02_08.jpg' %}" />
+        <img src="{% static 'img/ca_temp/CA-dashboard-02_11.jpg' %}" />
+    </div>
 {% endblock %}

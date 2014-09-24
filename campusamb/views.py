@@ -19,7 +19,13 @@ def property(request):
     return render(request, "cacontent/property.html", {})
 
 
-def school_items(request):
+def content(request):
     # home page for the campus ambassadors
 
-    return render(request, "cacontent/school_items.html", {})
+    return render(request, "cacontent/content.html", {})
+
+
+def support(request):
+    # home page for the campus ambassadors
+
+    return render(request, "cacontent/support.html", {})

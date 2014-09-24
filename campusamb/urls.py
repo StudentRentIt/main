@@ -7,6 +7,7 @@ app_prefix = 'ca-'
 urlpatterns = patterns('',
     url(r'^$', views.home, name=app_prefix + 'home'),
     url(r'^dashboard/$', views.dashboard, name=app_prefix + 'dashboard'),
-    url(r'^property/$', views.dashboard, name=app_prefix + 'property'),
-    url(r'^content/$', views.dashboard, name=app_prefix + 'school-items'),
+    url(r'^property/$', views.property, name=app_prefix + 'property'),
+    url(r'^content/$', views.content, name=app_prefix + 'content'),
+    url(r'^support/$', views.support, name=app_prefix + 'support'),
 )

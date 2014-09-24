@@ -16,6 +16,7 @@
 html {
     overflow-x: hidden;
     font-family: 'Open Sans', sans-serif;
+    padding-top:50px;
 }
 html, body {
     height: 100%;
@@ -1134,20 +1135,86 @@ html, body, #map-canvas {
 
 /***** Campus Ambassador *****/
 .ca-container {
-    margin-top:50px;
     height:100%;
 }
 #ca-data {
-    background-color:#eee;
-    height:100%;
+    background-color:#282929;
+    min-height:100%;
+    color: white;
 }
 #ca-data .inner {
     margin:25px;
     background-color:#fff;
-    height:90%;
     padding:10px;
     border-radius:5px;
 }
+
 #ca-menu {
+    padding-right:0;
+    border-right:none;
+    border-top: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
+}
+#ca-menu a {
+    color:inherit;
+    text-decoration:none;
+}
+#ca-menu a:hover {
+    cursor:hand;
+}
+#ca-menu .menu-icon {
+    background-color:#eee;
+    text-align:center;
+    height:50px;
+}
+#ca-menu .row {
+    border: 1px solid #dedede;
+}
+#ca-menu .row:hover {
+    background-color:#0fab72;
+    color:white;
+}
+#ca-menu .row {
+    border: 1px solid #dedede;
+}
+#ca-menu .row > a > div {
+    padding-top:15px;
+    padding-bottom:15px;
+}
+#ca-menu .glyphicon {
+    float:right;
+}
+
+#ca-dashboard {
+    margin:15px;
+}
+#ca-dashboard > img {
+    padding: 5px;
+}
+#ca-home-container {
     padding:25px;
+    background-color:#eee;
+    margin-bottom: -150px;
+}
+#ca-testimonials > div.testimonial {
+  min-height: 20px;
+  margin:20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+}
+div.testimonial > div.person {
+    padding:5px;
+    text-align:center;
+    font-weight: 800;
+    background-color: #0fab72;
+    color:#fff;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+div.testimonial > p {
+    padding:19px;
 }
