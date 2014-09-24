@@ -1,0 +1,25 @@
+{% extends "calayouts/control.html" %}
+{% load crispy_forms_tags %}
+
+{% block data %}
+    <div class="inner">
+        {% include "cainclude/property_nav.html" %}
+        <div class="ca-form-container">
+            <table class="table table-striped">
+                <thead></thead>
+                <tbody>
+                    {% for p in property_list %}
+                        <tr>
+                            <td>
+                                <a href="{{ p.get_edit_url }}"><div class="btn btn-block btn-brand">
+                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                </div></a>
+                            </td>
+                            <td>{{ p }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,4 @@
+<ul class="nav nav-pills nav-justified" role="tablist">
+    <li{% if action == "add" %} class="active"{% endif %}><a href="{% url 'ca-add-property' %}"><span class="glyphicon glyphicon-plus"></span> Add Property</a></li>
+    <li{% if action == "manage" %} class="active"{% endif %}><a href="{% url 'ca-manage-property' %}"><span class="glyphicon glyphicon-edit"></span> Manage Property</a></li>
+</ul>

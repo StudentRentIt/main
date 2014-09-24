@@ -221,6 +221,9 @@ class Property(models.Model):
     def get_absolute_url(self):
         return reverse('property', kwargs={'pk':self.id, 'slug':slugify(self.title)})
 
+    def get_edit_url(self):
+        return reverse('ca-edit-property', kwargs={'pk':self.id})
+
     def has_community(self):
         '''
         Check to see if the property has any community items

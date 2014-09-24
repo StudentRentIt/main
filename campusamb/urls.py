@@ -10,7 +10,8 @@ urlpatterns = patterns('',
     url(r'^support/$', views.support, name=app_prefix + 'support'),
 
     url(r'^property/add/$', views.add_property, name=app_prefix + 'add-property'),
-    url(r'^property/edit/$', views.edit_property, name=app_prefix + 'edit-property'),
+    url(r'^property/manage/$', views.manage_property, name=app_prefix + 'manage-property'),
+    url(r'^property/edit/(?P<pk>\d+)/$', views.edit_property, name=app_prefix + 'edit-property'),
 
     url(r'^content/add/$', views.add_content, name=app_prefix + 'add-content'),
     url(r'^content/edit/$', views.edit_content, name=app_prefix + 'edit-content'),
