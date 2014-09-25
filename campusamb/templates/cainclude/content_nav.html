@@ -2,5 +2,5 @@
     <li{% if action == "add-article" %} class="active"{% endif %}><a href="{% url 'ca-add-content' 'article' %}"><span class="glyphicon glyphicon-plus"></span> Add Article</a></li>
     <li{% if action == "add-deal" %} class="active"{% endif %}><a href="{% url 'ca-add-content' 'deal' %}"><span class="glyphicon glyphicon-plus"></span> Add Deal</a></li>
     <li{% if action == "add-event" %} class="active"{% endif %}><a href="{% url 'ca-add-content' 'event' %}"><span class="glyphicon glyphicon-plus"></span> Add Event</a></li>
-    <li{% if action == "manage" %} class="active"{% endif %}><a href="{% url 'ca-manage-content' %}"><span class="glyphicon glyphicon-edit"></span> Manage Property</a></li>
+    <li{% if action == "manage-content" %} class="active"{% endif %}><a href="{% url 'ca-manage-content' %}"><span class="glyphicon glyphicon-edit"></span> Manage Property</a></li>
 </ul>

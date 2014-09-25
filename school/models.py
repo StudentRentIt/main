@@ -35,7 +35,7 @@ class School(models.Model):
     image = models.ImageField(upload_to=get_school_image_path, null=True)
 
     def get_absolute_url(self):
-        return reverse('school-search', kwargs={'slug':slugify(self.name)})
+        return reverse('search', kwargs={'slug':slugify(self.name)})
 
     def get_info_url(self):
         # url for the school info page
