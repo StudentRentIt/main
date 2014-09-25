@@ -1,5 +1,47 @@
 {% extends "searchinclude/base.html" %}
+{% load staticfiles %}
 
 {% block body %}
-    the home for group search info
+    <div id="group-search-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <img src="{% static 'img/ca_temp/ca_students.jpg' %}" class="img-responsive" />
+                    <div id="ca-home-text">
+                        <h2>Create Your Groups</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac lacus quis metus feugiat dapibus. Vivamus pellentesque orci non arcu eleifend fringilla. Praesent libero velit, aliquet nec imperdiet quis, rhoncus in purus. Aenean sodales diam metus, quis volutpat elit laoreet sed. Sed in consectetur magna. Ut sapien nulla, rutrum eu pharetra nec, venenatis a felis. Donec neque justo, convallis nec posuere sit amet, ultrices in purus. Sed dui neque, dignissim ac nisl eu, euismod interdum lorem. Proin scelerisque gravida vulputate. Fusce molestie lacus libero, ac convallis justo iaculis vel. Proin vel nibh sit amet orci sagittis luctus ac eu odio. Morbi ornare nulla vitae dui lacinia, dignissim commodo nulla porta. Etiam sed augue id orci vestibulum lacinia eu eu risus.</p>
+                        <h2>Share Notes</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac lacus quis metus feugiat dapibus. Vivamus pellentesque orci non arcu eleifend fringilla. Praesent libero velit, aliquet nec imperdiet quis, rhoncus in purus. Aenean sodales diam metus, quis volutpat elit laoreet sed. Sed in consectetur magna. Ut sapien nulla, rutrum eu pharetra nec, venenatis a felis. Donec neque justo, convallis nec posuere sit amet, ultrices in purus. Sed dui neque, dignissim ac nisl eu, euismod interdum lorem. Proin scelerisque gravida vulputate. Fusce molestie lacus libero, ac convallis justo iaculis vel. Proin vel nibh sit amet orci sagittis luctus ac eu odio. Morbi ornare nulla vitae dui lacinia, dignissim commodo nulla porta. Etiam sed augue id orci vestibulum lacinia eu eu risus.</p>
+                        <h2>Find A Place Together</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac lacus quis metus feugiat dapibus. Vivamus pellentesque orci non arcu eleifend fringilla. Praesent libero velit, aliquet nec imperdiet quis, rhoncus in purus. Aenean sodales diam metus, quis volutpat elit laoreet sed. Sed in consectetur magna. Ut sapien nulla, rutrum eu pharetra nec, venenatis a felis. Donec neque justo, convallis nec posuere sit amet, ultrices in purus. Sed dui neque, dignissim ac nisl eu, euismod interdum lorem. Proin scelerisque gravida vulputate. Fusce molestie lacus libero, ac convallis justo iaculis vel. Proin vel nibh sit amet orci sagittis luctus ac eu odio. Morbi ornare nulla vitae dui lacinia, dignissim commodo nulla porta. Etiam sed augue id orci vestibulum lacinia eu eu risus.</p>
+                        <div class="text-center">
+                            <a class="btn btn-brand btn-lg" href="{% url 'search-group-create' %}">Start Now <span class="glyphicon glyphicon-chevron-right"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div id="ca-testimonials">
+                        <div class="testimonial">
+                            <div class="person">
+                                Erin - University of Oregon
+                            </div>
+                            <p>Being able to search for a place to stay with my friends and share notes has made finding a place SO much easier.</p>
+                        </div>
+                        <div class="testimonial">
+                            <div class="person">
+                                Joe - Washington State University
+                            </div>
+                            <p>The Group Search feature in RentVersity has made it the best tool for finding apartments with friends. Well done!</p>
+                        </div>
+                        <div class="testimonial">
+                            <div class="person">
+                                Bethany - University of Washington
+                            </div>
+                            <p>Best. thing. ever. Now that we're able to form groups and seamlessly compare notes, I don't know how I would ever go back.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

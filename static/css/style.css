@@ -1203,7 +1203,8 @@ html, body, #map-canvas {
 #ca-dashboard > img {
     padding: 5px;
 }
-#ca-home-container {
+#ca-home-container,
+#group-search-container {
     padding:25px;
     background-color:#eee;
     margin-bottom: -150px;
