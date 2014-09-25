@@ -1,9 +1,13 @@
 {% extends "calayouts/control.html" %}
+{% load crispy_forms_tags %}
 
+{% block javascript %}
+    {% include "flowcore/general/datepicker.html" %}
+{% endblock %}
 
 {% block data %}
     <div class="inner">
         {% include "cainclude/content_nav.html" %}
-        {{ type }}
+        {% crispy form %}
     </div>
 {% endblock %}

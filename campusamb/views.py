@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
-from campusamb.forms import AddPropertyForm, EditPropertyForm
+from campusamb.forms import AddPropertyForm, EditPropertyForm, AddEventForm, \
+    AddArticleForm, AddDealForm
 from property.models import Property
+from school.models import Deal, Event
+from blog.models import Article
 
 
 def home(request):
@@ -66,18 +69,37 @@ def add_content(request, type):
     '''
     action = 'add-' + type
 
+    if type == "article":
+        form = AddArticleForm()
+    elif type == "deal":
+        form = AddDealForm()
+    elif type == "event":
+        form = AddEventForm()
+
     return render(request, "cacontent/content.html",
-        {'action':action, 'type':type})
+        {'action':action, 'type':type, 'form':form})
 
 
 @staff_member_required
-def edit_content(request):
+def edit_content(request, **kwargs):
     '''
     campus ambassadors will be able to edit existing content items that
     fall into their assigned schools
     '''
-    action = 'edit'
-    form = ""
+    type = kwargs['type']
+    id = kwargs['pk']
+
+    action = 'edit-' + type
+
+    if type == "article":
+        article = get_object_or_404(Article, id=id)
+        form = AddArticleForm(instance=article)
+    elif type == "deal":
+        deal = get_object_or_404(Deal, id=id)
+        form = AddDealForm(instance=deal)
+    elif type == "event":
+        event = get_object_or_404(Event, id=id)
+        form = AddEventForm(instance=event)
 
     return render(request, "cacontent/content.html",
         {'action':action, 'form':form, 'type':type})
@@ -88,10 +110,13 @@ def manage_content(request):
     '''
     show the content items that the campus ambassador is able to edit
     '''
-    action = 'manage'
+    action = 'manage-content'
+    deals = Deal.objects.all()
+    events = Event.objects.all()
+    articles = Article.objects.all()
 
     return render(request, "cacontent/manage_content.html",
-        {'action':action})
+        {'action':action, 'deals':deals, 'events':events, 'articles':articles})
 
 
 @staff_member_required

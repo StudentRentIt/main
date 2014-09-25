@@ -2,6 +2,8 @@ from django import forms
 from django.forms import ModelForm
 
 from property.models import Property
+from blog.models import Article
+from school.models import Deal, Event
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, Fieldset, ButtonHolder, Field
@@ -50,7 +52,7 @@ class AddPropertyForm(ModelForm):
 
             ),
             ButtonHolder(
-                Submit('submit', 'Save Property', css_class='btn-success btn-lg'),
+                Submit('submit', 'Save Property', css_class='btn-brand btn-lg'),
                 css_class="text-center"
             )
         )
@@ -63,23 +65,123 @@ class EditPropertyForm(AddPropertyForm):
         exclude = ['property', 'user']
 
 
-class AddContentForm(ModelForm):
+class AddDealForm(ModelForm):
 
     class Meta:
-        model = Property
-        exclude = ['property', 'user']
+        model = Deal
+        excludes = ['user']
 
     def __init__(self, *args, **kwargs):
-        super(AddContentForm, self).__init__(*args, **kwargs)
+        super(AddDealForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset('',
+                Div('title', css_class="col-sm-6"),
+                Div('heading', css_class="col-sm-6"),
+                Div('description', css_class="col-sm-6"),
+                Div('school', css_class="col-sm-3"),
+                Div('property', css_class="col-sm-3"),
+                Div('image', css_class="col-sm-2"),
+                Div('active', css_class="col-sm-2"),
+                Div('sponsored', css_class="col-sm-2"),
+            ),
+            ButtonHolder(
+                Submit('submit', 'Save Deal', css_class='btn-brand btn-lg'),
+                css_class="text-center"
+            )
+        )
+
+
+class AddArticleForm(ModelForm):
+
+    class Meta:
+        model = Article
+        exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super(AddArticleForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset('',
+                Div('title', css_class="col-sm-6"),
+                Div('heading', css_class="col-sm-6"),
+                Div('body', css_class="col-sm-6"),
+                Div('school', css_class="col-sm-3"),
+                Div('property', css_class="col-sm-3"),
+                Div('active', css_class="col-sm-2"),
+                Div('sponsored', css_class="col-sm-2"),
+                Div('general_page', css_class="col-sm-2"),
+                Div('tags', css_class="col-sm-3"),
+                Div('image', css_class="col-sm-3"),
+
+            ),
+            ButtonHolder(
+                Submit('submit', 'Save Article', css_class='btn-brand btn-lg'),
+                css_class="text-center"
+            )
+        )
+
+
+class AddEventForm(ModelForm):
+
+    class Meta:
+        model = Event
+        excludes = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super(AddEventForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset('',
+                Div('title', css_class="col-sm-6"),
+                Div('heading', css_class="col-sm-6"),
+                Div('description', css_class="col-sm-6"),
+                Div('school', css_class="col-sm-3"),
+                Div('property', css_class="col-sm-3"),
+                Div('image', css_class="col-sm-2"),
+                Div('active', css_class="col-sm-2"),
+                Div('sponsored', css_class="col-sm-2"),
+                Div('location', css_class="col-sm-6"),
+                Div(Field('date', css_class='datepicker')
+                    , css_class="col-sm-3"),
+                Div('time', css_class="col-sm-3"),
+
+            ),
+            ButtonHolder(
+                Submit('submit', 'Save Event', css_class='btn-brand btn-lg'),
+                css_class="text-center"
+            )
+        )
+
+
+class EditArticleForm(AddArticleForm):
+
+    class Meta:
+        model = Article
+        exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super(EditArticleForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
 
 
-class EditContentForm(ModelForm):
+class EditDealForm(AddDealForm):
 
     class Meta:
-        model = Property
-        exclude = ['property', 'user']
+        model = Deal
+        exclude = ['user']
 
     def __init__(self, *args, **kwargs):
-        super(EditContentForm, self).__init__(*args, **kwargs)
+        super(EditDealForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+
+
+class EditEventForm(AddEventForm):
+
+    class Meta:
+        model = Event
+        exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super(EditEventForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()

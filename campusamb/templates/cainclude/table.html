@@ -1,0 +1,17 @@
+<table class="table table-striped">
+    <thead></thead>
+    <tbody>
+        {% for o in object_list %}
+            <tr>
+                {% block tr %}
+                    <td>
+                        <a href="{{ o.get_edit_url }}"><div class="btn btn-block btn-brand">
+                            <span class="glyphicon glyphicon-edit"></span> Edit
+                        </div></a>
+                    </td>
+                    <td>{{ o }}</td>
+                {% endblock %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

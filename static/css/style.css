@@ -35,6 +35,10 @@ html, body {
 .full-height {
     height:100%;
 }
+.ui-datepicker-header {
+    background:#0fab72;
+    border-color:#0fab72;
+}
 
 #wrap {
     /*background-color: #eeeeee;*/
@@ -1153,7 +1157,7 @@ html, body, #map-canvas {
     border-radius:5px;
 }
 #ca-data .inner {
-    color:#292929;
+    color:#282929;
 }
 
 #ca-menu {
@@ -1234,4 +1238,18 @@ div.testimonial > p {
     text-align: center;
     font-size: 250%;
     font-weight:300;
+}
+#ca-data legend {
+    text-align:center;
+    font-size:200%;
+    font-weight:300;
+}
+#ca-data form {
+    margin-top:30px;
+}
+#ca-data .nav a {
+    color:#282929;
+}
+#ca-data .nav li.active a {
+    color:#fff;
 }

@@ -4,14 +4,34 @@
 {% block data %}
     <div class="inner">
         {% include "cainclude/content_nav.html" %}
-        <!-- eventually I'd like to have a breadcrumb so the user can go back -->
-        <div class="ca-form-container hidden">
-            <ol class="breadcrumb">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Library</a></li>
-              <li class="active">Data</li>
-            </ol>
+        <div class="row">
+            <div class="col-sm-4">
+                <table class="table table-striped">
+                    <tbody>
+                        {% with articles as object_list %}
+                            {% include "cainclude/table.html" %}
+                        {% endwith %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table class="table table-striped">
+                    <tbody>
+                        {% with deals as object_list %}
+                            {% include "cainclude/table.html" %}
+                        {% endwith %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table class="table table-striped">
+                    <tbody>
+                        {% with events as object_list %}
+                            {% include "cainclude/table.html" %}
+                        {% endwith %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-
     </div>
 {% endblock %}

@@ -6,18 +6,10 @@
         {% include "cainclude/property_nav.html" %}
         <div class="ca-form-container">
             <table class="table table-striped">
-                <thead></thead>
                 <tbody>
-                    {% for p in property_list %}
-                        <tr>
-                            <td>
-                                <a href="{{ p.get_edit_url }}"><div class="btn btn-block btn-brand">
-                                    <span class="glyphicon glyphicon-edit"></span> Edit
-                                </div></a>
-                            </td>
-                            <td>{{ p }}</td>
-                        </tr>
-                    {% endfor %}
+                    {% with property_list as object_list %}
+                        {% include "cainclude/table.html" %}
+                    {% endwith %}
                 </tbody>
             </table>
         </div>
