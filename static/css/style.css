@@ -539,8 +539,16 @@ html, body, #map-canvas {
     text-decoration:none;
     padding:10px;
 }
+#group-feature-list li {
+    list-style-type:none;
+    padding:20px;
+    font-size:150%;
+    font-weight:300
+}
 
 
+
+/***** OTHER *****/
 .row-howitworks {
     margin:15px 0;
     padding:15px 0;

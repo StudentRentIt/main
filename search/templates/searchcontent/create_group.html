@@ -1,5 +1,19 @@
 {% extends "searchinclude/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block body %}
-    create a new group
+    <div id="group-search-container">
+        <div class="container">
+            <div class="col-sm-6">
+                {% crispy form %}
+            </div>
+            <div class="col-sm-6">
+                <ul id="group-feature-list">
+                    <li>Add or Remove members from the search group</li>
+                    <li>Interaction through property-specific comments</li>
+                    <li>Communicate easier when finding a place</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

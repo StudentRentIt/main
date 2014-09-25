@@ -1,7 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.text import slugify
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
+from search.forms import GroupForm
+from search.models import Group
 from school.models import School, Neighborhood
 from school.utils import get_school, get_school_items, get_neighborhood_items
 from main.utils import get_favorites, unslugify
@@ -211,11 +214,30 @@ def create_group(request):
     create a new group and then be directed to the manage page
     to add other users
     '''
+    template_name = "searchcontent/create_group.html"
 
-    return render(request, "searchcontent/create_group.html", {})
+    if request.method == "POST":
+        form = GroupForm(request.POST)
+
+        if form.is_valid():
+            # save form and redirect to manage page
+            form.save()
+            group = form.save()
+
+            success_url = reverse('search-group-manage', kwargs={'pk': group.id})
+
+            return redirect(success_url)
+        else:
+            return render(request, template_name, {'form': form})
+    else:
+        form = GroupForm()
 
 
-def view_group(request):
+    return render(request, template_name,
+        {'form': form})
+
+
+def view_group(request, pk):
     '''
     view the properties and comments that have been added into your group search
     have the ability to add, remove, edit comments as well as add/remove
@@ -225,10 +247,12 @@ def view_group(request):
     return render(request, "searchcontent/view_group.html", {})
 
 
-def manage_group(request):
+def manage_group(request, pk):
     '''
     perform managerial tasks of the group. Some things might include leaving
     the group, adding new members, removing members (admin)
     '''
+    group = get_object_or_404(Group, id=pk)
 
-    return render(request, "searchcontent/manage_group.html", {})
+    return render(request, "searchcontent/manage_group.html",
+        {'group': group})
