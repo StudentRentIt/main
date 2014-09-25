@@ -1,5 +1,30 @@
 {% extends "searchinclude/base.html" %}
 
 {% block body %}
-    manage the group. Add/Remove members {{ group }}
+    <div id="group-search-container">
+        <div class="container">
+            <h3 class="text-center">Manage Your Groups</h3>
+                <table class="table table-striped">
+                    <tbody>
+                        {% for g in groups %}
+                            <tr>
+                                <td><a href="{{ g.get_absolute_url }}">{{ g }}</a><br></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            <h3 class="text-center">Manage Your Group Members</h3>
+            <table class="table table-striped">
+                <tbody>
+                    {% for m in members %}
+                        <tr>
+                            <td>{{ m.group }}</td>
+                            <td>{{ m.user.first_name }} {{ m.user.last_name }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

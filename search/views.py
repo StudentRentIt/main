@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.text import slugify
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 
 from search.forms import GroupForm
-from search.models import Group
+from search.models import GroupMember, Group
 from school.models import School, Neighborhood
 from school.utils import get_school, get_school_items, get_neighborhood_items
 from main.utils import get_favorites, unslugify
@@ -209,6 +210,7 @@ def group_info(request):
     return render(request, "searchcontent/group.html", {})
 
 
+@login_required
 def create_group(request):
     '''
     create a new group and then be directed to the manage page
@@ -220,9 +222,13 @@ def create_group(request):
         form = GroupForm(request.POST)
 
         if form.is_valid():
-            # save form and redirect to manage page
+            # save the group
             form.save()
             group = form.save()
+
+            # save the current user into the group
+            member = GroupMember(user=request.user, group=group)
+            member.save()
 
             success_url = reverse('search-group-manage', kwargs={'pk': group.id})
 
@@ -237,6 +243,7 @@ def create_group(request):
         {'form': form})
 
 
+@login_required
 def view_group(request, pk):
     '''
     view the properties and comments that have been added into your group search
@@ -247,12 +254,25 @@ def view_group(request, pk):
     return render(request, "searchcontent/view_group.html", {})
 
 
+@login_required
 def manage_group(request, pk):
     '''
     perform managerial tasks of the group. Some things might include leaving
     the group, adding new members, removing members (admin)
     '''
-    group = get_object_or_404(Group, id=pk)
+
+    # Show a list of groups that a user is in, and provide link and option to leave group
+    user = request.user
+
+    # list of groups that the user is a member of
+    members = GroupMember.objects.filter(user=user)
+
+    group_ids = []
+    for m in members:
+        group_id = m.group.id
+        group_ids.append(group_id)
+
+    groups = Group.objects.filter(id__in=group_ids)
 
     return render(request, "searchcontent/manage_group.html",
-        {'group': group})
+                  {'groups': groups, 'members': members})
