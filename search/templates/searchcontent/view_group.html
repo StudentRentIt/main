@@ -1,5 +1,35 @@
 {% extends "searchinclude/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+    <script src="{% static 'js/general/full_height.js' %}"></script>
+{% endblock %}
 
 {% block body %}
-    Will view the group stuff here.
+    <div class="row no-margin full-height">
+        <div id="group-search-side" class="col-sm-2 full-height">
+            <div class="full-height">
+                <h4 class="header">MEMBERS</h4>
+                {% for m in members %}
+                    <p>{{ m }} ({{ m.user.first_name }} {{ m.user.last_name }})</p>
+                {% endfor %}
+                <h4 class="header">RECENT COMMENTS</h4>
+                {% for c in recent_comments %}
+                    <p>{{ c }}</p>
+                {% empty %}
+                    There have been no comments. Get at it!
+                {% endfor %}
+                <h4 class="header">RECENT FAVORITES</h4>
+                {% for f in favorites %}
+                    <p><a href="{{ f.property.get_absolute_url }}">{{ f }}</a></p>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="group-search-main" class="col-sm-10 full-height">
+            <h1 class="text-center">Group Search for {{ group }}</h1>
+            <div class="row" id="group-search-content">
+
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -5,7 +5,8 @@
     Registration
 
     rentversity mint: #0fab72
-    rentversity dark: #282929
+    rentversity darkes: #282929
+    rentverstiy darker gray: #a6a6a6
     rentversity gray: #eeeeee
     
     rentsity main color: #F67055
@@ -29,6 +30,10 @@ html, body {
     padding-left:0;
     padding-right:0;
 }
+.no-margin {
+    margin-left:0;
+    margin-right:0;
+}
 .margin-top {
     margin-top: 50px;
 }
@@ -39,7 +44,6 @@ html, body {
     background:#0fab72;
     border-color:#0fab72;
 }
-
 #wrap {
     /*background-color: #eeeeee;*/
 	min-height: 100%;
@@ -544,6 +548,33 @@ html, body, #map-canvas {
     padding:20px;
     font-size:150%;
     font-weight:300
+}
+#group-search-main {
+    background-color: #eee;
+}
+#group-search-side {
+    background-color: #a6a6a6;
+    color:#fff;
+}
+#group-search-side .header {
+    color:black;
+    text-align:center;
+}
+#group-search-side p {
+    margin:0;
+}
+#group-search-side a {
+    color:white;
+}
+#group-search-side a:hover {
+    color:#0fab72;
+    text-decoration:none;
+}
+#group-search-content {
+    background-color:#fff;
+    margin:40px;
+    padding:20px;
+    border-radius:5px;
 }
 
 

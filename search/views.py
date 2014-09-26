@@ -7,14 +7,14 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 
 from search.forms import GroupForm
-from search.models import GroupMember, Group
+from search.models import GroupMember, Group, GroupProperty, GroupComment
 from school.models import School, Neighborhood
 from school.utils import get_school, get_school_items, get_neighborhood_items
 from main.utils import get_favorites, unslugify
 from blog.models import Article
 from flowreport.models import SchoolSearch
 from property.models import Property, PropertyRoom, Amenity, PropertyLeaseType, \
-                            PropertyLeaseStart, PropertyLeaseTerm
+                            PropertyLeaseStart, PropertyLeaseTerm, PropertyFavorite
 
 
 def search(request, **kwargs):
@@ -252,8 +252,26 @@ def view_group(request, pk):
     have the ability to add, remove, edit comments as well as add/remove
     properties.
     '''
+    group = get_object_or_404(Group, id=pk)
+    properties = GroupProperty.objects.filter(group=group)
+    members = GroupMember.objects.filter(group=group)
 
-    return render(request, "searchcontent/view_group.html", {})
+    recent_comments = GroupComment.objects.filter(author__group=group)[:6]
+
+    # get the users and then gather the favorites
+    user_list = []
+    for m in members:
+        user_list.append(m.user)
+
+    favorites = PropertyFavorite.objects.filter(user__in=user_list)
+
+
+
+
+
+    return render(request, "searchcontent/view_group.html",
+        {'group': group, 'properties': properties, 'members': members,
+         'favorites': favorites, 'recent_comments': recent_comments})
 
 
 @login_required
