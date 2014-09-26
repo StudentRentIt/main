@@ -11,7 +11,7 @@ class Group(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('search-group-manage', kwargs={'pk':self.id})
+        return reverse('search-group-view', kwargs={'pk':self.id})
 
 
 class GroupMember(models.Model):

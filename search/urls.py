@@ -8,8 +8,7 @@ urlpatterns = patterns('',
     # group subapp
     url(r'^group/$', views.group_info, name=search_group_prefix + 'info'),
     url(r'^group/create/$', views.create_group, name=search_group_prefix + 'create'),
-    url(r'^group/manage/(?P<pk>\d+)/$', views.manage_group,
-        name=search_group_prefix + 'manage'),
+    url(r'^group/manage/$', views.manage_group, name=search_group_prefix + 'manage'),
     url(r'^group/view/(?P<pk>\d+)/$', views.view_group,
         name=search_group_prefix + 'view'),
 

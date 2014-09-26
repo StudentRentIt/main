@@ -3,6 +3,8 @@ from django.utils.text import slugify
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 from search.forms import GroupForm
 from search.models import GroupMember, Group
@@ -230,7 +232,7 @@ def create_group(request):
             member = GroupMember(user=request.user, group=group)
             member.save()
 
-            success_url = reverse('search-group-manage', kwargs={'pk': group.id})
+            success_url = reverse('search-group-manage')
 
             return redirect(success_url)
         else:
@@ -255,7 +257,7 @@ def view_group(request, pk):
 
 
 @login_required
-def manage_group(request, pk):
+def manage_group(request):
     '''
     perform managerial tasks of the group. Some things might include leaving
     the group, adding new members, removing members (admin)
@@ -265,14 +267,61 @@ def manage_group(request, pk):
     user = request.user
 
     # list of groups that the user is a member of
-    members = GroupMember.objects.filter(user=user)
+    my_group_members = GroupMember.objects.filter(user=user)
 
     group_ids = []
-    for m in members:
+    for m in my_group_members:
         group_id = m.group.id
         group_ids.append(group_id)
 
     groups = Group.objects.filter(id__in=group_ids)
 
+    if request.method == "POST":
+        # attempt to add the user into the selected group
+        try:
+            '''
+            get the post variables. If they weren't supplied in the post then that
+            means there was a problem with the post request
+            '''
+            username = request.POST['username']
+            group_id = request.POST['group_id']
+        except:
+            error_msg = "There was a problem determining who you are trying to add/remove"
+            return render(request, "searchcontent/manage_group.html",
+                  {'groups': groups, 'error_msg': error_msg})
+
+        if 'add' in request.POST:
+            '''
+            save the new member to the group. If this fails then that probably means
+            the user entered the username to add incorrectly
+            '''
+            try:
+                user = User.objects.get(username=username)
+                group = Group.objects.get(id=group_id)
+                gm = GroupMember(user=user, group=group)
+                gm.save()
+            except:
+                error_msg = "There was a problem saving. Maybe their username is wrong?"
+                return render(request, "searchcontent/manage_group.html",
+                      {'groups': groups, 'error_msg': error_msg})
+
+        elif 'remove' in request.POST:
+            try:
+                '''
+                remove the user from a group
+                '''
+                user = User.objects.get(username=username)
+                group = Group.objects.get(id=group_id)
+                gm = GroupMember.objects.get(user=user, group=group)
+                gm.delete()
+            except Exception as e:
+                error_msg = "There was a problem deleting the user. Not sure what's wrong, looking into it now."
+                return render(request, "searchcontent/manage_group.html",
+                      {'groups': groups, 'error_msg': e})
+
+
     return render(request, "searchcontent/manage_group.html",
-                  {'groups': groups, 'members': members})
+                  {'groups': groups})
+
+
+
