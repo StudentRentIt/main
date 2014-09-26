@@ -3,10 +3,5 @@ __pycache__/
 .idea/
 bin/
 media/
-dev/
-rentversity/
-testenv/
-prod/
 db/
 main/templates/maininclude/head.html
-manage.py
