@@ -1,4 +1,6 @@
-{% if forloop.first or forloop.counter0|divisibleby:"2" %}<div class="row list-view-row">{% endif %}
+{% if forloop.first or forloop.counter0|divisibleby:"2" %}
+    <div class="row list-view-row{% if gp %} group-list-view-row{% endif %}">
+{% endif %}
     <div class="col-xs-6">
         <a href="{% url 'property' p.id p.title|slugify %}" style="position:relative;">
             <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
@@ -24,22 +26,6 @@
                 {% endif %}
             </div>
         </div>
-        {% if gp %}
-            {# add comments if there are group properties passed in #}
-            <div class="group-comments col-sm-12 no-gutter">
-                <header><span class="glyphicon glyphicon-arrow-up"></span> Comments</header>
-                <div class="inner">
-                    {% for c in gp.groupcomment_set.all %}
-                        <div>
-                            {{ c.author }} - {{ c.text }}
-                        </div>
-                    {% empty %}
-                        <div class="text-center">
-                            there are no comments :(
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endif %}
+        {% include "searchinclude/comments.html" %}
     </div>
 {% if forloop.last or forloop.counter|divisibleby:"2" %}</div>{% endif %}

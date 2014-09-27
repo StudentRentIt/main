@@ -1,0 +1,31 @@
+{% if gp %}
+    {# add comments if there are group properties passed in #}
+    <div class="group-comments col-sm-12 no-gutter">
+        <header><span class="glyphicon glyphicon-arrow-up"></span> Comments</header>
+        <div class="inner">
+            {% for c in gp.groupcomment_set.all %}
+                <div class="comment">
+                    <b>{{ c.author }}</b> {{ c.text }}
+                </div>
+            {% empty %}
+                <div class="text-center">
+                    there are no comments :(
+                </div>
+            {% endfor %}
+        </div>
+        <form class="form-inline" role="form" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="input-group">
+                    <input name="comment" class="form-control" placeholder="Enter Comment (max 200 chars)">
+                    <input type="hidden" name="propertyId" value="{{ p.id }}" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-brand" type="submit">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endif %}

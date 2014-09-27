@@ -578,6 +578,7 @@ html, body, #map-canvas {
 .group-comments {
     border: 3px solid #0fab72;
     border-radius: 5px;
+    background-color: #eee;
 }
 .group-comments header {
     background-color: #0fab72;
@@ -588,6 +589,18 @@ html, body, #map-canvas {
 }
 .group-comments .inner {
     padding:20px;
+}
+.group-comments form {
+    color: white;
+    float: right;
+    padding:15px;
+}
+.group-comments > .inner > .comment {
+    padding-top:5px;
+    padding-bottom:5px;
+}
+.group-list-view-row {
+    background-color: white!important;
 }
 
 

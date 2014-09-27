@@ -264,7 +264,7 @@ def view_group(request, pk):
 
     # determine if the user in the group
     try:
-        GroupMember.objects.get(group=group, user=request.user)
+        member = GroupMember.objects.get(group=group, user=request.user)
     except:
         return render(request, "searchcontent/view_group.html",
             {'error': 'You do not have access to this group. Maybe you entered the id by mistake? ' +
@@ -276,6 +276,19 @@ def view_group(request, pk):
         user_list.append(m.user)
 
     favorites = PropertyFavorite.objects.filter(user__in=user_list)
+
+    if request.method == "POST":
+        # save the comment that was posted
+        comment = request.POST["comment"]
+        property_id = request.POST["propertyId"]
+
+        property = get_object_or_404(Property, id=property_id)
+        user = User.objects.get(username=request.user.username)
+        gp = get_object_or_404(GroupProperty, property=property, group=group)
+        gm = GroupMember.objects.get(group=group, user=user)
+
+        gc = GroupComment(group_property=gp, author=gm, text=comment)
+        gc.save()
 
     return render(request, "searchcontent/view_group.html",
         {'group': group, 'properties': properties, 'members': members,
@@ -348,10 +361,3 @@ def manage_group(request):
 
     return render(request, "searchcontent/manage_group.html",
                   {'groups': groups})
-
-
-def add_property_to_group(request, property):
-    '''
-    this will add a property to a group's property list
-    '''
-
