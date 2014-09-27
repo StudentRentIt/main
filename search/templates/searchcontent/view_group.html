@@ -6,32 +6,35 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row no-margin full-height">
-        <div id="group-search-side" class="col-sm-2 full-height">
-            <div class="full-height">
-                <h4 class="header">MEMBERS</h4>
-                {% for m in members %}
-                    <p>{{ m }} ({{ m.user.first_name }} {{ m.user.last_name }})</p>
-                {% endfor %}
-                <h4 class="header">RECENT COMMENTS</h4>
-                {% for c in recent_comments %}
-                    <p>{{ c }}</p>
-                {% empty %}
-                    There have been no comments. Get at it!
-                {% endfor %}
-                <h4 class="header">RECENT FAVORITES</h4>
-                {% for f in favorites %}
-                    <p><a href="{{ f.property.get_absolute_url }}">{{ f }}</a></p>
-                {% endfor %}
-            </div>
+    <div class="row no-margin full-height" style="background-color: #a6a6a6;">
+        <div id="group-search-side" class="col-sm-2">
+            <h4 class="header">MEMBERS</h4>
+            {% for m in members %}
+                <p>{{ m }} ({{ m.user.first_name }} {{ m.user.last_name }})</p>
+            {% endfor %}
+            <h4 class="header">RECENT COMMENTS</h4>
+            {% for c in recent_comments %}
+                <p>{{ c }}</p>
+            {% empty %}
+                There have been no comments. Get at it!
+            {% endfor %}
+            <h4 class="header">RECENT FAVORITES</h4>
+            {% for f in favorites %}
+                <p><a href="{{ f.property.get_absolute_url }}">{{ f }}</a></p>
+            {% endfor %}
         </div>
-        <div id="group-search-main" class="col-sm-10 full-height">
+        <div id="group-search-main" class="col-sm-10">
             <h1 class="text-center">Group Search for {{ group }}</h1>
             <div class="row" id="group-search-content">
                 {% if error %}
                     {{ error|safe }}
                 {% else %}
-
+                    {% for p in properties %}
+                        {% with p.property as p and p as gp %}
+                            {# need to pass in the property object. p is a groupproperty object #}
+                            {% include "propertyinclude/property_list.html" %}
+                        {% endwith %}
+                    {% endfor %}
                 {% endif %}
             </div>
         </div>

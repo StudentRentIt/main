@@ -50,4 +50,4 @@ class GroupComment(models.Model):
     create_datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.author + ' ' + self.text
+        return str(self.author) + ' ' + self.text

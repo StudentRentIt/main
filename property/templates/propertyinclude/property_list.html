@@ -1,0 +1,45 @@
+{% if forloop.first or forloop.counter0|divisibleby:"2" %}<div class="row list-view-row">{% endif %}
+    <div class="col-xs-6">
+        <a href="{% url 'property' p.id p.title|slugify %}" style="position:relative;">
+            <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
+            title="Apartments - {{ p.title }}" alt="Apartments - {{ p.title }}" class="img-responsive" />
+            <div class="price-overlay main-inverse">
+                ${{ p.low_price|floatformat:"0" }}/${{ p.high_price|floatformat:"0" }}
+            </div>
+        </a>
+        <div class="list-view-content">
+            <div class="col-sm-9">
+                <h3>{{ p.title }}</h3>
+                <h4>{{ p.addr }}</h4>
+            </div>
+            <div class="col-sm-3 button-group">
+                {% include "searchinclude/group_search_button.html" %}
+                {% include "propertyinclude/favorite.html" %}
+            </div>
+            <div class="col-sm-12 text-center">
+                {% if p.rating %}
+                    {% with p.rating as rating %}
+                        {% include "maininclude/rating.html" %}
+                    {% endwith %}
+                {% endif %}
+            </div>
+        </div>
+        {% if gp %}
+            {# add comments if there are group properties passed in #}
+            <div class="group-comments col-sm-12 no-gutter">
+                <header><span class="glyphicon glyphicon-arrow-up"></span> Comments</header>
+                <div class="inner">
+                    {% for c in gp.groupcomment_set.all %}
+                        <div>
+                            {{ c.author }} - {{ c.text }}
+                        </div>
+                    {% empty %}
+                        <div class="text-center">
+                            there are no comments :(
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% if forloop.last or forloop.counter|divisibleby:"2" %}</div>{% endif %}

@@ -254,8 +254,11 @@ def view_group(request, pk):
     '''
 
     group = get_object_or_404(Group, id=pk)
-    properties = GroupProperty.objects.filter(group=group)
     members = GroupMember.objects.filter(group=group)
+    properties = GroupProperty.objects.filter(group=group)
+    # properties = []
+    # for p in group_properties:
+    #     properties.append(p.property)
 
     recent_comments = GroupComment.objects.filter(author__group=group)[:6]
 

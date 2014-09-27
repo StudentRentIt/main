@@ -553,7 +553,6 @@ html, body, #map-canvas {
     background-color: #eee;
 }
 #group-search-side {
-    background-color: #a6a6a6;
     color:#fff;
 }
 #group-search-side .header {
@@ -575,6 +574,20 @@ html, body, #map-canvas {
     margin:40px;
     padding:20px;
     border-radius:5px;
+}
+.group-comments {
+    border: 3px solid #0fab72;
+    border-radius: 5px;
+}
+.group-comments header {
+    background-color: #0fab72;
+    color: white;
+    text-align: center;
+    font-weight:300;
+    font-size:150%;
+}
+.group-comments .inner {
+    padding:20px;
 }
 
 
