@@ -21,24 +21,32 @@
                 <h1 class="hidden-xs hidden-sm text-center page-header">
                     Apartments in {{ school.city }}
                 </h1>
-                {% for a in properties %}
+                {% for p in properties %}
                     {% if forloop.first or forloop.counter0|divisibleby:"2" %}<div class="row list-view-row">{% endif %}
                         <div class="col-xs-6">
-                            <a href="{% url 'property' a.id a.title|slugify %}" style="position:relative;">
-                                <img src="{% with a.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
-                                title="Apartments - {{ a.title }}" alt="Apartments - {{ a.title }}" class="img-responsive" />
+                            <a href="{% url 'property' p.id p.title|slugify %}" style="position:relative;">
+                                <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
+                                title="Apartments - {{ p.title }}" alt="Apartments - {{ p.title }}" class="img-responsive" />
                                 <div class="price-overlay main-inverse">
-                                    ${{ a.low_price|floatformat:"0" }}/${{ a.high_price|floatformat:"0" }}
+                                    ${{ p.low_price|floatformat:"0" }}/${{ p.high_price|floatformat:"0" }}
                                 </div>
                             </a>
                             <div class="list-view-content">
-                                <h3>{{ a.title }}</h3>
-                                <h4>{{ a.addr }}</h4>
-                                {% if a.rating %}
-                                    {% with a.rating as rating %}
-                                        {% include "maininclude/rating.html" %}
-                                    {% endwith %}
-                                {% endif %}
+                                <div class="col-sm-9">
+                                    <h3>{{ p.title }}</h3>
+                                    <h4>{{ p.addr }}</h4>
+                                </div>
+                                <div class="col-sm-3 button-group">
+                                    {% include "searchinclude/group_search_button.html" %}
+                                    {% include "propertyinclude/favorite.html" %}
+                                </div>
+                                <div class="col-sm-12 text-center">
+                                    {% if p.rating %}
+                                        {% with p.rating as rating %}
+                                            {% include "maininclude/rating.html" %}
+                                        {% endwith %}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     {% if forloop.last or forloop.counter|divisibleby:"2" %}</div>{% endif %}

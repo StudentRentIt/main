@@ -26,7 +26,50 @@ class UserProfile(models.Model):
     user_type = models.CharField(max_length=30, null=True, blank = True,
         choices=USER_TYPE_CHOICES)
 
-    def __unicode__(self):
+    def in_group(self):
+        # determine if a user is in a search group
+        from search.models import GroupMember
+        if GroupMember.objects.filter(user=self.user):
+            return True
+        else:
+            return False
+
+    def asdf(self):
+        '''
+        return a list of all properties that a user can't add to their
+        group search list because they have already added it to all their groups
+        '''
+
+        # get user's groups
+        from search.models import GroupProperty, GroupMember
+        groups = GroupMember.objects.filter(user=self.user)
+        group_properties = GroupProperty.objects.filter(group__in=groups)
+
+        # get which group proeperties have been added to all the user's groups
+        group_count = len(groups)
+
+        # put all the properties from all the groups into an array
+        all_group_property_list = []
+        for g in group_properties:
+            all_group_property_list.append(g)
+
+        '''
+        get the exclusion list by seeing if the amount of instances is
+        equal to the length of groups
+        '''
+        exclusion_list = []
+        for p in all_group_property_list:
+            count = all_group_property_list.count(p)
+            if count == group_count and p not in exclusion_list:
+                exclusion_list.append(p)
+
+
+        return all_group_property_list
+
+
+
+
+    def __str__(self):
         return self.user.username
 
 

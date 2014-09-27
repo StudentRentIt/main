@@ -10,6 +10,7 @@ from blog.models import Article, Tag
 from property.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
                             PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
                             PropertyReserve, Package, Service, Amenity, PropertyVideo
+from search.models import GroupProperty
 
 
 # we define our resources to add to admin pages to use a RTE
@@ -68,3 +69,4 @@ admin.site.register(Article)
 admin.site.register(TeamMember)
 admin.site.register(Deal, Media = CommonMedia,)
 admin.site.register(Event, Media = CommonMedia,)
+admin.site.register(GroupProperty)

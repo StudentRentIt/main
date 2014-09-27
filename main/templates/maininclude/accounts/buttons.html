@@ -1,0 +1,7 @@
+{% load staticfiles %}
+<div class="text-center">
+    <a href="javascript:allauth.facebook.login('', 'authenticate', 'login')">
+        <img class="social-btn img-responsive img-rounded" src="{% static 'img/social/facebook_account.png' %}" /></a>
+    <a href="/accounts/google/login/?process=login&openid=">
+        <img class="social-btn img-responsive img-rounded" src="{% static 'img/social/google_account.png' %}" /></a>
+</div>

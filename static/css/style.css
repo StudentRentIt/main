@@ -164,9 +164,9 @@ footer {
 }
 
 .social-btn {
-    margin-left:auto;
-    margin-right:auto;
     max-width:70%;
+    display:inline;
+    text-align:center;
 }
 
 .main-color {
@@ -602,15 +602,10 @@ html, body, #map-canvas {
     font-size:150%;
 }
 
-.list-view-btn-row {
+.list-view-content .button-group {
     margin-top: 5px;
     padding-left: 10px;
     padding-right: 10px;
-}
-
-.list-view-btn-row > div {
-    padding-left: 5px;
-    padding-right: 5px;
 }
 
 /***** dunno *****/

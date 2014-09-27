@@ -252,11 +252,20 @@ def view_group(request, pk):
     have the ability to add, remove, edit comments as well as add/remove
     properties.
     '''
+
     group = get_object_or_404(Group, id=pk)
     properties = GroupProperty.objects.filter(group=group)
     members = GroupMember.objects.filter(group=group)
 
     recent_comments = GroupComment.objects.filter(author__group=group)[:6]
+
+    # determine if the user in the group
+    try:
+        GroupMember.objects.get(group=group, user=request.user)
+    except:
+        return render(request, "searchcontent/view_group.html",
+            {'error': 'You do not have access to this group. Maybe you entered the id by mistake? ' +
+                'Find your group through <a href="/search/group/manage/">Manage Groups</a>'})
 
     # get the users and then gather the favorites
     user_list = []
@@ -264,10 +273,6 @@ def view_group(request, pk):
         user_list.append(m.user)
 
     favorites = PropertyFavorite.objects.filter(user__in=user_list)
-
-
-
-
 
     return render(request, "searchcontent/view_group.html",
         {'group': group, 'properties': properties, 'members': members,
@@ -342,4 +347,8 @@ def manage_group(request):
                   {'groups': groups})
 
 
+def add_property_to_group(request, property):
+    '''
+    this will add a property to a group's property list
+    '''
 

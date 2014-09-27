@@ -37,7 +37,7 @@ class GroupProperty(models.Model):
         unique_together = ('property', 'group',)
 
     def __str__(self):
-        return self.property + ' for ' + self.group
+        return str(self.property) + ' for ' + str(self.group)
 
 
 class GroupComment(models.Model):

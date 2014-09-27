@@ -28,7 +28,11 @@
         <div id="group-search-main" class="col-sm-10 full-height">
             <h1 class="text-center">Group Search for {{ group }}</h1>
             <div class="row" id="group-search-content">
+                {% if error %}
+                    {{ error|safe }}
+                {% else %}
 
+                {% endif %}
             </div>
         </div>
     </div>

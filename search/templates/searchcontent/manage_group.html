@@ -7,6 +7,9 @@
             <div class="row">
                 <div class="col-sm-8">
                     {% if groups %}
+                        <div class="text-center">
+                            <a class="btn btn-default" href="{% url 'search-group-create' %}">Create New Group <span class="glyphicon glyphicon-chevron-right"></span></a>
+                        </div>
                         <h3 class="text-center">Manage Your Groups</h3>
                             {% if error_msg %}
                                 <p class="alert alert-danger">{{ error_msg }}</p>
