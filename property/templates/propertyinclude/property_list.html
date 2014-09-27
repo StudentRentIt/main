@@ -3,7 +3,8 @@
 {% endif %}
     <div class="col-xs-6">
         <a href="{% url 'property' p.id p.title|slugify %}" style="position:relative;">
-            <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
+            <!--<img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"-->
+            <img src="/static/img/temp_offline.jpg"
             title="Apartments - {{ p.title }}" alt="Apartments - {{ p.title }}" class="img-responsive" />
             <div class="price-overlay main-inverse">
                 ${{ p.low_price|floatformat:"0" }}/${{ p.high_price|floatformat:"0" }}
@@ -15,7 +16,9 @@
                 <h4>{{ p.addr }}</h4>
             </div>
             <div class="col-sm-3 button-group">
-                {% include "searchinclude/group_search_button.html" %}
+                {% if request.user.profile.get_groups and not gp %}
+                    {% include "searchinclude/group_search_button.html" %}
+                {% endif %}
                 {% include "propertyinclude/favorite.html" %}
             </div>
             <div class="col-sm-12 text-center">

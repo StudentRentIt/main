@@ -361,3 +361,41 @@ def manage_group(request):
 
     return render(request, "searchcontent/manage_group.html",
                   {'groups': groups})
+
+
+@login_required
+def manage_property(request):
+    # add or remove a property from a user's search groups
+    '''
+    TODO: right now we are just going to run a blanket add/remove for all groups
+    but in the future we will want to have the user choose which groups to add/remove
+    the property from
+    '''
+    property_id = request.POST["property_id"]
+    property = Property.objects.get(id=property_id)
+    user = User.objects.get(username=request.user.username)
+    groups = user.profile.get_groups()
+
+    # determine if we're going to add or remove
+    gp_list = GroupProperty.objects.filter(group__in=groups, property=property)
+    if gp_list:
+        action = 'remove'
+    else:
+        action = 'add'
+
+    if action == 'add':
+        for g in groups:
+            gp = GroupProperty(property=property, group=g)
+            gp.save()
+
+        return HttpResponse("successfully added " + property.title)
+
+    elif action == "remove":
+        for g in groups:
+            gp = GroupProperty.objects.get(property=property, group=g)
+            gp.delete()
+
+
+        return HttpResponse("successfully removed " + property.title)
+
+

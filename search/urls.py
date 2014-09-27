@@ -11,7 +11,8 @@ urlpatterns = patterns('',
     url(r'^group/manage/$', views.manage_group, name=search_group_prefix + 'manage'),
     url(r'^group/view/(?P<pk>\d+)/$', views.view_group,
         name=search_group_prefix + 'view'),
-
+    url(r'^group/property/$', views.manage_property,
+        name=search_group_prefix + 'manage-property'),
     # TODO: have the basic search page just be the search box instead of modal popup
     # needs to be on bottom
     url(r'^$', views.search, name='search'),
