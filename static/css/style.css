@@ -67,6 +67,12 @@ footer {
 .home-banner {
     width: 100%;
 }
+#home-background {
+    background:url('/static/img/misc/uw_courtyard.jpg') no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
+    height: 500px;
+}
 
 #header-logo {
     margin-top: 5px;

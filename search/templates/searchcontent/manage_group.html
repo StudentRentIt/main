@@ -5,8 +5,8 @@
     <div id="group-search-container">
         <div class="container">
             <div class="row">
-                <div class="col-sm-8">
-                    {% if groups %}
+                {% if groups %}
+                    <div class="col-sm-4">
                         <div class="text-center">
                             <a class="btn btn-default" href="{% url 'search-group-create' %}">Create New Group <span class="glyphicon glyphicon-chevron-right"></span></a>
                         </div>
@@ -27,7 +27,7 @@
                                                     {% csrf_token %}
                                                     <div class="input-group">
                                                         <input type="text" class="form-control"
-                                                               placeholder="Add user to group"
+                                                               placeholder="Add user"
                                                                name="username">
                                                         <input type="hidden" name="group_id" value="{{ g.id }}">
                                                         <span class="input-group-btn">
@@ -42,7 +42,9 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                        </div>
 
+                    <div class="col-sm-4">
                         <h3 class="text-center margin-top">Manage Your Group Members</h3>
                         <table class="table table-striped">
                             <tbody>
@@ -66,14 +68,16 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-                    {% else %}
+                    </div>
+                {% else %}
+                    <div class="col-sm-8">
                         <div class="well text-center">
                             <h2>You aren't in any groups :( </h2> <a class="btn btn-brand btn-lg margin-top"
                                 href="{% url 'search-group-create' %}">Create A Group
                                 <span class="glyphicon glyphicon-chevron-right"></span></a>
                         </div>
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
                 <div class="col-sm-4">
                     <div class="well">
                         <h4>Add members to your group to share notes and search together</h4>

@@ -2,11 +2,13 @@
 <script src="{% static 'js/group_search.js' %}"></script>
 {% if p in request.user.profile.get_group_properties %}
 
-    <div data-id="{{ p.id }}" class="btn-default btn-block btn-add-group-search btn btn-add">
+    <div data-id="{{ p.id }}" class="btn-default btn-block btn-add-group-search btn btn-add"
+            data-toggle="tooltip" title="Remove from Group Search">
         <span class="glyphicon glyphicon-minus"></span>
     </div>
 {% else %}
-    <div data-id="{{ p.id }}" class="btn-default btn-block btn-add-group-search btn btn-remove">
+    <div data-id="{{ p.id }}" class="btn-default btn-block btn-add-group-search btn btn-remove"
+            data-toggle="tooltip" title="Add to Group Search">
         <span class="glyphicon glyphicon-plus"></span>
     </div>
 {% endif %}
