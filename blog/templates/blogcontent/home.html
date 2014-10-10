@@ -31,7 +31,7 @@
                     </div>
                 {% else %}
                 {% if forloop.counter == 2 or forloop.counter == 4 %}<div class="row">{% endif %}
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
                         <img src="{{ o.image.url }}" class="img-responsive"  style="width:100%" alt="Find Student Housing, Apartments, Subleases - {{ o.title }}" />
                         <div class="blog-home-content">
                             <div class="blog-home-content-inner">
@@ -43,13 +43,14 @@
                             </div>
                         </div>
                     </div>
-                {% if forloop.counter == 1 or forloop.counter == 3 %}</div>{% endif %}
+                    {% if forloop.counter == 3 or foorloop.counter == 4 %}</div>{% endif %}
                 {% endif %}
             {% empty %}
                 <div class="jumbotron text-center">
                     <h2>There are no articles</h2>
                 </div>
             {% endfor %}
+            </div>
         </div>
         <div class="col-sm-3">
             {% for s in schools %}
