@@ -967,6 +967,10 @@ html, body, #map-canvas {
     border-top:none;
     padding:15px;
 }
+.blog-home-content {
+    background-color:#fff;
+    margin-bottom: 15px;
+}
 
 #blog-article-list {
     margin:15px;
