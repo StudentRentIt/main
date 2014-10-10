@@ -13,7 +13,7 @@ def home(request):
     template_name = "blogcontent/home.html"
     object_list = Article.objects.filter(active=True, general_page=True)[0:5]
 
-    return render(request, template_name, {'object_list':object_list})
+    return render(request, template_name, {'object_list': object_list})
 
 
 def article(request, **kwargs):
@@ -21,7 +21,7 @@ def article(request, **kwargs):
     template_name = "blogcontent/article.html"
     object = get_object_or_404(Article, id=kwargs['pk'])
 
-    return render(request, template_name, {'object':object})
+    return render(request, template_name, {'object': object})
 
 
 def type(request, **kwargs):
@@ -37,5 +37,5 @@ def type(request, **kwargs):
         object = get_object_or_404(Property, id=id)
         object_list = Article.objects.filter(property=id)
 
-    return render(request, template_name, {'object':object, 'object_list':object_list,
-                                            'type':type})
+    return render(request, template_name, {'object': object, 'object_list': object_list,
+                                            'type': type})
