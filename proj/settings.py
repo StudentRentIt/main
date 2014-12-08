@@ -33,7 +33,7 @@ if BASE_DIR == "'/home/studentrentit/rentversity'":
     }
 
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
-elif BASE_DIR == "'home/studentrentit/dev'":
+elif BASE_DIR == "'/home/studentrentit/dev'":
     # remote dev environment
     SECRET_KEY = '5@1f7zdj%2v42o65CsZ@)4tcjkadued8y(_^wn@kha8dpn5vnf'
     DEBUG = True
