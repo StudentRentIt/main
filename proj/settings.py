@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-if BASE_DIR == "'/home/studentrentit/rentversity'":
+if BASE_DIR == "/home/studentrentit/rentversity":
     # production environment
     SECRET_KEY = '5@1f7zdj%2v42o75CsZ@)4tcjkadued8y(_^wn@kha8dpn5vnf'
     DEBUG = False
@@ -33,7 +33,7 @@ if BASE_DIR == "'/home/studentrentit/rentversity'":
     }
 
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
-elif BASE_DIR == "'/home/studentrentit/dev'":
+elif BASE_DIR == "/home/studentrentit/dev":
     # remote dev environment
     SECRET_KEY = '5@1f7zdj%2v42o65CsZ@)4tcjkadued8y(_^wn@kha8dpn5vnf'
     DEBUG = True
