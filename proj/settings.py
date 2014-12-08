@@ -17,7 +17,28 @@ if BASE_DIR == "'/home/studentrentit/rentversity'":
     SECRET_KEY = '5@1f7zdj%2v42o75CsZ@)4tcjkadued8y(_^wn@kha8dpn5vnf'
     DEBUG = False
     TEMPLATE_DEBUG = False
-    ALLOWED_HOSTS = ['rentversity.studentrentit.com']
+    ALLOWED_HOSTS = ['rentversity.com']
+
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'studentrentit$dev',                      # Or path to database file if using sqlite3. '/home/studentrentit/dev/main/dev.db'
+            'USER': 'studentrentit',                      # Not used with sqlite3.
+            'PASSWORD': 'student12',                  # Not used with sqlite3.
+            'HOST': 'mysql.server',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.\
+            'TEST_NAME': 'studentrentit$test_dev',
+        }
+    }
+
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+elif BASE_DIR == "'home/studentrentit/dev'":
+    # remote dev environment
+    SECRET_KEY = '5@1f7zdj%2v42o65CsZ@)4tcjkadued8y(_^wn@kha8dpn5vnf'
+    DEBUG = True
+    TEMPLATE_DEBUG = True
+    ALLOWED_HOSTS = ['studentrentit.pythonanywhere.com']
 
 
     DATABASES = {
@@ -163,10 +184,10 @@ AUTHENTICATION_BACKENDS = (
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'support@studentrentit.com'
+EMAIL_HOST_USER = 'rentversity@gmail.com'
 EMAIL_HOST_PASSWORD = 'sri123qwe'
 EMAIL_USE_TLS = True
-SERVER_EMAIL = 'support@studentrentit.com'
+SERVER_EMAIL = 'rentversity@gmail.com'
 
 #turn off emails
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

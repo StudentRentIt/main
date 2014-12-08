@@ -75,12 +75,12 @@ class ViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_search_school(self):
-        url = reverse('search', kwargs={'pk':'1', 'slug':'test-school'})
+        url = reverse('search', kwargs={'slug':'school-test-university'})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
         # test the post of a blank property search
-        response = self.client.post(reverse('search', kwargs={'pk':'1', 'slug':'test-school'}),
+        response = self.client.post(reverse('search', kwargs={'slug':'school-test-university'}),
             {'priceMin': '', 'priceMax': '', 'leaseType':'', 'leaseTerm':'',
             'leaseStart':'', 'bathMin':'', 'bathMax':'', 'bedMin':'', 'bedMax':'',
             'keyword':''})
