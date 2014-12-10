@@ -41,7 +41,9 @@ class PropertyTestCase(unittest.TestCase):
         real_estate_company = Company.objects.create(name="Test Real Estate")
         real_estate_user = User.objects.create_user(username='realestatetester', email='realestatetester@somewhere.com', 
             password='testpassword', first_name="Real Estate", last_name="Tester" )
-        real_estate_user_profile = UserProfile.objects.create(user=real_estate_user, phone_number="5091231234")
+        real_estate_user_profile = UserProfile.objects.get(user=real_estate_user)
+        real_estate_user_profile.phone_number="5091231234"
+        real_estate_user_profile.save()
 
         property = Property.objects.create(school=school, user=user, title="test property",
                         addr="13 Test St.", city="Test Town", state="TX")
