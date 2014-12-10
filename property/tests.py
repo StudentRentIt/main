@@ -4,11 +4,12 @@ from django.test import Client, TestCase
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
-from main.models import City
+from main.models import City, UserProfile
 from property.models import Property, PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
                             Amenity, Service, Package, PropertyImage, PropertyVideo, \
                             PropertyRoom, PropertySchedule, PropertyFavorite, PropertyReserve
 from school.models import School, Deal, Event
+from realestate.models import Company
 
 
 class PropertyTestCase(unittest.TestCase):
@@ -20,7 +21,7 @@ class PropertyTestCase(unittest.TestCase):
         school = School.objects.create(city=city, name="Property Test University",
                         long=-97.1234123, lat=45.7801234)
 
-        # set up the school models
+        # set up the necessary foreign key models
         amenity1 = Amenity.objects.create(amenity="test amenity 1", type="CMW")
         amenity2 = Amenity.objects.create(amenity="test amenity 2", type="BIN", special=True)
         service1 = Service.objects.create(title="test service 1", description="this is the first test service",
@@ -35,8 +36,17 @@ class PropertyTestCase(unittest.TestCase):
         lease_term = PropertyLeaseTerm.objects.create(lease_term="test lease term", order=1)
         lease_start = PropertyLeaseStart.objects.create(lease_start="test lease start", order=1)
 
+        
+        # set up real_estate with multiple users that can view the Real Estate info
+        real_estate_company = Company.objects.create(name="Test Real Estate")
+        real_estate_user = User.objects.create_user(username='realestatetester', email='realestatetester@somewhere.com', 
+            password='testpassword', first_name="Real Estate", last_name="Tester" )
+        real_estate_user_profile = UserProfile.objects.create(user=real_estate_user, phone_number="5091231234")
+
         property = Property.objects.create(school=school, user=user, title="test property",
                         addr="13 Test St.", city="Test Town", state="TX")
+        real_estate_property = Property.objects.create(school=school, user=real_estate_user, title="test property with real estate",
+                        addr="13 Test St.", city="Test Town", state="TX", real_estate_company=real_estate_company)
 
         #create many to many objects to property
         image1 = PropertyImage.objects.create(property=property,
@@ -68,6 +78,7 @@ class PropertyTestCase(unittest.TestCase):
         lease_type = PropertyLeaseType.objects.get(id=1)
         lease_term = PropertyLeaseTerm.objects.get(id=1)
         lease_start = PropertyLeaseStart.objects.get(id=1)
+        real_estate_company = Company.objects.get(id=1)
         property = Property.objects.get(id=1)
 
         property_room = PropertyRoom.objects.get(id=1)
@@ -84,6 +95,8 @@ class ModelTests(unittest.TestCase):
         # set up required model instances
         self.city = City.objects.create(name="School Test Town", state="TX")
         self.user = User.objects.create_user('schooltester', 'schooltester@somewhere.com', 'testpassword')
+        self.real_estate_user = User.objects.create_user('Companytester', 'REtester@somewhere.com', 'REpassword')
+        self.real_estate_company = Company.objects.create(name="Test Real Estate")
 
         # set up the school models
         self.school = School.objects.create(city=self.city, name="School Test University",
@@ -91,7 +104,7 @@ class ModelTests(unittest.TestCase):
 
         # create property, not at top because school is required first
         self.property = Property.objects.create(school=self.school, user=self.user, title="test property",
-                        addr="13 Test St.", city="Test Town", state="TX")
+                        addr="13 Test St.", city="Test Town", state="TX", real_estate_company=self.real_estate_company)
 
         self.deal = Deal.objects.create(school=self.school, property=self.property, user=self.user,
                         title="test deal", description="This is the deal object created in testing")
@@ -118,6 +131,8 @@ class ViewTests(TestCase):
 
         self.property_pk = self.property.id
         self.property_slug = slugify(self.property.title)
+        self.real_estate_pk = self.real_estate_company.id
+        self.real_estate_slug = slugify(self.real_estate_company.name)
 
     def test_property_community(self):
         url = reverse('property-community', kwargs={'pk':self.property_pk, 'slug':self.property_slug})
@@ -134,8 +149,6 @@ class ViewTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
-        # TODO: add post request
-
     def test_update_home(self):
         url = '/property/update/'
         response = self.client.get(url)
@@ -146,50 +159,46 @@ class ViewTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
-        # TODO: add post request
+    # TODO: add post request for Update and Add Property
 
     def test_type_room(self):
         url = reverse('property-type', args=(self.property_pk, 'room', '1'))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
-        # TODO: add post request
-
     def test_type_image(self):
         url = reverse('property-type', args=(self.property_pk, 'image', '1'))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
-
-        # TODO: add post request
 
     def test_type_video(self):
         url = reverse('property-type', args=(self.property_pk, 'video', '1'))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
-        # TODO: add post request
+    '''
+    TODO: add post request for these 3 deletes
 
-    # TODO: add post request for these 3 deletes
+    def test_type_delete_room(self):
+        url = reverse('property-type-delete')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
 
-    # def test_type_delete_room(self):
-    #     url = reverse('property-type-delete')
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
+    def test_type_delete_image(self):
+        url = reverse('property-type-delete')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
 
-    # def test_type_delete_image(self):
-    #     url = reverse('property-type-delete')
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
+    def test_type_delete_video(self):
+        url = reverse('property-type-delete')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
 
-    # def test_type_delete_video(self):
-    #     url = reverse('property-type-delete')
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
-
-    # def test_summary(self):
-    #     url = reverse('property-summary', kwargs={'pk':self.property_pk, 'slug':self.property_slug})
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
+    def test_summary(self):
+        url = reverse('property-summary', kwargs={'pk':self.property_pk, 'slug':self.property_slug})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+    '''
 
     def test_action(self):
         url = reverse('property-action', kwargs={'pk':self.property_pk, 'slug':self.property_slug, 'action':'schedule'})
@@ -203,15 +212,21 @@ class ViewTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-    # def test_business_summary(self):
-    #     url = reverse('business-summary', kwargs={'pk':self.property_pk, 'slug':self.property_slug})
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
-
     def test_business(self):
         url = reverse('business', kwargs={'pk':self.property_pk, 'slug':self.property_slug})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+
+    # def test_real_estate(self):
+    #     # view the real estate page as a public user
+    #     url = reverse('real-estate', kwargs={'pk':self.real_estate_pk, 'slug':self.real_estate_slug})
+    #     response = self.client.get(url)
+    #     self.assertEqual(response.status_code, 200)
+
+    '''
+    TODO: permission test for real estate agents. Need to ensure that only a real estate person
+    has admin permissions
+    '''
 
     def test_favorites(self):
         url = reverse('favorites')

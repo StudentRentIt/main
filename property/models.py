@@ -12,6 +12,7 @@ from django.template.defaultfilters import slugify
 from localflavor.us.models import PhoneNumberField, USStateField
 from school.models import School, Neighborhood
 from property.utils import get_place_data, get_place_detail_data
+from realestate.models import Company
 
 
 #property choice lists
@@ -189,6 +190,7 @@ class Property(models.Model):
 
     services = models.ManyToManyField(Service, null=True, blank=True)
     package = models.ForeignKey(Package, null=True, blank=True)
+    real_estate_company = models.ForeignKey(Company, null=True, blank=True)
 
     class Meta:
         ordering = ['-top_list', '-sponsored', '-package__order', 'id']

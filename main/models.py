@@ -4,6 +4,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
+from realestate.models import Company
+
 from localflavor.us.models import PhoneNumberField, USStateField
 
 
@@ -25,6 +27,8 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     user_type = models.CharField(max_length=30, null=True, blank = True,
         choices=USER_TYPE_CHOICES)
+    real_estate_company = models.ForeignKey(Company, null=True, blank=True)
+    phone_number = PhoneNumberField(null=True, blank=True)
 
     def get_groups(self):
         '''

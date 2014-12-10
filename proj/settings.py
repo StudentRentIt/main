@@ -107,6 +107,7 @@ INSTALLED_APPS = (
     'campusamb',
     'search',
     'scrape',
+    'realestate',
 )
 
 MIDDLEWARE_CLASSES = (
