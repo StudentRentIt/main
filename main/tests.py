@@ -1,4 +1,3 @@
-from django.utils import unittest
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.core.urlresolvers import reverse
@@ -10,28 +9,18 @@ from school.models import School
 from django_webtest import WebTest
 from django_dynamic_fixture import G
 
+
 class TestUser(WebTest):
 
     def setUp(self):
-        self.staff = G(User, is_staff=True)
-        self.customer = G(User, username='10000', is_staff=False)
-
-    def test_footer_search(self):
-        '''
-        have the user run a search for a school in the footer and that search should bring us to the results of
-        the school search
-        '''
-        
-        # pull up the home page
-        home_page = self.app.get(reverse('home-list'), user=self.customer)
-
-        # search for a school
-        form = home_page.forms['search-footer']
-        form['search-footer-text'] = "University of Washington"
-        form.submit()
+        # set up all types of users to be used
+        self.staff = G(User, username="staff", is_staff=True)
+        self.customer = G(User, username="customer")
+        self.real_estate_user = G(User, username="realestate")
+        self.user_without_property = G(User, username="noproperty")
 
 
-class ModelTests(unittest.TestCase):
+class ModelTests(TestCase):
 
     def setUp(self):
         # set up required model instances
@@ -142,4 +131,24 @@ class ViewTests(TestCase):
         url = reverse('payment')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+
+
+class FunctionTests(WebTest):
+
+    def setUp(self):
+        TestUser.setUp(self)
+
+    def test_footer_search(self):
+        '''
+        have the user run a search for a school in the footer and that search should bring us to the results of
+        the school search
+        '''
+        
+        # pull up the home page
+        home_page = self.app.get(reverse('home-list'), user=self.customer)
+
+        # search for a school
+        form = home_page.forms['search-footer']
+        form['search-footer-text'] = "University of Washington"
+        form.submit()
 

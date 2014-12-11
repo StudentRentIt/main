@@ -1,7 +1,11 @@
+from django.db.models import Q
+
 from school.models import School, Deal, Event
 from property.models import Property
+from property.utils import can_edit_property_list
 from blog.models import Article
 from main.models import City
+
 
 def all_schools(request):
     schools = School.objects.all()
@@ -26,7 +30,7 @@ def get_user_items(request):
     Items. Get if the user has certain items and pass it through the context
     '''
     if request.user.is_authenticated():
-        my_properties = Property.objects.filter(user=request.user)
+        my_properties = can_edit_property_list(request.user)
         if my_properties:
             has_properties = True
         else:

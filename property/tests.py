@@ -4,7 +4,11 @@ from django.test import Client, TestCase
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
+from django_webtest import WebTest
+
 from main.models import City, UserProfile
+from main.tests import TestUser
+from property.utils import can_edit_property_list
 from property.models import Property, PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
                             Amenity, Service, Package, PropertyImage, PropertyVideo, \
                             PropertyRoom, PropertySchedule, PropertyFavorite, PropertyReserve
@@ -15,7 +19,7 @@ from realestate.models import Company
 class PropertyTestCase(unittest.TestCase):
 
     def setUp(self):
-        # set up required model instances
+        # set up required model instances for properties
         city = City.objects.create(name="Property Test Town", state="TX")
         user = User.objects.create_user('propertytester', 'propertytester@somewhere.com', 'testpassword')
         school = School.objects.create(city=city, name="Property Test University",
@@ -221,7 +225,7 @@ class ViewTests(TestCase):
 
     '''
     TODO: permission test for real estate agents. Need to ensure that only a real estate person
-    has admin permissions
+    or the creator of a property can edit/view the property
     '''
 
     def test_favorites(self):
@@ -254,3 +258,24 @@ class ViewTests(TestCase):
         url = '/property/favorites/1/'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
+
+
+class FunctionTests(WebTest):
+
+    def setUp(self):
+        TestUser.setUp(self)
+        ModelTests.setUp(self)
+
+        self.real_estate_user.profile.real_estate_company = self.real_estate_company
+        self.real_estate_user.profile.save()
+
+    def test_update_without_properties(self):
+        user = self.user_without_property
+
+        update_page = self.app.get('/property/update/', user=user)
+
+    def test_update_with_properties(self):
+        user = self.real_estate_user
+        self.assertNotEqual(can_edit_property_list(user), None)
+
+        update_page = self.app.get('/property/update/', user=user)        

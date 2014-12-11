@@ -33,9 +33,6 @@ sitemaps = {
 
 
 urlpatterns = patterns('',
-    (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-        'document_root': settings.MEDIA_ROOT}),
-
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^blog/', include('blog.urls')),
@@ -53,4 +50,15 @@ urlpatterns = patterns('',
     url(r'^robots\.txt', TemplateView.as_view(template_name="maincontent/robots.txt")),
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': sitemaps})
+)
+
+if settings.DEBUG:
+    # serve the media and static files if running in debug
+    urlpatterns += patterns('',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+        url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.STATIC_ROOT,
+        }),
 )

@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import Q
 from django.template import Context
 from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required
@@ -21,7 +22,7 @@ from property.forms import BasicPropertyForm, DetailPropertyForm, \
 
 from main.utils import get_favorites, save_impression
 from main.forms import ContactForm, FavoriteForm
-from property.utils import get_walkscore
+from property.utils import get_walkscore, can_edit_property_list
 
 from braces.views import LoginRequiredMixin
 
@@ -344,238 +345,242 @@ def updateproperty(request, pk=None, type=None, type_id=None, function=None):
     allows users to manage their listings
     '''
     update_template = 'propertycontent/update.html'
+    user_properties = can_edit_property_list(request.user)
 
     if pk:
         '''
         id provided means that the user is ready to edit a specific property
-
         module variables that will be used in multiple occasions
         '''
-        property = get_object_or_404(Property, id=pk, user=request.user)
-        rooms = PropertyRoom.objects.filter(property=property)
-        images = PropertyImage.objects.filter(property=property)
-        videos = PropertyVideo.objects.filter(property=property)
+        property = get_object_or_404(Property, id=pk)
 
-        #get corresponding type instance
-        if type == "room" and type_id:
-            room = get_object_or_404(PropertyRoom, id=type_id)
-        if type == "video" and type_id:
-            video = get_object_or_404(PropertyVideo, id=type_id)
-        elif type == "image" and type_id:
-            image = get_object_or_404(PropertyImage, id=type_id)
+        #make sure the property is in the user's can edit list before continuing
+        if property in user_properties:
+            rooms = PropertyRoom.objects.filter(property=property)
+            images = PropertyImage.objects.filter(property=property)
+            videos = PropertyVideo.objects.filter(property=property)
 
-        basic_form_btn_text = 'Save'
-        show_room_form = False
-        show_image_form = False
-        show_video_form = False
-
-        #form initials
-        basic_form = BasicPropertyForm(instance=property)
-        contact_form = ContactPropertyForm(instance=property)
-        room_form = RoomPropertyForm()
-        image_form = ImagePropertyForm()
-        video_form = VideoPropertyForm()
-
-        #business detail form excludes some extra fields from the normal detail
-        if property.type == "BUS":
-            detail_form = BusinessDetailPropertyForm(instance=property)
-        else:
-            detail_form = DetailPropertyForm(instance=property)
-
-        #will be passed into the render always
-        render_dict = {'basic_form_btn_text':basic_form_btn_text,'basic_form':basic_form,
-                      'detail_form':detail_form, 'contact_form':contact_form,
-                      'room_form':room_form, 'video_form':video_form, 'image_form':image_form,
-                      'rooms':rooms, 'videos':videos, 'images':images, 'property':property}
-
-        if request.method == "POST":
-            '''
-            This is a pretty girthy POST block. Essentially we're going to check to
-            see which form was saved. We then will update that specific form, and
-            then need to go back to the same page and do the initial loads of
-            all the update forms
-            '''
-            #TODO: create function in utils.py to handle these duplicated blocks
-            #update basic info
-            if 'title' in request.POST:
-                basic_form = BasicPropertyForm(request.POST, instance=property)
-
-                if basic_form.is_valid():
-                    basic_form.save()
-                    return render(request, update_template,
-                        dict(render_dict, **{'basic_form':basic_form, 'status':'saved'}))
-                else:
-                    #form is not valid
-                    return render(request, update_template,
-                        dict(render_dict, **{'basic_form':basic_form, 'status':'error'}))
-
-            #update detail info
-            if 'special' in request.POST:
-                if property.type == "BUS":
-                    detail_form = BusinessDetailPropertyForm(request.POST, instance=property)
-                else:
-                    detail_form = DetailPropertyForm(request.POST, instance=property)
-
-                if detail_form.is_valid():
-                    detail_form.save()
-                    return render(request, update_template,
-                        dict(render_dict, **{'detail_form':detail_form, 'status':'saved',
-                            'active_tab':'details'}))
-                else:
-                    #form is not valid
-                    return render(request, update_template,
-                        dict(render_dict, **{'detail_form':detail_form, 'status':'error',
-                            'active_tab':'details'}))
-            #update contact info
-            if 'contact_first_name' in request.POST:
-                contact_form = ContactPropertyForm(request.POST, instance=property)
-
-                if contact_form.is_valid():
-                    contact_form.save()
-                    return render(request, update_template,
-                        dict(render_dict, **{'contact_form':contact_form, 'status':'saved',
-                            'active_tab':'contact'}))
-                else:
-                    #form is not valid
-                    return render(request, update_template,
-                        dict(render_dict, **{'contact_form':contact_form, 'status':'error',
-                            'active_tab':'contact'}))
-            #update room info
-            if 'price' in request.POST:
-                #determines whether update or create
-                try:
-                    room_form = RoomPropertyForm(request.POST, instance=room)
-                except UnboundLocalError:
-                    room_form = RoomPropertyForm(request.POST)
-
-                if room_form.is_valid():
-                    #set property FK
-                    room = room_form.save(commit=False)
-                    room.property = property
-                    room.save()
-                    return render(request, update_template,
-                        dict(render_dict, **{'room_form':room_form, 'status':'saved',
-                            'active_tab':'rooms'}))
-                else:
-                    #form is not valid
-                    return render(request, update_template,
-                        dict(render_dict, **{'room_form':room_form, 'status':'error',
-                            'active_tab':'rooms', 'show_room_form':True}))
-            #update pictures
-            if 'caption' in request.POST:
-                #determines whether update or create
-                try:
-                    image_form = ImagePropertyForm(request.POST, request.FILES, instance=image)
-                except UnboundLocalError:
-                    image_form = ImagePropertyForm(request.POST, request.FILES)
-
-                if image_form.is_valid():
-                    #set property FK
-                    image = image_form.save(commit=False)
-                    image.property = property
-                    image.save()
-                    return render(request, update_template,
-                        dict(render_dict, **{'image_form':image_form, 'status':'saved',
-                            'active_tab':'pics'}))
-                else:
-                    #form is not valid
-                    return render(request, update_template,
-                        dict(render_dict, **{'image_form':image_form, 'status':'error',
-                            'active_tab':'pics', 'show_image_form':True}))
-            #update videos
-            if 'video_link' in request.POST:
-                #determines whether update or create
-                try:
-                    video_form = VideoPropertyForm(request.POST, request.FILES, instance=video)
-                except UnboundLocalError:
-                    video_form = VideoPropertyForm(request.POST, request.FILES)
-
-                if video_form.is_valid():
-                    #set property FK
-                    video = video_form.save(commit=False)
-                    video.property = property
-                    video.save()
-                    return render(request, update_template,
-                        dict(render_dict, **{'video_form':video_form, 'status':'saved',
-                            'active_tab':'videos'}))
-                else:
-                    #form is not valid
-                    return render(request, update_template,
-                        dict(render_dict, **{'video_form':video_form, 'status':'error',
-                            'active_tab':'videos', 'show_video_form':True}))
-
-        else:
-            #request.method not POST
-            active_tab = "basic"
-
-            if type == "addroom":
-                #add new room chosen
-                show_room_form = True
-                active_tab = "rooms"
-
-                return render(request, update_template,
-                    dict(render_dict, **{'show_room_form':show_room_form, 'active_tab':active_tab}))
-
-            if type == "addimage":
-                #add new room chosen
-                show_image_form = True
-                active_tab = "pics"
-
-                return render(request, update_template,
-                    dict(render_dict, **{'show_image_form':show_image_form, 'active_tab':active_tab}))
-
-            if type == "addvideo":
-                #add new video chosen
-                show_video_form = True
-                active_tab = "videos"
-
-                return render(request, update_template,
-                    dict(render_dict, **{'show_video_form':show_video_form, 'active_tab':active_tab}))
-
-            #looking at a room instance
+            #get corresponding type instance
             if type == "room" and type_id:
-                active_tab = "rooms"
-
-                if function == "delete":
-                    #delete the selected room if the property user is request.user
-                    if room.property.user == request.user:
-                        room.delete()
-                else:
-                    room_form = RoomPropertyForm(instance=room)
-                    show_room_form = True
-
-            #looking at a image instance
-            if type == "image" and type_id:
-                active_tab = "pics"
-
-                if function == "delete":
-                    #delete the selected image if the property user is request.user
-                    if image.property.user == request.user:
-                        image.delete()
-                else:
-                    image_form = ImagePropertyForm(instance=image)
-                    show_image_form = True
-
-            #looking at a video instance
+                room = get_object_or_404(PropertyRoom, id=type_id)
             if type == "video" and type_id:
-                active_tab = "videos"
+                video = get_object_or_404(PropertyVideo, id=type_id)
+            elif type == "image" and type_id:
+                image = get_object_or_404(PropertyImage, id=type_id)
 
-                if function == "delete":
-                    #delete the selected video if the property user is request.user
-                    if video.property.user == request.user:
-                        video.delete()
-                else:
-                    video_form = VideoPropertyForm(instance=video)
+            basic_form_btn_text = 'Save'
+            show_room_form = False
+            show_image_form = False
+            show_video_form = False
+
+            #form initials
+            basic_form = BasicPropertyForm(instance=property)
+            contact_form = ContactPropertyForm(instance=property)
+            room_form = RoomPropertyForm()
+            image_form = ImagePropertyForm()
+            video_form = VideoPropertyForm()
+
+            #business detail form excludes some extra fields from the normal detail
+            if property.type == "BUS":
+                detail_form = BusinessDetailPropertyForm(instance=property)
+            else:
+                detail_form = DetailPropertyForm(instance=property)
+
+            #will be passed into the render always
+            render_dict = {'basic_form_btn_text':basic_form_btn_text,'basic_form':basic_form,
+                          'detail_form':detail_form, 'contact_form':contact_form,
+                          'room_form':room_form, 'video_form':video_form, 'image_form':image_form,
+                          'rooms':rooms, 'videos':videos, 'images':images, 'property':property}
+
+            if request.method == "POST":
+                '''
+                This is a pretty girthy POST block. Essentially we're going to check to
+                see which form was saved. We then will update that specific form, and
+                then need to go back to the same page and do the initial loads of
+                all the update forms
+                '''
+                #TODO: create function in utils.py to handle these duplicated blocks
+                #update basic info
+                if 'title' in request.POST:
+                    basic_form = BasicPropertyForm(request.POST, instance=property)
+
+                    if basic_form.is_valid():
+                        basic_form.save()
+                        return render(request, update_template,
+                            dict(render_dict, **{'basic_form':basic_form, 'status':'saved'}))
+                    else:
+                        #form is not valid
+                        return render(request, update_template,
+                            dict(render_dict, **{'basic_form':basic_form, 'status':'error'}))
+
+                #update detail info
+                if 'special' in request.POST:
+                    if property.type == "BUS":
+                        detail_form = BusinessDetailPropertyForm(request.POST, instance=property)
+                    else:
+                        detail_form = DetailPropertyForm(request.POST, instance=property)
+
+                    if detail_form.is_valid():
+                        detail_form.save()
+                        return render(request, update_template,
+                            dict(render_dict, **{'detail_form':detail_form, 'status':'saved',
+                                'active_tab':'details'}))
+                    else:
+                        #form is not valid
+                        return render(request, update_template,
+                            dict(render_dict, **{'detail_form':detail_form, 'status':'error',
+                                'active_tab':'details'}))
+                #update contact info
+                if 'contact_first_name' in request.POST:
+                    contact_form = ContactPropertyForm(request.POST, instance=property)
+
+                    if contact_form.is_valid():
+                        contact_form.save()
+                        return render(request, update_template,
+                            dict(render_dict, **{'contact_form':contact_form, 'status':'saved',
+                                'active_tab':'contact'}))
+                    else:
+                        #form is not valid
+                        return render(request, update_template,
+                            dict(render_dict, **{'contact_form':contact_form, 'status':'error',
+                                'active_tab':'contact'}))
+                #update room info
+                if 'price' in request.POST:
+                    #determines whether update or create
+                    try:
+                        room_form = RoomPropertyForm(request.POST, instance=room)
+                    except UnboundLocalError:
+                        room_form = RoomPropertyForm(request.POST)
+
+                    if room_form.is_valid():
+                        #set property FK
+                        room = room_form.save(commit=False)
+                        room.property = property
+                        room.save()
+                        return render(request, update_template,
+                            dict(render_dict, **{'room_form':room_form, 'status':'saved',
+                                'active_tab':'rooms'}))
+                    else:
+                        #form is not valid
+                        return render(request, update_template,
+                            dict(render_dict, **{'room_form':room_form, 'status':'error',
+                                'active_tab':'rooms', 'show_room_form':True}))
+                #update pictures
+                if 'caption' in request.POST:
+                    #determines whether update or create
+                    try:
+                        image_form = ImagePropertyForm(request.POST, request.FILES, instance=image)
+                    except UnboundLocalError:
+                        image_form = ImagePropertyForm(request.POST, request.FILES)
+
+                    if image_form.is_valid():
+                        #set property FK
+                        image = image_form.save(commit=False)
+                        image.property = property
+                        image.save()
+                        return render(request, update_template,
+                            dict(render_dict, **{'image_form':image_form, 'status':'saved',
+                                'active_tab':'pics'}))
+                    else:
+                        #form is not valid
+                        return render(request, update_template,
+                            dict(render_dict, **{'image_form':image_form, 'status':'error',
+                                'active_tab':'pics', 'show_image_form':True}))
+                #update videos
+                if 'video_link' in request.POST:
+                    #determines whether update or create
+                    try:
+                        video_form = VideoPropertyForm(request.POST, request.FILES, instance=video)
+                    except UnboundLocalError:
+                        video_form = VideoPropertyForm(request.POST, request.FILES)
+
+                    if video_form.is_valid():
+                        #set property FK
+                        video = video_form.save(commit=False)
+                        video.property = property
+                        video.save()
+                        return render(request, update_template,
+                            dict(render_dict, **{'video_form':video_form, 'status':'saved',
+                                'active_tab':'videos'}))
+                    else:
+                        #form is not valid
+                        return render(request, update_template,
+                            dict(render_dict, **{'video_form':video_form, 'status':'error',
+                                'active_tab':'videos', 'show_video_form':True}))
+
+            else:
+                #request.method not POST
+                active_tab = "basic"
+
+                if type == "addroom":
+                    #add new room chosen
+                    show_room_form = True
+                    active_tab = "rooms"
+
+                    return render(request, update_template,
+                        dict(render_dict, **{'show_room_form':show_room_form, 'active_tab':active_tab}))
+
+                if type == "addimage":
+                    #add new room chosen
+                    show_image_form = True
+                    active_tab = "pics"
+
+                    return render(request, update_template,
+                        dict(render_dict, **{'show_image_form':show_image_form, 'active_tab':active_tab}))
+
+                if type == "addvideo":
+                    #add new video chosen
                     show_video_form = True
+                    active_tab = "videos"
 
+                    return render(request, update_template,
+                        dict(render_dict, **{'show_video_form':show_video_form, 'active_tab':active_tab}))
+
+                #looking at a room instance
+                if type == "room" and type_id:
+                    active_tab = "rooms"
+
+                    if function == "delete":
+                        #delete the selected room if the property user is request.user
+                        if room.property.user == request.user:
+                            room.delete()
+                    else:
+                        room_form = RoomPropertyForm(instance=room)
+                        show_room_form = True
+
+                #looking at a image instance
+                if type == "image" and type_id:
+                    active_tab = "pics"
+
+                    if function == "delete":
+                        #delete the selected image if the property user is request.user
+                        if image.property.user == request.user:
+                            image.delete()
+                    else:
+                        image_form = ImagePropertyForm(instance=image)
+                        show_image_form = True
+
+                #looking at a video instance
+                if type == "video" and type_id:
+                    active_tab = "videos"
+
+                    if function == "delete":
+                        #delete the selected video if the property user is request.user
+                        if video.property.user == request.user:
+                            video.delete()
+                    else:
+                        video_form = VideoPropertyForm(instance=video)
+                        show_video_form = True
+
+                return render(request, update_template,
+                    dict(render_dict, **{'image_form':image_form, 'video_form':video_form,
+                        'active_tab':active_tab, 'show_room_form':show_room_form, 'show_video_form':show_video_form,
+                        'show_image_form':show_image_form, 'room_form':room_form}))
+        else:
             return render(request, update_template,
-                dict(render_dict, **{'image_form':image_form, 'video_form':video_form,
-                    'active_tab':active_tab, 'show_room_form':show_room_form, 'show_video_form':show_video_form,
-                    'show_image_form':show_image_form, 'room_form':room_form}))
+                {'properties':user_properties, 'status':'choose'})
     else:
         #when the id is not provided, user picks one of their properties to edit
-        user_properties = Property.objects.filter(user=request.user.id)
-
         return render(request, update_template,
                 {'properties':user_properties, 'status':'choose'})
 
