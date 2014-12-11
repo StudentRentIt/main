@@ -86,6 +86,12 @@ class ViewTests(TestCase):
             'keyword':''})
         self.assertEqual(response.status_code, 200)
 
+    # TODO: search real estate
+    # def test_search_real_estate(self):
+    #     url = reverse('search', kwargs={'slug':''})
+    #     response = self.client.get(url)
+    #     self.assertEqual(response.status_code, 200)
+
     def test_contact(self):
         url = reverse('contact-view')
         response = self.client.get(url)

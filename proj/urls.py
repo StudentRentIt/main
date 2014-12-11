@@ -44,6 +44,7 @@ urlpatterns = patterns('',
     url(r'^scrape/', include('scrape.urls')),
     url(r'^search/', include('search.urls')),
     url(r'^ca/', include('campusamb.urls')),
+    url(r'^realestate/', include('realestate.urls')),
     url(r'^', include(mainurls)),
 
     #internal apps

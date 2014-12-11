@@ -11,6 +11,7 @@ from search.models import GroupMember, Group, GroupProperty, GroupComment
 from school.models import School, Neighborhood
 from school.utils import get_school, get_school_items, get_neighborhood_items
 from main.utils import get_favorites, unslugify
+from realestate.utils import get_company
 from blog.models import Article
 from flowreport.models import SchoolSearch
 from property.models import Property, PropertyRoom, Amenity, PropertyLeaseType, \
@@ -19,24 +20,36 @@ from property.models import Property, PropertyRoom, Amenity, PropertyLeaseType, 
 
 def search(request, **kwargs):
     '''
-    search a school for apartments
+    determine what we're searching for. We can either be searching for apartments that match
+    a school query, a real estate compnay query, or nothing. If there is nothing in the kwags,
+    that means that we hit the general /search/ url pattern and we need to query for more
+    info.
     '''
+
     try:
-        if kwargs['slug']:
-            #school was passed in
-            school = get_school(kwargs['slug'])
-            slug = slugify(school.name)
-            pk = school.id
-    except KeyError:
+        properties = Property.objects.none()
         school = None
+        company = None
+        
+        if kwargs['slug']:
+            try:
+                #school was passed in
+                school = get_school(kwargs['slug'])
+                slug = slugify(school.name)
+                pk = school.id
+                properties = Property.objects.filter(school=pk, lat__isnull=False, long__isnull=False)
+            except:
+                company = get_company(kwargs['slug'])
+                slug = slugify(company.name)
+                pk = company.id
+                properties = Property.objects.filter(real_estate_company=pk, lat__isnull=False, long__isnull=False)
+    except KeyError:
         slug = None
         pk = None
 
-    if request.user.is_staff:
-        properties = Property.objects.filter(school=pk, lat__isnull=False, long__isnull=False)
-    else:
-        # exclude internal properties if not staff
-        properties = Property.objects.filter(school=pk, lat__isnull=False, long__isnull=False, internal=False)
+    if not request.user.is_staff:
+        # filter out internal properties if not staff
+        properties = properties.filter(internal=False)
 
     # remove the property from the list if it is hidden for the user
     if request.user.is_authenticated():
@@ -49,7 +62,7 @@ def search(request, **kwargs):
     modal_title = "Find Housing, Apartments, Subleases and Information"
 
     #save the search for metrics
-    if pk:
+    if pk and school:
         school = get_object_or_404(School, id=pk)
         search = SchoolSearch()
         search.school = school
@@ -192,9 +205,20 @@ def search(request, **kwargs):
 
     #if location passed in, get the coordinates to center map
     if pk:
-        lat = school.lat
-        long = school.long
-    else: # default to Texas State, for now
+        if school:
+            # get the coords of the l
+            lat = school.lat
+            long = school.long
+        elif company.default_school:
+            # if the company has a default school, get those coords
+            lat = company.default_school.lat
+            long = company.default_school.long
+        else: 
+            # default to Texas State, for now
+            lat = 29.87
+            long = -97.93
+    else: 
+        # default to Texas State, for now
         lat = 29.87
         long = -97.93
         school = None
@@ -203,7 +227,8 @@ def search(request, **kwargs):
         {'lat':lat, 'long':long, 'school':school, 'url_prefix':'search',
         'modal_title':modal_title, 'properties':properties, 'favorited':favorited, 'rooms':rooms,
         'lease_types':lease_types, 'lease_terms':lease_terms, 'lease_starts':lease_starts,
-        'special_amenities':special_amenities, 'google_api_key':settings.GOOGLE_API_KEY})
+        'special_amenities':special_amenities, 'google_api_key':settings.GOOGLE_API_KEY, 
+        'company':company})
 
 
 def group_info(request):

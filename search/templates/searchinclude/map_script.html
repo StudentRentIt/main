@@ -1,15 +1,14 @@
 {% load staticfiles %}
 
 {# this javascript needs to stay on the page and not in a js file because it has property variables that get passed in #}
-    <script src={% static 'js/main/markercluster.js' %}></script>
     <script type="text/javascript">
-        {% if not school %}
+        {% if not school or company %}
             $( document ).ready(function() {
                 $('#schoolSearch').modal();
             });
         {% endif %}
 
-        {% if school %}
+        {% if school or company %}
         jQuery(function($) {
             // Asynchronously Load the map API
             var script = document.createElement('script');
@@ -250,7 +249,7 @@
                   $('.property-video').detach();
             })
         });
-    {% endif %}{# end if school block #}
+    {% endif %}{# end if school/company block #}
     </script>
     <script src={% static "js/search.js" %}></script>
     <script src={% static "js/favorite.js" %}></script>

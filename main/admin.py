@@ -11,6 +11,7 @@ from property.models import Property, PropertyImage, PropertyRoom, PropertyFavor
                             PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
                             PropertyReserve, Package, Service, Amenity, PropertyVideo
 from search.models import GroupProperty, GroupComment
+from realestate.models import Company
 
 
 # we define our resources to add to admin pages to use a RTE
@@ -71,3 +72,4 @@ admin.site.register(Deal, Media = CommonMedia,)
 admin.site.register(Event, Media = CommonMedia,)
 admin.site.register(GroupProperty)
 admin.site.register(GroupComment)
+admin.site.register(Company)

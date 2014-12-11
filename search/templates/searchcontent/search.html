@@ -5,6 +5,8 @@
     Apartments for Students
     {% if school %}
          in {{ school.city }}
+    {% elif company %}
+        for {{ company }}
     {% endif %}
 {% endblock %}
 
@@ -12,14 +14,18 @@
     {% include "searchinclude/map_script.html" %}
 
     {% block body %}
-        {% if school %}
+        {% if school or company %}
             <div id="map-canvas" class="col-md-5 pull-left">
             </div>
 
             <div class="col-md-7 map-side" id="list-view">
                 {% include "searchinclude/searchbox.html" %}
                 <h1 class="hidden-xs hidden-sm text-center page-header">
-                    Apartments in {{ school.city }}
+                    {% if school %}
+                        Apartments in {{ school.city }}
+                    {% elif company %}
+                        Apartments for {{ company }}
+                    {% endif %}
                 </h1>
                 {% for p in properties %}
                     {% include 'propertyinclude/property_list.html' %}
@@ -32,7 +38,9 @@
         {% endif %}
 
         {# if no school is passed in, pop up the modal for user to choose #}
-        {% include "searchinclude/modals/schoolsearch.html" %}
+        {% if not company %}
+            {% include "searchinclude/modals/schoolsearch.html" %}
+        {% endif %}
     {% endblock %} {# end body #}
 
     {# hide the footer #}

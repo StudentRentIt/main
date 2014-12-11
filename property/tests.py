@@ -133,8 +133,8 @@ class ViewTests(TestCase):
 
         self.property_pk = self.property.id
         self.property_slug = slugify(self.property.title)
-        self.real_estate_pk = self.real_estate_company.id
-        self.real_estate_slug = slugify(self.real_estate_company.name)
+        self.real_estate_property_pk = self.real_estate_company.id
+        self.real_estate_property_slug = slugify(self.real_estate_company.name)
 
     def test_property_community(self):
         url = reverse('property-community', kwargs={'pk':self.property_pk, 'slug':self.property_slug})
@@ -218,12 +218,6 @@ class ViewTests(TestCase):
         url = reverse('business', kwargs={'pk':self.property_pk, 'slug':self.property_slug})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
-    # def test_real_estate(self):
-    #     # view the real estate page as a public user
-    #     url = reverse('real-estate', kwargs={'pk':self.real_estate_pk, 'slug':self.real_estate_slug})
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
 
     '''
     TODO: permission test for real estate agents. Need to ensure that only a real estate person
