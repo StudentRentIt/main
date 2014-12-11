@@ -17,7 +17,7 @@ if BASE_DIR == "/home/studentrentit/rentversity":
     SECRET_KEY = '5@1f7zdj%2v42o75CsZ@)4tcjkadued8y(_^wn@kha8dpn5vnf'
     DEBUG = False
     TEMPLATE_DEBUG = False
-    ALLOWED_HOSTS = ['rentversity.com']
+    ALLOWED_HOSTS = ['www.rentversity.com']
 
 
     DATABASES = {
@@ -81,7 +81,7 @@ else:
 
     #Used in the emails to get the image link
     WEB_URL_ROOT = 'http://127.0.0.1:8000/'
-    
+
 
 #500 error emails
 ADMINS = (
