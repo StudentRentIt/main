@@ -33,6 +33,9 @@ if BASE_DIR == "/home/studentrentit/rentversity":
     }
 
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+    #Used in the emails to get the image link
+    WEB_URL_ROOT = 'http://www.rentversity.com/'
 elif BASE_DIR == "/home/studentrentit/dev":
     # remote dev environment
     SECRET_KEY = '5@1f7zdj%2v42o65CsZ@)4tcjkadued8y(_^wn@kha8dpn5vnf'
@@ -54,6 +57,9 @@ elif BASE_DIR == "/home/studentrentit/dev":
     }
 
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+    #Used in the emails to get the image link
+    WEB_URL_ROOT = 'http://studentrentit.pythonanywhere.com/'
 else:
     # local environment
     SECRET_KEY = '5@1f7zdj%2v42o75bs2@)4tcjkcoueb8y(_^wn@khr8dpn5vmf'
@@ -73,7 +79,9 @@ else:
         os.path.join(BASE_DIR, "static"),
     )
 
-
+    #Used in the emails to get the image link
+    WEB_URL_ROOT = 'http://127.0.0.1:8000/'
+    
 
 #500 error emails
 ADMINS = (
@@ -160,9 +168,6 @@ STATIC_URL = '/static/'
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media' )
 MEDIA_URL = '/media/'
-
-#Used in the emails to get the image link
-WEB_URL_ROOT = 'http://127.0.0.1:8000/'
 
 #used for django-allauth app
 TEMPLATE_CONTEXT_PROCESSORS = (
