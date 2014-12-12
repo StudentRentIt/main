@@ -1,11 +1,13 @@
 from django.conf.urls import patterns, url
 
-from flowreport.views import ReportHomeListView, PropertyImpListView, \
+from flowreport.views import StaffReportListView, PropertyImpListView, \
     ImpTypeListView, save_impression, SchoolSearchSummaryListView, ImpTypeDailyListView, \
-    SchoolSearchDetailListView
+    SchoolSearchDetailListView, RealEstateListView
 
 urlpatterns = patterns('',
-    url(r'^$', ReportHomeListView.as_view(), name='report-home'),
+    url(r'^$', StaffReportListView.as_view(), name='report-home'),
+    url(r'realestate/(?P<slug>\S+)/$', RealEstateListView.as_view(), 
+        name='report-real-estate-home'),
 
     url(r'property/(?P<pk>\d+)/$', PropertyImpListView.as_view(), name='report-prop-detail'),
 

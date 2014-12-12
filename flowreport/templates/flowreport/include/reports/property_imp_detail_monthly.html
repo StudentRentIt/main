@@ -9,10 +9,10 @@
 {% endblock %}
 
 {% block table_body %}
-{% for i in imps_by_month %}
-<tr>
-    <td>{{ i.month|month_name }}</td>
-    <td>{{ i.created_count }}</td>
-</tr>
-{% endfor %}
+	{% for i in imps_by_month %}
+	<tr>
+	    <td>{{ i.month|month_name }}</td>
+	    <td>{{ i.created_count }}</td>
+	</tr>
+	{% endfor %}
 {% endblock %}

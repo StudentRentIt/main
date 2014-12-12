@@ -43,3 +43,19 @@ class ViewTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+
+# class FucntionTests(WebTest):
+
+#     def setUp():
+#         # set up models
+#         ModelTests.setUp(self)
+
+#     #TODO: test that users in a company can see their company pages
+
+#     #TODO: test that non-admin users out of a company can't see company pages
+
+#     #TODO: test that admin users out of a company can see compay pages
+
+    
+
+

@@ -49,30 +49,30 @@ class PropertyTestCase(unittest.TestCase):
         real_estate_user_profile.phone_number="5091231234"
         real_estate_user_profile.save()
 
-        property = Property.objects.create(school=school, user=user, title="test property",
+        self.property = Property.objects.create(school=school, user=user, title="test property",
                         addr="13 Test St.", city="Test Town", state="TX")
         real_estate_property = Property.objects.create(school=school, user=real_estate_user, title="test property with real estate",
                         addr="13 Test St.", city="Test Town", state="TX", real_estate_company=real_estate_company)
 
         #create many to many objects to property
-        image1 = PropertyImage.objects.create(property=property,
+        image1 = PropertyImage.objects.create(property=self.property,
                     image_link="http://a2.res.cloudinary.com/apartmentlist/image/upload/t_r_fp_dream_ldp/94117d8a840ab3239c40a7ad0ef89cae.jpg",
                     caption="test caption", floorplan=True)
-        image2 = PropertyImage.objects.create(property=property,
+        image2 = PropertyImage.objects.create(property=self.property,
                     image_link="http://a1.res.cloudinary.com/apartmentlist/image/upload/t_r_fp_dream_ldp/fda4c891f87b490e99947b2aa8ec46e4.jpg",
                     order=3, main=True)
 
-        video = PropertyVideo.objects.create(property=property, video_link='<iframe width="560" height="315" src="//www.youtube.com/embed/TefqMF2ls1U" frameborder="0" allowfullscreen></iframe>')
-        room1 = PropertyRoom.objects.create(property=property, lease_start=lease_start, price=500,
+        video = PropertyVideo.objects.create(property=self.property, video_link='<iframe width="560" height="315" src="//www.youtube.com/embed/TefqMF2ls1U" frameborder="0" allowfullscreen></iframe>')
+        room1 = PropertyRoom.objects.create(property=self.property, lease_start=lease_start, price=500,
                     bed_count=0, bath_count=1, sq_ft=800)
-        room2 = PropertyRoom.objects.create(property=property, lease_start=lease_start, price=900,
+        room2 = PropertyRoom.objects.create(property=self.property, lease_start=lease_start, price=900,
                     bed_count=1, bath_count=1.5, sq_ft=920)
-        favorite = PropertyFavorite.objects.create(property=property, user=user,
+        favorite = PropertyFavorite.objects.create(property=self.property, user=user,
                         note="test property note")
-        reserve = PropertyReserve.objects.create(property=property, user=user,
+        reserve = PropertyReserve.objects.create(property=self.property, user=user,
                     first_name="mr", last_name="tester", email="tester@gmail.com",
                     phone_number=123412341, floor_plan=room1, move_in_date="2014-09-01")
-        schedule = PropertySchedule.objects.create(property=property, user=user,
+        schedule = PropertySchedule.objects.create(property=self.property, user=user,
                     first_name="mr", last_name="tester", email="tester@gmail.com",
                     phone_number=123412341, schedule_date="2014-09-01",
                     schedule_time="8:00 am")

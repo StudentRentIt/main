@@ -4,16 +4,19 @@ from django.views.generic.list import ListView
 from django.views.generic import TemplateView
 #from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.http import HttpResponse
-from django.db.models import Count
+from django.db.models import Count, Sum
 
 from main.models import Contact
+from main.utils import unslugify
 from property.models import PropertyReserve, Property, PropertySchedule
 from flowreport.models import Report, SchoolSearch, PropertyImpression, SchoolItemImpression
 from braces.views import StaffuserRequiredMixin
+from realestate.models import Company
+from realestate.utils import user_in_company
 
 one_week_ago = datetime.date.today() - datetime.timedelta(days=7)
 
-class ReportHomeListView(StaffuserRequiredMixin, ListView):
+class BaseReportListView(ListView):
     '''
     displays the default report home dashboard
     '''
@@ -24,7 +27,8 @@ class ReportHomeListView(StaffuserRequiredMixin, ListView):
         '''
         Get all the sets of data that will be displayed for the internal homepage
         '''
-        context = super(ReportHomeListView, self).get_context_data(**kwargs)
+        context = super(BaseReportListView, self).get_context_data(**kwargs)
+        context['admin'] = True
         context['contacts'] = Contact.objects.values('contact_date') \
                     .filter(contact_date__gt=one_week_ago).annotate(created_count=Count('id')) \
                     .order_by('-contact_date')
@@ -35,19 +39,65 @@ class ReportHomeListView(StaffuserRequiredMixin, ListView):
         context['school_searches'] = SchoolSearch.objects.values('search_date') \
                     .filter(search_date__gt=one_week_ago).annotate(created_count=Count('id')) \
                     .order_by('-search_date')
-        context['prop_imps'] = PropertyImpression.objects.values('imp_date') \
-                    .filter(imp_date__gt=one_week_ago).annotate(created_count=Count('id'))
+        prop_imps = PropertyImpression.objects.filter(imp_date__gt=one_week_ago)\
+                    .values('imp_date') \
+                    .annotate(created_count=Count('id'))
+
+
+        context['prop_imps'] = prop_imps
 
         #properties used for autocompleter
         context['properties'] = Property.objects.all()
         return context
 
+class StaffReportListView(StaffuserRequiredMixin, BaseReportListView):
+
+    def get_context_data(self, **kwargs):
+        '''
+        let the template know that it is an admin/staff user
+        '''
+        context = super(BaseReportListView, self).get_context_data(**kwargs)
+        context['admin'] = True
+
+class RealEstateListView(BaseReportListView):
+
+    def get_context_data(self, **kwargs):
+        '''
+        Get all the set of data that is viewable by real estate company employees. We need to
+        filter the existing context variables from BaseReportListView by the real estate company.
+        We also need to set some variables to be used in the template.
+        '''
+        name_slug = self.kwargs['slug']
+        company = get_object_or_404(Company, name=unslugify(name_slug))
+
+        context = super(RealEstateListView, self).get_context_data(**kwargs)
+
+        # check if user is in company. If not, don't return any data
+        if user_in_company(self.request.user, company):
+            context['schedules'] = context['schedules'].filter(property__real_estate_company=company)
+            context['prop_imps'] = context['prop_imps'].filter(property__real_estate_company=company)
+            
+            #properties used for autocompleter
+            context['properties'] = context['properties'].filter(real_estate_company=company)
+        else:
+            # return no data for the sensitive data
+            context['schedules'] = PropertySchedule.objects.none()
+            context['prop_imps'] = PropertyImpression.objects.none()
+            context['properties'] = Property.objects.none()
+
+            # pass a variable to tell the user they don't have access
+            context['error'] = "access_error"
+
+        context['real_estate_company'] = company
+        context['admin'] = False
+
+        return context
+
 
 class PropertySummaryListView(ListView):
     '''
-    owner facing property summary report
+    owner and real-estate facing property summary report
     '''
-
     template_name = "flowreport/content/reports/property_imp_detail.html"
     report_view = "owner"
 
@@ -73,7 +123,7 @@ class PropertySummaryListView(ListView):
         return qs
 
 
-class PropertyImpListView(StaffuserRequiredMixin, PropertySummaryListView):
+class PropertyImpListView(PropertySummaryListView):
     '''
     admin version of the Property Summary report
     '''
@@ -95,7 +145,7 @@ class PropertyImpListView(StaffuserRequiredMixin, PropertySummaryListView):
 
         #get an impression count by month
         context['imps_by_month'] = PropertyImpression.objects \
-                    .extra(select={'month': "EXTRACT(month FROM imp_date)"}) \
+                    .extra(select={'month': "extract(month FROM imp_date)"}) \
                     .filter(property=property) \
                     .values('month') \
                     .annotate(created_count=Count('id')) \

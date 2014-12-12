@@ -85,7 +85,7 @@ class SchoolItemImpression(models.Model):
 
 class SchoolSearch(models.Model):
     '''
-    Register when a school search has bene performed
+    Register when a school search has been performed
     '''
     school = models.ForeignKey(School)
     search_date = models.DateField(auto_now_add=True)

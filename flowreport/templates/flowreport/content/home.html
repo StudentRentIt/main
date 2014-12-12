@@ -1,57 +1,65 @@
 {% extends "flowreport/include/base.html" %}
 
 {% block body_extra %}
-{% include "flowreport/include/modals/single_property.html" %}
+    {% include "flowreport/include/modals/single_property.html" %}
 {% endblock %}
 
 {% block javascript %}
-{% include "flowreport/include/general/single_property_modal_js.html" %}
+    {% include "flowreport/include/general/single_property_modal_js.html" %}
 {% endblock %}
 
 {% block body %}
-<div id="url-insert" style="display:hidden;" value="property/"></div>
-<div class="container">
-    <div class="row page-header">
-        <div class="text-center">
-            <h1>Admin Report Summary</h1>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-5 well report-container">
-            <h3 class="report-heading">Property Impressions</h3>
-            {% include "flowreport/include/reports/property_imp_summary_daily.html" %}
-            <div class="text-center report-btn-group">
-                <a class="btn btn-success" href="#" data-target="#singlePropertyModal"
-                    id="ind-prop-modal" data-toggle="modal" data-url-prefix="/property">Property Impression Detail</a>
-                <a class="btn btn-success" href="{% url 'report-imp-type-summary' %}">Impression Type Summary</a>
-                <a class="btn btn-success" href="{% url 'report-imp-type-detail' %}">Impression Type Detail</a>
-            </div>
-        </div>
-        <div class="col-md-5 col-md-offset-2 well report-container">
-            <h3 class="report-heading">School Searches</h3>
-            {% include "flowreport/include/reports/school_search_home_summary.html" %}
+    <div id="url-insert" style="display:hidden;" value="property/"></div>
+    <div class="container">
+        <div class="row page-header">
             <div class="text-center">
-                <a class="btn btn-success" href="{% url 'report-school-search-summary' %}">School Search Summary</a>
-                <a class="btn btn-success" href="{% url 'report-school-search-detail' %}">School Search Detail</a>
+                {% if real_estate_company %}
+                    <h1>Reports for {{ real_estate_company }}</h1>
+                {% else %}
+                    <h1>Admin Report Summary</h1>
+                {% endif %}
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-4 well report-container">
-            <h3 class="report-heading"><span class="glyphicon glyphicon-envelope"></span> Contacts</h3>
-            {% include "flowreport/include/reports/contact_summary.html" %}
-        </div>
-        <div class="col-md-4 well report-container">
-            <h3 class="report-heading"><span class="glyphicon glyphicon-check"></span> Reservations</h3>
-            {% include "flowreport/include/reports/reserve_summary.html" %}
-        </div>
-        <div class="col-md-4 well report-container">
-            <h3 class="report-heading"><span class="glyphicon glyphicon-time"></span> Schedules</h3>
-            {% include "flowreport/include/reports/schedule_summary.html" %}
-        </div>
-    </div>
+        <div class="row">
+            {% if error %}
+                {% if error = 'access_error' %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        You do not have access to view the reports of {{ real_estate_company }}.
+                        If you think you should have access, please contact us or your company supervisor.
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="col-md-5 well report-container">
+                    <h3 class="report-heading">Property Impressions</h3>
+                    {% include "flowreport/include/reports/property_imp_summary_daily.html" %}
+                    <div class="text-center report-btn-group">
+                        <a class="btn btn-success" href="#" data-target="#singlePropertyModal"
+                            id="ind-prop-modal" data-toggle="modal" data-url-prefix="/property">Property Impression Detail</a>
+                        <a class="btn btn-success" href="{% url 'report-imp-type-summary' %}">Impression Type Summary</a>
+                        <a class="btn btn-success" href="{% url 'report-imp-type-detail' %}">Impression Type Detail</a>
+                    </div>
+                </div>
+                <div class="col-md-5 col-md-offset-2">
+                    {% if admin %}
+                        <div class="well report-container">
+                            <h3 class="report-heading">School Searches</h3>
+                            {% include "flowreport/include/reports/school_search_home_summary.html" %}
+                            <div class="text-center">
+                                <a class="btn btn-success" href="{% url 'report-school-search-summary' %}">     School Search Summary</a>
+                                <a class="btn btn-success" href="{% url 'report-school-search-detail' %}">      School Search Detail</a>
+                            </div>
+                        </div>
+                    {% endif %}
 
-</div>
+                    <div class="well report-container">                
+                        <h3 class="report-heading"><span class="glyphicon glyphicon-time"></span> Schedules</h3>
+                        {% include "flowreport/include/reports/schedule_summary.html" %}
+                    </div>
+
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
 {% endblock %}

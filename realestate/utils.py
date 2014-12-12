@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 
 from main.utils import unslugify
+from main.models import UserProfile
 from realestate.models import Company
 
 
@@ -11,3 +12,13 @@ def get_company(slug):
     re_company = get_object_or_404(Company, name__contains=unslugify(slug))
 
     return re_company
+
+def user_in_company(user, company):
+	'''
+	check if a user is in a given company
+	'''
+	try:
+		profile = UserProfile.objects.get(user=user, real_estate_company=company)
+		return True
+	except UserProfile.DoesNotExist:
+		return False
