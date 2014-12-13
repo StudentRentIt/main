@@ -45,7 +45,8 @@ urlpatterns = patterns('',
     url(r'^', include(mainurls)),
 
     #internal apps
-    (r'^reports/', include('flowreport.urls')),
+    (r'^reportarchive/', include('flowreport.urls')),
+    (r'^reports/', include('report.urls')),
 
     url(r'^robots\.txt', TemplateView.as_view(template_name="maincontent/robots.txt")),
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',

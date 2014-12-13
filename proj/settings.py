@@ -107,7 +107,6 @@ INSTALLED_APPS = (
     'braces',
     'crispy_forms',
     'flowcore',
-    'flowreport',
     'main',
     'property',
     'school',
@@ -116,6 +115,8 @@ INSTALLED_APPS = (
     'search',
     'scrape',
     'realestate',
+    'report',
+    'flowreport',
 )
 
 MIDDLEWARE_CLASSES = (
