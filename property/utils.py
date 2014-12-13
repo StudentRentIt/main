@@ -53,3 +53,25 @@ def can_edit_property_list(user):
         Q(real_estate_company=user.profile.real_estate_company, real_estate_company__isnull=False))
 
     return property_list
+
+
+def get_property_contact(property):
+    '''
+    get the data for the person that should be listed as the contact on the property page
+    '''
+
+    contact = None
+
+    if property.real_estate_company.contact:
+        contact_user = property.real_estate_company.contact
+
+        contact = {
+            'name':contact_user.first_name + ' ' + contact_user.last_name,
+            'email':contact_user.email,
+            'phone':contact_user.profile.phone_number,
+            'pic':contact_user.profile.pic
+        }
+
+    return contact
+
+

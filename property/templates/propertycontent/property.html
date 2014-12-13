@@ -15,6 +15,7 @@
         {% include "propertyinclude/modals/contact.html" %}
         {% include "propertyinclude/modals/reserve.html" %}
         {% include "propertyinclude/modals/schedule.html" %}
+
     {% endif %}
     <script src="/static/js/favorite.js"></script>
     <script src="/static/js/tooltip.js"></script>
@@ -61,8 +62,8 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="col-md-offset-1 col-md-10" id="room-detail">
-                <div class="row" style="position:absolute; top:-40px;">
+            <!-- <div class="col-md-offset-1 col-md-10" id="room-detail"> -->
+                <!-- <div class="row" style="position:absolute; top:-40px;">
                     <div class="dropdown">
                       <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
                         Choose Floorplan
@@ -74,8 +75,8 @@
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="#">3BR/2BA/$1050</a></li>
                       </ul>
                     </div>
-                </div>
-                <div class="row">
+                </div> -->
+                <!-- <div class="row">
                     <div class="col-md-7">
                         Monthly Rent
                     </div>
@@ -115,23 +116,40 @@
                         $1500 <span class="glyphicon glyphicon-question-sign" id="price-info"
                             data-toggle="tooltip" title="This price is 100% accurate and if it turns out to be more expensive Brenden Martin will pay the difference"></span>
                     </div>
+                </div> -->
+            <!-- </div> -->
+            {% if contact %}
+                <div class="col-md-offset-1 col-md-10" id="contact-detail">
+                    <div class="col-xs-6">
+                        {% if contact.pic %}
+                            <img src={{ contact.pic.url }} class="img-circle img-responsive img-contact" />
+                        {% else %}
+                            <img src="/static/img/logo_icon.ico" class="img-circle img-responsive img-contact"/>
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-6 text-center">
+                        <h3>
+                            Contact
+                        </h3>
+                        <div class="row">
+                            <p>{{ contact.name }}</p>
+                        </div>
+                        {% if contact.phone %}
+                            <div class="row">
+                                <p>{{ contact.phone }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-offset-1 col-md-10" id="contact-detail">
-                <div class="col-md-4">
-                    <img src="/static/img/temp/ambassador.jpg" class="img-circle img-responsive" style="margin-top:25px;" />
+                <div class="col-md-12 text-center" style="margin:15px 0;">
+                    <div class="btn btn-lg btn-rentsity">
+                        <span class="glyphicon glyphicon-time"></span> Schedule Tour
+                    </div>
+                    <div class="btn btn-lg btn-rentsity">
+                        <span class="glyphicon glyphicon-envelope"></span> Email Contact
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    <p>Jane Doe</p>
-                    <p>Ambassador since 1/1/2013</p>
-                    <p>Average Response Time: Never</p>
-                </div>
-            </div>
-            <div class="col-md-12 text-center" style="margin:15px 0;">
-                <div class="btn btn-lg btn-rentsity">
-                    Schedule Tour <span class="glyphicon glyphicon-time"></span>
-                </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 </div>

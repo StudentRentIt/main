@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
+from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
+from django.core import mail
 from django.contrib.auth import authenticate
 
 from main.models import City, UserProfile, Payment, TeamMember, Contact
@@ -152,4 +155,12 @@ class FunctionTests(WebTest):
         form = home_page.forms['search-footer']
         form['search-footer-text'] = "University of Washington"
         form.submit()
+
+    # TODO: general send email test. Not failing properly with this code.
+    # def test_send_email(self):
+    #     # test if sending emails is working
+    #     mail = send_mail('subject', 'body', settings.EMAIL_HOST_USER, ['awwester@gmail.com'], fail_silently=False)
+    #     self.assertEquals(len(mail.outbox), 1)
+    #     self.assertEquals(mail.outbox[0].subject, 'subject')
+
 

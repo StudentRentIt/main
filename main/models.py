@@ -24,9 +24,14 @@ USER_TYPE_CHOICES = (
 General Models
 '''
 class UserProfile(models.Model):
+
+    def get_user_image_path(instance, filename):
+        return os.path.join('user/', filename)
+
     user = models.OneToOneField(User, related_name='profile')
     user_type = models.CharField(max_length=30, null=True, blank = True,
         choices=USER_TYPE_CHOICES)
+    pic = models.ImageField(upload_to=get_user_image_path, null=True, blank = True)
     real_estate_company = models.ForeignKey(Company, null=True, blank=True)
     phone_number = PhoneNumberField(null=True, blank=True)
 

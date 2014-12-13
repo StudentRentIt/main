@@ -22,7 +22,7 @@ from property.forms import BasicPropertyForm, DetailPropertyForm, \
 
 from main.utils import get_favorites, save_impression
 from main.forms import ContactForm, FavoriteForm
-from property.utils import get_walkscore, can_edit_property_list
+from property.utils import get_walkscore, can_edit_property_list, get_property_contact
 
 from braces.views import LoginRequiredMixin
 
@@ -54,8 +54,11 @@ def property(request, pk, slug, action = None):
     or set up a reservation. Need to gather the property information room/pictures
     and forms
     '''
+
     property = get_object_or_404(Property, id=pk)
     save_impression(imp_type="P", imp_property=property)
+
+    contact = get_property_contact(property)
 
     #perform certain actions that are passed in in the action kwarg
     if action == "reserve":
@@ -297,7 +300,7 @@ def property(request, pk, slug, action = None):
     return render(request, template,
         dict(render_dict, **{'reserve_form':initial_reserve_form,
             'contact_form':initial_contact_form, 'schedule_form':initial_schedule_form,
-            'walkscore':walkscore_json }))
+            'walkscore':walkscore_json, 'contact':contact }))
 
 
 class ManagePropertyTemplateView(LoginRequiredMixin, TemplateView):
@@ -829,7 +832,6 @@ def recurring_services(request, **kwargs):
     return render(request, 'propertycontent/recurring_services.html',
         {'monthly_services':monthly_services, 'onetime_services':onetime_services,
         'packages':packages, 'property':property, 'fill_package':fill_package})
-        #'previous_property_package':fill_
 
 
 def onetime_services(request, **kwargs):

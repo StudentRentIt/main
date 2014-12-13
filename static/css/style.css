@@ -751,9 +751,9 @@ html, body, #map-canvas {
 }
 #room-detail,
 #contact-detail {
-    border:1px #eeeeee solid;
+    border:5px #eeeeee solid;
     border-top:none;
-    padding:5px;
+    padding:20px;
 }
 #property-detail-row {
     background-color:#eeeeee;
