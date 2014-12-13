@@ -460,3 +460,5 @@ class PropertySchedule(models.Model):
 
     class Meta:
         ordering = ['-create_date']
+
+        

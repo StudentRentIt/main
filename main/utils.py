@@ -5,7 +5,7 @@ from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 
 from property.models import PropertyFavorite
-from flowreport.models import PropertyImpression, SchoolItemImpression
+from report.models import PropertyImpression, SchoolItemImpression
 
 
 def get_favorites(user):

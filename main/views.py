@@ -18,8 +18,7 @@ from blog.models import Article
 from main.models import Payment, TeamMember
 from main.forms import ContactForm, UserUpdateForm
 from main.utils import get_favorites
-
-from flowreport.models import SchoolSearch
+from report.models import SchoolSearch
 
 from braces.views import LoginRequiredMixin
 

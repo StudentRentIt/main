@@ -270,7 +270,7 @@ class FunctionTests(WebTest):
         self.real_estate_user.profile.save()
 
     def test_update_without_properties(self):
-        user = self.user_without_property
+        user = self.user
 
         update_page = self.app.get('/property/update/', user=user)
 

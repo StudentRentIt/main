@@ -13,7 +13,7 @@ from school.utils import get_school, get_school_items, get_neighborhood_items
 from main.utils import get_favorites, unslugify
 from realestate.utils import get_company
 from blog.models import Article
-from flowreport.models import SchoolSearch
+from report.models import SchoolSearch
 from property.models import Property, PropertyRoom, Amenity, PropertyLeaseType, \
                             PropertyLeaseStart, PropertyLeaseTerm, PropertyFavorite
 

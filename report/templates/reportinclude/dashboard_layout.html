@@ -1,6 +1,11 @@
 {% extends "reportinclude/base.html" %}
 
 {% block body %}
+	<script>
+	$(document).ready(function(){
+		$('#main').addClass('dark-bg');
+	})
+	</script>
 	<section class="container">
 		<div class="row page-header text-center">
 			<h1>
@@ -10,25 +15,47 @@
 			</h1>
 		</div>
 
-		<div class="row well" id="dashboard-summary-row">
-			<div class="col-sm-12">
-				{% block dashboard_summary %}
-					Default Dashboard Summary
-				{% endblock %}
-			</div>
+		<div class="row well" id="dashboard-summary-row" style="padding:0;">
+			{% block dashboard_summary %}
+				<div class="col-xs-4 dashboard-section">
+					<div class="title">IMPRESSIONS THIS MONTH</div>
+					<div class="data">
+						{{ dash_metrics.imps }}
+					</div>
+				</div>
+				<div class="col-xs-4 dashboard-section">
+					<div class="title">SCHEDULES THIS MONTH</div>
+					<div class="data">
+						{{ summary_schedules|default:"N/A" }}
+					</div>
+				</div>
+				<div class="col-xs-4 dashboard-section">
+					<div class="title">CONTACTS THIS MONTH</div>
+					<div class="data">
+						{{ summary_contacts|default:"N/A" }}
+					</div>
+				</div>
+			{% endblock %}
 		</div>
 
 		<div class="row" id="dashboard-content-row">
 			<div class="col-sm-5 well">
 				{% block left_column %}
-					<h2 class="text-center">Property Impressions</h2>
+					<h2 class="text-center">Daily Impressions</h2>
 					{% include "reportinclude/tables/prop_imp_summary.html" %}
 				{% endblock %}
 			</div>
 
 			<div class="col-sm-5 col-sm-offset-2 well">
 				{% block right_column %}
-					Default Dashboard Right Column
+					<h2><span class="glyphicon glyphicon-time"></span> Tour Schedules</h2>
+					<div class="alert alert-warning">
+						{% include "maininclude/development.html" %}
+					</div>
+					<h2><span class="glyphicon glyphicon-envelope"></span> Contacts</h2>
+					<div class="alert alert-warning">
+						{% include "maininclude/development.html" %}
+					</div>
 				{% endblock %}
 			</div>
 		</div>

@@ -7,17 +7,18 @@ from main.models import City, UserProfile, Payment, TeamMember, Contact
 from school.models import School
 
 from django_webtest import WebTest
-from django_dynamic_fixture import G
 
 
 class TestUser(WebTest):
 
     def setUp(self):
         # set up all types of users to be used
-        self.staff = G(User, username="staff", is_staff=True)
-        self.customer = G(User, username="customer")
-        self.real_estate_user = G(User, username="realestate")
-        self.user_without_property = G(User, username="noproperty")
+        self.staff_user = User.objects.create_user('staff_user', 'staff@gmail.com', 'staffpass')
+        self.staff_user.is_staff = True
+        self.staff_user.save()
+
+        self.user = User.objects.create_user('user', 'user@gmail.com', 'userpass')
+        self.real_estate_user = User.objects.create_user('real_estate_user', 're@gmail.com', 'repass')
 
 
 class ModelTests(TestCase):
@@ -145,7 +146,7 @@ class FunctionTests(WebTest):
         '''
         
         # pull up the home page
-        home_page = self.app.get(reverse('home-list'), user=self.customer)
+        home_page = self.app.get(reverse('home-list'), user=self.user)
 
         # search for a school
         form = home_page.forms['search-footer']

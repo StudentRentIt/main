@@ -116,7 +116,6 @@ INSTALLED_APPS = (
     'scrape',
     'realestate',
     'report',
-    'flowreport',
 )
 
 MIDDLEWARE_CLASSES = (
