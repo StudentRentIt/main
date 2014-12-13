@@ -1,0 +1,17 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_head %}
+	<tr>
+	    <th>Impression Object</th>
+	</tr>
+{% endblock %}
+
+{% block table_body %}
+	<div class="col-md-6">
+		{% for i in prop_imps %}
+			<tr>
+			    <td>{{ i }}</td>
+			</tr>
+		{% endfor %}
+	</div>
+{% endblock %}

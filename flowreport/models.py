@@ -54,8 +54,8 @@ class PropertyImpression(models.Model):
     '''
     Impression data for Property Items
     '''
-    property = models.ForeignKey(Property, db_index=True)
-    imp_property_package = models.ForeignKey(Package, blank=True, null=True)
+    property = models.ForeignKey(Property, db_index=True, related_name="archive_property")
+    imp_property_package = models.ForeignKey(Package, blank=True, null=True, related_name="archive_package")
     imp_property_sponsored = models.BooleanField(default=False)
     imp_type = models.CharField(max_length=1, choices=PROPERTY_IMPRESSION_CHOICES)
     imp_date = models.DateField(auto_now_add=True)
@@ -87,5 +87,5 @@ class SchoolSearch(models.Model):
     '''
     Register when a school search has been performed
     '''
-    school = models.ForeignKey(School)
+    school = models.ForeignKey(School, related_name="archive_school")
     search_date = models.DateField(auto_now_add=True)

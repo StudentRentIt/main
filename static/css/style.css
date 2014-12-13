@@ -1035,17 +1035,7 @@ html, body, #map-canvas {
 }
 
 /***** Reports *****/
-.report-heading {
-    text-align: center;
-}
 
-.report-container {
-    margin-top:20px;
-}
-
-.report-btn-group > a {
-    margin-bottom:10px;
-}
 
 /***** Responsive Section *****/
 @media (max-width: 768px) {
@@ -1324,3 +1314,6 @@ div.testimonial > p {
 #ca-data .nav li.active a {
     color:#fff;
 }
+
+
+

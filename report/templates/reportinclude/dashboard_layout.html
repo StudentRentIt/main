@@ -1,0 +1,36 @@
+{% extends "reportinclude/base.html" %}
+
+{% block body %}
+	<section class="container">
+		<div class="row page-header text-center">
+			<h1>
+				{% block dashboard_title %}
+					Report Dashboard
+				{% endblock %}
+			</h1>
+		</div>
+
+		<div class="row well" id="dashboard-summary-row">
+			<div class="col-sm-12">
+				{% block dashboard_summary %}
+					Default Dashboard Summary
+				{% endblock %}
+			</div>
+		</div>
+
+		<div class="row" id="dashboard-content-row">
+			<div class="col-sm-5 well">
+				{% block left_column %}
+					<h2 class="text-center">Property Impressions</h2>
+					{% include "reportinclude/tables/prop_imp_summary.html" %}
+				{% endblock %}
+			</div>
+
+			<div class="col-sm-5 col-sm-offset-2 well">
+				{% block right_column %}
+					Default Dashboard Right Column
+				{% endblock %}
+			</div>
+		</div>
+	</section>
+{% endblock %}
