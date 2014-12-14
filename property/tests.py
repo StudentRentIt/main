@@ -199,11 +199,6 @@ class ViewTests(TestCase):
         url = reverse('property-type-delete')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
-    def test_summary(self):
-        url = reverse('property-summary', kwargs={'pk':self.property_pk, 'slug':self.property_slug})
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
     '''
 
     def test_action(self):

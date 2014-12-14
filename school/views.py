@@ -12,8 +12,6 @@ from main.utils import get_favorites, unslugify
 
 from blog.models import Article
 
-from flowreport.models import SchoolSearch
-
 
 
 def home(request):
