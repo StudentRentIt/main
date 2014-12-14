@@ -375,7 +375,7 @@ def updateproperty(request, pk=None, type=None, type_id=None, function=None):
                             dict(render_dict, **{'detail_form':detail_form, 'status':'error',
                                 'active_tab':'details'}))
                 #update contact info
-                if 'contact_first_name' in request.POST:
+                if 'contact_user' in request.POST:
                     contact_form = ContactPropertyForm(request.POST, instance=property)
 
                     if contact_form.is_valid():
