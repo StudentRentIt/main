@@ -18,7 +18,7 @@ so that we can split up the different types of fields for data entry
 basic_fields = ['school', 'type', 'title', 'addr', 'city', 'state', 'zip_cd']
 hidden_fields = ['user', 'lat', 'long', 'active', 'sponsored', 'initial']
 detail_fields = ['lease_type', 'lease_term', 'amenities', 'description', 'special', 'fee_desc']
-contact_fields = ['contact_first_name', 'contact_last_name', 'contact_phone', 'contact_email']
+contact_fields = ['contact_user']
 business_detail_fields = ['description', 'special',]
 
 
@@ -136,7 +136,7 @@ class ScheduleForm(ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Fieldset(
-                'Schedule a tour and find your new pad.',
+                'Schedule a tour and find your new pad',
                 Div('first_name', css_class="col-md-3"),
                 Div('last_name', css_class="col-md-3"),
                 Div('email', css_class="col-md-6"),
@@ -145,7 +145,7 @@ class ScheduleForm(ModelForm):
                 Div('schedule_time', css_class="col-md-4"),
             ),
             ButtonHolder(
-                Submit('submit', 'Schedule Now', css_class='btn-success btn-lg'),
+                Submit('submit', 'Schedule Now', css_class='btn-brand btn-lg'),
                 css_class="text-center"
             )
         )

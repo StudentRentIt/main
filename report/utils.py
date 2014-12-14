@@ -1,5 +1,8 @@
 import datetime
 
+from django.db.models import Count
+
+from main.models import Contact
 from report.models import PropertyImpression
 
 
@@ -24,11 +27,37 @@ def get_dash_metrics(properties):
 
 	imps = PropertyImpression.objects.filter(property__in=properties, imp_date__gt=one_month_ago)\
 		.count()
+	contacts = Contact.objects.filter(property__in=properties, contact_date__gt=one_month_ago) \
+		.count()
 
 	data = {
 		"imps":imps,
-		"contacts":0,
+		"contacts":contacts,
 		"schedules":0,
+	}
+
+	return data
+
+
+def get_daily_metrics(properties):
+	'''
+	Get daily data for properties. This data will be passed to all types of users
+	and it will be passed a list of properties depending on which type of user is
+	accessing the data.
+	'''
+	imps = PropertyImpression.objects.values('imp_date')\
+		.filter(imp_date__gt=one_week_ago, property__in=properties)\
+		.order_by('-imp_date')\
+		.annotate(count=Count('id'))
+
+	contacts = Contact.objects.values('contact_date')\
+		.filter(property__in=properties, contact_date__gt=one_week_ago)\
+		.order_by('-contact_date')\
+		.annotate(count=Count('id'))
+
+	data = {
+		"imps":imps,
+		"contacts":contacts
 	}
 
 	return data

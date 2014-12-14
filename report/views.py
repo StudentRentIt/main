@@ -5,7 +5,8 @@ from django.shortcuts import render
 
 from property.models import Property
 from report.models import PropertyImpression
-from report.utils import get_dash_metrics, one_week_ago, one_month_ago
+from report.utils import get_dash_metrics, one_week_ago, one_month_ago, \
+						 get_daily_metrics
 
 # Create your views here.
 @staff_member_required
@@ -15,16 +16,11 @@ def admin_home(request):
 	Other users that try to access this page will be redirected to login.
 	'''
 	properties = Property.objects.all()
-
-	prop_imps = PropertyImpression.objects.values('imp_date')\
-		.filter(imp_date__gt=one_week_ago)\
-		.order_by('-imp_date')\
-		.annotate(count=Count('id'))
-
+	daily_metrics = get_daily_metrics(properties)
 	dash_metrics = get_dash_metrics(properties)
 
 	return render(request, 'reportcontent/admin_home.html', 
-		{'prop_imps':prop_imps, 'dash_metrics':dash_metrics, 'one_month_ago':one_month_ago})
+		{'daily_metrics':daily_metrics, 'dash_metrics':dash_metrics})
 
 
 @login_required
@@ -33,18 +29,13 @@ def real_estate_home(request):
 	Home page for real estate users. Any real estate user can access
 	this page, and the data will be filtered to their respective properties
 	'''
-
 	company = request.user.profile.real_estate_company
-
-	prop_imps = PropertyImpression.objects.values('imp_date')\
-		.filter(imp_date__gt=one_week_ago,
-				property__real_estate_company__isnull=False, 
-				property__real_estate_company=company)\
-		.order_by('-imp_date')\
-		.annotate(count=Count('id'))
+	properties = Property.objects.filter(real_estate_company=company)
+	daily_metrics = get_daily_metrics(properties)
+	dash_metrics = get_dash_metrics(properties)
 
 	return render(request, 'reportcontent/real_estate_home.html',
-		{'prop_imps':prop_imps, 'company':company})
+		{'daily_metrics':daily_metrics, 'dash_metrics':dash_metrics})
 
 
 @login_required
@@ -54,12 +45,10 @@ def business_home(request):
 	be filtered to the BUSINESS properties in which they are listed as 
 	the owner
 	'''
-	business_properties = Property.objects.filter(type="BUS")
-	prop_imps = PropertyImpression.objects.values('imp_date')\
-		.filter(imp_date__gt=one_week_ago, property__in=business_properties)\
-		.order_by('-imp_date')\
-		.annotate(count=Count('id'))
+	properties = Property.objects.filter(type="BUS")
+	daily_metrics = get_daily_metrics(properties)
+	dash_metrics = get_dash_metrics(properties)
 
-	return render(request, 'reportcontent/business_home.html', 
-		{'prop_imps':prop_imps})
+	return render(request, 'reportcontent/business_home.html',
+		{'daily_metrics':daily_metrics, 'dash_metrics':dash_metrics})
 

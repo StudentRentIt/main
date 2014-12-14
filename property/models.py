@@ -181,12 +181,8 @@ class Property(models.Model):
     special = models.TextField(null=True, blank=True)
     fee_desc = models.TextField(null=True, blank=True)
     internal = models.BooleanField(default=False)
-
-    #contact fields
-    contact_first_name = models.CharField(max_length=50, null=True, blank=True)
-    contact_last_name = models.CharField(max_length=50, null=True, blank=True)
-    contact_phone = PhoneNumberField(null=True, blank=True)
-    contact_email = models.EmailField(null=True, blank=True)
+    contact_user = models.ForeignKey(User, null=True, blank=True, 
+        related_name="property_contact_user")
 
     services = models.ManyToManyField(Service, null=True, blank=True)
     package = models.ForeignKey(Package, null=True, blank=True)

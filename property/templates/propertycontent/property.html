@@ -11,12 +11,12 @@
 {% endblock %}
 
 {% block body_extra %}
-    {% if property.contact_email %}
+    {% if contact.email %}
         {% include "propertyinclude/modals/contact.html" %}
         {% include "propertyinclude/modals/reserve.html" %}
         {% include "propertyinclude/modals/schedule.html" %}
-
     {% endif %}
+
     <script src="/static/js/favorite.js"></script>
     <script src="/static/js/tooltip.js"></script>
 {% endblock %}
@@ -25,7 +25,11 @@
 <img class="img-responsive img-full" src="/static/img/misc/landscape.jpg" />
 <div class="container">
     <div class="row" id="property-summary-row">
-        <div class="col-md-8" id="property-content-column">
+        <div class="col-sm-8 {% if not contact %}col-sm-offset-2{% endif %}" 
+            id="property-content-column">
+            <div class="row" style="margin-top:15px;">
+                {% include "propertyinclude/post_status.html" %}
+            </div>
             <h1 class="skinny">{{ property.title }}</h1>
             <h3 class="skinny">{{ property.get_full_address }}</h3>
             <span class="skinny col-md-6">Distance to Campus: {{ property.get_distance_from_campus|floatformat:1 }} miles</span>
@@ -36,90 +40,12 @@
                 {% endif %}
             </span>
             <div class="row" id="rooms-row">
-                {% include "propertyinclude/post_status.html" %}
-                <table class="table table-striped">
-                    <thead>
-                        <tr class="table-header">
-                            <td>Price</td>
-                            <td>Bedroom</td>
-                            <td>Bath</td>
-                            <td>Sq Ft</td>
-                            <td>Availability</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for r in property_rooms %}
-                            <tr>
-                                <td>{{ r.price }}</td>
-                                <td>{{ r.get_bed_count_display }}</td>
-                                <td>{{ r.get_bath_count_display }}</td>
-                                <td>{{ r.sq_ft }}</td>
-                                <td>{% if r.lease_start %}{{ r.lease_start }}{% else %}Unknown{% endif %}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                {% include "propertyinclude/tables/property_data.html" %}
             </div>
         </div>
         <div class="col-md-4">
-            <!-- <div class="col-md-offset-1 col-md-10" id="room-detail"> -->
-                <!-- <div class="row" style="position:absolute; top:-40px;">
-                    <div class="dropdown">
-                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                        Choose Floorplan
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">0BR/1BA/$500</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">1BR/1BA/$620</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">3BR/2BA/$1050</a></li>
-                      </ul>
-                    </div>
-                </div> -->
-                <!-- <div class="row">
-                    <div class="col-md-7">
-                        Monthly Rent
-                    </div>
-                    <div class="col-md-5">
-                        $1000
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-7">
-                        Security Deposit
-                    </div>
-                    <div class="col-md-5">
-                        $500
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-7">
-                        Last Month's Rent
-                    </div>
-                    <div class="col-md-5">
-                        Required
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-7">
-                        Utilities
-                    </div>
-                    <div class="col-md-5">
-                        Included
-                    </div>
-                </div>
-                <div class="row total-row">
-                    <div class="col-md-7">
-                        Total Due Upfront
-                    </div>
-                    <div class="col-md-5">
-                        $1500 <span class="glyphicon glyphicon-question-sign" id="price-info"
-                            data-toggle="tooltip" title="This price is 100% accurate and if it turns out to be more expensive Brenden Martin will pay the difference"></span>
-                    </div>
-                </div> -->
-            <!-- </div> -->
             {% if contact %}
-                <div class="col-md-offset-1 col-md-10" id="contact-detail">
+                <div class="col-md-offset-1 col-md-10 skinny" id="contact-detail">
                     <div class="col-xs-6">
                         {% if contact.pic %}
                             <img src={{ contact.pic.url }} class="img-circle img-responsive img-contact" />
@@ -143,10 +69,14 @@
                 </div>
                 <div class="col-md-12 text-center" style="margin:15px 0;">
                     <div class="btn btn-lg btn-rentsity">
-                        <span class="glyphicon glyphicon-time"></span> Schedule Tour
+                        <a href="{% url 'property-action' property.id property.title|slugify 'schedule' %}" class="property-action">
+                            <span class="glyphicon glyphicon-time"></span> Schedule Tour
+                        </a>
                     </div>
                     <div class="btn btn-lg btn-rentsity">
-                        <span class="glyphicon glyphicon-envelope"></span> Email Contact
+                        <a href="{% url 'property-action' property.id property.title|slugify 'contact' %}" class="property-action">
+                            <span class="glyphicon glyphicon-envelope"></span> Email Contact
+                        </a>
                     </div>
                 </div>
             {% endif %}

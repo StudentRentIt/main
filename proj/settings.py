@@ -35,7 +35,7 @@ if BASE_DIR == "/home/studentrentit/rentversity":
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
     #Used in the emails to get the image link
-    WEB_URL_ROOT = 'http://www.rentversity.com/'
+    WEB_URL_ROOT = 'https://www.rentversity.com/'
 elif BASE_DIR == "/home/studentrentit/dev":
     # remote dev environment
     SECRET_KEY = '5@1f7zdj%2v42o65CsZ@)4tcjkadued8y(_^wn@kha8dpn5vnf'
@@ -59,7 +59,7 @@ elif BASE_DIR == "/home/studentrentit/dev":
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
     #Used in the emails to get the image link
-    WEB_URL_ROOT = 'http://studentrentit.pythonanywhere.com/'
+    WEB_URL_ROOT = 'https://studentrentit.pythonanywhere.com/'
 else:
     # local environment
     SECRET_KEY = '5@1f7zdj%2v42o75bs2@)4tcjkcoueb8y(_^wn@khr8dpn5vmf'

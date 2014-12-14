@@ -25,7 +25,7 @@ class ContactForm(ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Fieldset(
-                'Begin contact with the apartment manager... now!',
+                '',
                 Div('first_name', css_class="col-md-3"),
                 Div('last_name', css_class="col-md-3"),
                 Div('email', css_class="col-md-6"),
@@ -34,7 +34,9 @@ class ContactForm(ModelForm):
                 'body'
             ),
             ButtonHolder(
-                Submit('submit', 'Contact Now', css_class='btn-rentsity btn-lg'), css_class="text-center"
+                Submit('submit', 'Contact Now', 
+                    css_class='btn-brand btn-lg'), 
+                    css_class="text-center"
             )
         )
 

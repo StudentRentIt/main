@@ -278,4 +278,9 @@ class FunctionTests(WebTest):
         user = self.real_estate_user
         self.assertNotEqual(can_edit_property_list(user), None)
 
-        update_page = self.app.get('/property/update/', user=user)        
+        update_page = self.app.get('/property/update/', user=user) 
+
+
+    # TODO: test_submit_schedule_form
+
+    # TODO: test_submit_contact_form        

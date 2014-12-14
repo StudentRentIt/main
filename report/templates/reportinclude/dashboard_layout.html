@@ -20,19 +20,19 @@
 				<div class="col-xs-4 dashboard-section">
 					<div class="title">IMPRESSIONS THIS MONTH</div>
 					<div class="data">
-						{{ dash_metrics.imps }}
+						{{ dash_metrics.imps|default:"N/A" }}
 					</div>
 				</div>
 				<div class="col-xs-4 dashboard-section">
-					<div class="title">SCHEDULES THIS MONTH</div>
+					<div class="title">TOURS THIS MONTH</div>
 					<div class="data">
-						{{ summary_schedules|default:"N/A" }}
+						{{ dash_metrics.tours|default:"N/A" }}
 					</div>
 				</div>
 				<div class="col-xs-4 dashboard-section">
 					<div class="title">CONTACTS THIS MONTH</div>
 					<div class="data">
-						{{ summary_contacts|default:"N/A" }}
+						{{ dash_metrics.contacts|default:"N/A" }}
 					</div>
 				</div>
 			{% endblock %}
@@ -53,9 +53,7 @@
 						{% include "maininclude/development.html" %}
 					</div>
 					<h2><span class="glyphicon glyphicon-envelope"></span> Contacts</h2>
-					<div class="alert alert-warning">
-						{% include "maininclude/development.html" %}
-					</div>
+					{% include "reportinclude/tables/contact_summary.html" %}
 				{% endblock %}
 			</div>
 		</div>

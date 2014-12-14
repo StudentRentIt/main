@@ -57,21 +57,29 @@ def can_edit_property_list(user):
 
 def get_property_contact(property):
     '''
-    get the data for the person that should be listed as the contact on the property page
+    get the data for the person that should be listed as the contact on the property page.
+    We will look to see if there is a contact on the property first, and if not then we'll
+    check the real estate company on the property.
     '''
-
     contact = None
+    contact_user = None
 
-    if property.real_estate_company.contact:
-        contact_user = property.real_estate_company.contact
+    try:
+        if property.contact_user:
+            contact_user = property.contact_user
+        elif property.real_estate_company.contact:
+            contact_user = property.real_estate_company.contact
 
-        contact = {
-            'name':contact_user.first_name + ' ' + contact_user.last_name,
-            'email':contact_user.email,
-            'phone':contact_user.profile.phone_number,
-            'pic':contact_user.profile.pic
-        }
+        if contact_user:
+            contact = {
+                'name':contact_user.first_name + ' ' + contact_user.last_name,
+                'email':contact_user.email,
+                'phone':contact_user.profile.phone_number,
+                'pic':contact_user.profile.pic
+            }
 
-    return contact
+        return contact
+    except:
+        return None
 
 

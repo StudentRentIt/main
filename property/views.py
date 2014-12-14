@@ -75,7 +75,6 @@ def property(request, pk, slug, action = None):
     base_dir = settings.BASE_DIR
     related_properties = property.get_related_properties()
 
-
     # get the images, videos, rooms for properties
     property_images = PropertyImage.objects.filter(property=pk, floorplan=False)
     floorplan_images = PropertyImage.objects.filter(property=pk, floorplan=True)
@@ -131,12 +130,17 @@ def property(request, pk, slug, action = None):
         'reserve_form':reserve_form, 'floorplan_images':floorplan_images,
         'related_properties': related_properties, 'load_modal':load_modal,
         'schedule_form':schedule_form, 'property_videos':property_videos,
-        'nearby':nearby}
+        'nearby':nearby, 'contact':contact}
 
     if request.method == "POST":
+        '''
+        If we're receiving a POST request, that means that one of the actions
+        has been taken on the property page. The user might be sending a contact
+        email or scheduling a tour
+        '''
         #only send to property contact if in production
-        internal_email = 'support@studentrentit.com'
-        if base_dir == "/home/studentrentit/prod":
+        internal_email = settings.EMAIL_HOST_USER
+        if base_dir == "/home/studentrentit/rentsity":
             email_to = [property.contact_email]
             email_bcc = [internal_email]
         else:
@@ -146,20 +150,23 @@ def property(request, pk, slug, action = None):
         if 'body' in request.POST:
             #handle if contact form was submitted
             contact_form = ContactForm(request.POST)
+            
             if contact_form.is_valid():
                 #handle if ContactForm was submitted
                 cd = contact_form.cleaned_data
-                body_footer = "<p>" + cd["first_name"] + " " + cd["last_name"] + " can be reached by email at " + cd['email'] + " or calling their phone at " + cd['phone_number'] + '.'
+                body_footer = "<p>" + cd["first_name"] + " " + cd["last_name"] + \
+                    " is interested in " + str(property) + " and can be reached by email at " + cd['email'] \
+                    + " or calling their phone at " + cd['phone_number'] + '.'
                 headers = {'Reply-To': cd['email']}
                 email_to.append(cd['email'])
 
                 #build the email and send it
-                msg = EmailMessage('StudentRentIt.com - Property Contact',
+                msg = EmailMessage('RentVersity.com - Property Contact',
                                     get_template('email/default.html').render(
                                         Context({
                                             'body':cd['body'] + body_footer,
                                             'webURLroot' : settings.WEB_URL_ROOT,
-                                            'email_header' : 'Property Contact from StudentRentIt.com'
+                                            'email_header' : 'Property Contact from RentVersitys.com'
                                         })
                                     ),
                                     settings.EMAIL_HOST_USER,

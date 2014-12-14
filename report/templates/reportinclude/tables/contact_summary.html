@@ -2,14 +2,15 @@
 
 {% block table_body %}
 	<div class="col-md-6">
-		{% for i in daily_metrics.imps %}
+		{% for c in daily_metrics.contacts %}
 			<tr>
-			    <td>{{ i.imp_date }}</td>
-			    <td class="count-column">{{ i.count }}</td>
+			    <td>{{ c.contact_date }}</td>
+			    <td class="count-column">{{ c.count }}</td>
 			</tr>
 		{% empty %}
 			<tr>
 				<td class="text-center">There is no data </td>
+			</tr>
 		{% endfor %}
 	</div>
 {% endblock %}

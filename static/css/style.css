@@ -732,6 +732,15 @@ html, body, #map-canvas {
 }
 
 /***** Property *****/
+.property-action {
+    color:black;
+}
+.property-action:hover {
+    font-size: 120%;
+    color:black;
+    transition: font-size 0.5s ease-in-out;
+}
+
 .property-content {
     background:#eee;
     margin-top:3em;
@@ -1047,6 +1056,9 @@ html, body, #map-canvas {
     text-align: center;
     font-weight: bold;
     font-size: 500%;
+}
+.count-column {
+    font-weight: 800;
 }
 
 
