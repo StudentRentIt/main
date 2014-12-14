@@ -1,0 +1,16 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_body %}
+	<div class="col-md-6">
+		{% for i in daily_metrics.schedules %}
+			<tr>
+			    <td>{{ i.imp_date }}</td>
+			    <td class="count-column">{{ i.count }}</td>
+			</tr>
+		{% empty %}
+			<tr>
+				<td class="text-center">There is no data </td>
+			</tr>
+		{% endfor %}
+	</div>
+{% endblock %}

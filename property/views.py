@@ -140,8 +140,8 @@ def property(request, pk, slug, action = None):
         '''
         #only send to property contact if in production
         internal_email = settings.EMAIL_HOST_USER
-        if base_dir == "/home/studentrentit/rentsity":
-            email_to = [property.contact_email]
+        if base_dir == "/home/studentrentit/rentversity":
+            email_to = [property.contact_user.email]
             email_bcc = [internal_email]
         else:
             email_to = ['awwester@gmail.com']
@@ -188,73 +188,7 @@ def property(request, pk, slug, action = None):
                 return render(request, template,
                     dict(render_dict, **{'contact_form':contact_form, 'status':'error',
                             'load_modal':'propertyContactModal'}))
-        elif 'floor_plan' in request.POST:
-            #handle if ReserveForm was submitted and reset the rooms to the queryset in case of error
-            reserve_form = ReserveForm(request.POST)
-            reserve_form.fields["floor_plan"].queryset = room_choices
-            if reserve_form.is_valid():
-                #handle if ReserveForm was submitted
-                reserve = reserve_form.save(commit=False)
-                reserve.property = property
-                #save the user if logged in
-                try:
-                    reserve.user = User.objects.get(username = request.user)
-                except User.DoesNotExist:
-                    pass
-                reserve.save()
-
-                cd = reserve_form.cleaned_data
-                headers = {'Reply-To': cd['email']}
-                body_footer = "<p>They can be reached by email at " + cd['email'] + " or calling their phone at " + cd['phone_number'] + '.'
-                email_to.append(cd['email'])
-
-                #build up body text
-                body = cd["first_name"] + " " + cd["last_name"] + ' has filed a reservation' + \
-                ' for ' + property.title + ' through StudentRentIt.com. They are interested in the ' + \
-                str(cd['floor_plan']) + ' with an anticipated move in date of ' + \
-                cd['move_in_date'].strftime('%b %d %Y') + '.'
-
-                if cd['felony'] == "True":
-                    body += ' They have a felony. '
-                else:
-                    body += ' They do not have a felony'
-
-                if cd['evicted'] == "True":
-                    body += ' They have been evicted before.'
-                else:
-                    body += ' They have not been evicted before.'
-
-                if cd['credit'] == "True":
-                    body += ' They have decent credit or a guarantor.'
-                else:
-                    body += ' They do not have decent credit nor a guarantor.'
-
-                body += body_footer
-
-                #build the email and send it
-                msg = EmailMessage('StudentRentIt.com - Property Reservation',
-                                    get_template('email/default.html').render(
-                                        Context({
-                                            'body' : body,
-                                            'webURLroot' : settings.WEB_URL_ROOT,
-                                            'email_header' : 'Property Reservation from StudentRentIt.com'
-                                        })
-                                    ),
-                                    settings.EMAIL_HOST_USER,
-                                    email_to,
-                                    headers=headers
-                                  )
-                msg.content_subtype = "html"  # Main content is now text/html
-                msg.send()
-
-                return render(request, template,
-                    dict(render_dict, **{'reserve_form':initial_reserve_form, 'status':'sent'}))
-            else:
-                #reserve_form errors
-                return render(request, template,
-                    dict(render_dict, **{'reserve_form':reserve_form, 'status':'error',
-                            'load_modal':'propertyReserveModal'}))
-
+        
         elif 'schedule_date' in request.POST:
             #handle if the schedule form was submitted
             schedule_form = ScheduleForm(request.POST)
@@ -276,16 +210,17 @@ def property(request, pk, slug, action = None):
 
                 #build up body text
                 body = cd["first_name"] + " " + cd["last_name"] + ' has scheduled a tour on ' + cd['schedule_date'].strftime('%b %d %Y') + \
-                    ' at ' + cd['schedule_time'].strftime('%I:%M %p') + '. Please follow up with them to confirm or change the appointment.'\
+                    ' at ' + cd['schedule_time'].strftime('%I:%M %p') + ' for ' + str(property) + \
+                    '. Please follow up with them to confirm or change the appointment.'\
                     + body_footer
 
                 #build the email and send it
-                msg = EmailMessage('StudentRentIt.com - Apartment Tour',
+                msg = EmailMessage('RentVersity.com - Apartment Tour',
                                     get_template('email/default.html').render(
                                         Context({
                                             'body' : body,
                                             'webURLroot' : settings.WEB_URL_ROOT,
-                                            'email_header' : 'Tour Scheduled from StudentRentIt.com'
+                                            'email_header' : 'Tour Scheduled from RentVersity.com'
                                         })
                                     ),
                                     settings.EMAIL_HOST_USER,

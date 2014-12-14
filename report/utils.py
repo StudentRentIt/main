@@ -4,6 +4,7 @@ from django.db.models import Count
 
 from main.models import Contact
 from report.models import PropertyImpression
+from property.models import PropertySchedule
 
 
 # date functions used in reporting
@@ -25,16 +26,16 @@ def get_dash_metrics(properties):
 	schedules for a group of properties
 	'''
 
-	imps = PropertyImpression.objects.filter(property__in=properties, imp_date__gt=one_month_ago)\
-		.count()
-	contacts = Contact.objects.filter(property__in=properties, contact_date__gt=one_month_ago) \
-		.count()
+	imps = PropertyImpression.objects.filter(property__in=properties, 
+		imp_date__gt=one_month_ago).count()
+	
+	contacts = Contact.objects.filter(property__in=properties, 
+		contact_date__gt=one_month_ago).count()
+	
+	schedules = PropertySchedule.objects.filter(property__in=properties, 
+		create_date__gt=one_month_ago).count()
 
-	data = {
-		"imps":imps,
-		"contacts":contacts,
-		"schedules":0,
-	}
+	data = {"imps":imps, "contacts":contacts, "schedules":schedules}
 
 	return data
 
@@ -55,9 +56,11 @@ def get_daily_metrics(properties):
 		.order_by('-contact_date')\
 		.annotate(count=Count('id'))
 
-	data = {
-		"imps":imps,
-		"contacts":contacts
-	}
+	schedules = PropertySchedule.objects.values('create_date')\
+		.filter(property__in=properties, create_date__gt=one_week_ago)\
+		.order_by('-create_date')\
+		.annotate(count=Count('id'))
+
+	data = {"imps":imps, "contacts":contacts, "schedules":schedules}
 
 	return data

@@ -49,9 +49,7 @@
 			<div class="col-sm-5 col-sm-offset-2 well">
 				{% block right_column %}
 					<h2><span class="glyphicon glyphicon-time"></span> Tour Schedules</h2>
-					<div class="alert alert-warning">
-						{% include "maininclude/development.html" %}
-					</div>
+					{% include "reportinclude/tables/schedule_summary.html" %}
 					<h2><span class="glyphicon glyphicon-envelope"></span> Contacts</h2>
 					{% include "reportinclude/tables/contact_summary.html" %}
 				{% endblock %}
