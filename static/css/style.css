@@ -734,10 +734,13 @@ html, body, #map-canvas {
 /***** Property *****/
 .property-action {
     color:black;
+    font-size: 140%;
+    transition: font-size 0.5s ease-in-out;
 }
 .property-action:hover {
-    font-size: 120%;
+    font-size: 180%;
     color:black;
+    text-decoration: none;
     transition: font-size 0.5s ease-in-out;
 }
 
