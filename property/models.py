@@ -194,6 +194,30 @@ class Property(models.Model):
     def __str__(self):
         return self.title
 
+    def get_contact_user(self):
+        '''
+        the property can have a responsible contact in a variety of ways. Always
+        we will return a dictionary of contact data
+        '''
+        if self.contact_user:
+            contact_user = self.contact_user
+        elif self.real_estate_company:
+            if self.real_estate_company.contact:
+                contact_user = self.real_estate_company.contact
+            else:
+                return None
+        else:
+            return None
+
+        contact_data = {
+            'name':contact_user.first_name + ' ' + contact_user.last_name,
+            'email':contact_user.email,
+            'phone':contact_user.profile.phone_number,
+            'pic':contact_user.profile.pic
+        }
+
+        return contact_data
+
     def get_keyword_property(keyword):
         properties = Property.objects.filter(
             Q(title__icontains=keyword) | Q(description__icontains=keyword) |
@@ -201,6 +225,7 @@ class Property(models.Model):
         return properties
 
     def get_full_address(self):
+        # provide a uniform way to display a full full_address
         full_address = self.addr + ' ' + self.city + ', ' + self.state + ' ' + self.zip_cd
         return full_address
 
@@ -223,9 +248,7 @@ class Property(models.Model):
         return reverse('ca-edit-property', kwargs={'pk':self.id})
 
     def has_community(self):
-        '''
-        Check to see if the property has any community items
-        '''
+        # check to see if the property has any community items
         from blog.models import Article
         from school.models import Event, Roommate, Deal
 

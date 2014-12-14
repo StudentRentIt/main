@@ -22,7 +22,7 @@ from property.forms import BasicPropertyForm, DetailPropertyForm, \
 
 from main.utils import get_favorites, save_impression
 from main.forms import ContactForm, FavoriteForm
-from property.utils import get_walkscore, can_edit_property_list, get_property_contact
+from property.utils import get_walkscore, can_edit_property_list
 
 from braces.views import LoginRequiredMixin
 
@@ -57,8 +57,7 @@ def property(request, pk, slug, action = None):
 
     property = get_object_or_404(Property, id=pk)
     save_impression(imp_type="P", imp_property=property)
-
-    contact = get_property_contact(property)
+    contact = property.get_contact_user()
 
     #perform certain actions that are passed in in the action kwarg
     if action == "reserve":
@@ -141,7 +140,7 @@ def property(request, pk, slug, action = None):
         #only send to property contact if in production
         internal_email = settings.EMAIL_HOST_USER
         if base_dir == "/home/studentrentit/rentversity":
-            email_to = [property.contact_user.email]
+            email_to = [property.get_contact_user().email]
             email_bcc = [internal_email]
         else:
             email_to = ['awwester@gmail.com']
