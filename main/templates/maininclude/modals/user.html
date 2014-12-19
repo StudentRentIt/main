@@ -8,7 +8,7 @@
 
       <div class="modal-header default-modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title text-center" id="user-modal-title">Login/Register</h2>
+        <p class="modal-title text-center" id="user-modal-title">Login/Register</p>
       </div>
 
       <div class="modal-body default-modal-body">
@@ -18,10 +18,10 @@
                 <div class="text-center">
                     <a href="javascript:allauth.facebook.login('', 'authenticate', 'login')">
                         <img class="social-btn img-responsive img-rounded" src="{% static 'img/social/facebook_account.png' %}" /></a>
-                    <a href="/accounts/google/login/?process=login&openid=">
+                    <a href="/accounts/google/login/?process=login">
                         <img class="social-btn img-responsive img-rounded" src="{% static 'img/social/google_account.png' %}" /></a>
                 </div>
-                <h3 class="text-center">OR</h3>
+                <p class="text-center or-text">OR</p>
                 {% include "maininclude/forms/login.html" %}
                 <p class="pull-right">Not Registered? <button id="btn-register" class="btn btn-xs btn-default">Sign Up</button></p>
             </div>
@@ -30,7 +30,7 @@
         <div id="mRegister" class="login-modal-section hidden">
             <div class="submission-form-modal-container">
                 {% include "maininclude/accounts/buttons.html" %}
-                <h3 class="text-center">OR</h3>
+                <p class="text-center or-text">OR</p>
                 {% include "maininclude/forms/register.html" %}
                 <p class="pull-right" style="margin-top:10px;">Already Registered? <button id="btn-login" class="btn btn-xs btn-default">Sign In</button></p>
             </div>

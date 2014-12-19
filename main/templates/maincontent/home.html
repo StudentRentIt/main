@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    RentVersity.com | Student Apartments and Community
+    RentVersity.com | Student Apartments and Community at your University
 {% endblock %}
 
 {% block body_extra %}
@@ -27,13 +27,16 @@
             <div id="home-tiles">
                 <div class="row">
                     <div class="col-xs-4">
-                        <img src="{% static 'img/misc/student1.png' %}" class="img-rounded"></img>
+                        <img src="{% static 'img/misc/student1.png' %}"
+                            class="img-rounded img-responsive" alt="Find Student Housing"></img>
                     </div>
                     <div class="col-xs-4">
-                        <img src="{% static 'img/misc/student2.png' %}" class="img-rounded"></img>
+                        <img src="{% static 'img/misc/student2.png' %}"
+                        class="img-rounded img-responsive" alt="Student Neighborhood Information"></img>
                     </div>
-                    <div class="col-xs-12 col-md-4">
-                        <img src="{% static 'img/misc/student3.png' %}" class="img-rounded"></img>
+                    <div class="col-xs-4">
+                        <img src="{% static 'img/misc/student3.png' %}"
+                            class="img-rounded img-responsive" alt="Campus Community"></img>
                     </div>
                 </div>
                 <div class="row">

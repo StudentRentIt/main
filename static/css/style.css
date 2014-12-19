@@ -8,7 +8,7 @@
     rentversity darkes: #282929
     rentverstiy darker gray: #a6a6a6
     rentversity gray: #eeeeee
-    
+
     rentsity main color: #F67055
     rentsity alt color: #3D3E42
 */
@@ -103,7 +103,7 @@ footer {
     width:1000px;
     max-width:1000px;
 }
-#main-search-box h3.search-heading {
+#main-search-box .search-heading {
     font-weight:300;
     font-size:225%;
 }
@@ -314,6 +314,11 @@ footer {
 
 .manage-choice {
     margin:20px auto;
+}
+
+.or-text {
+    font-size: 24px;
+    padding:10px;
 }
 
 /***** Forms *****/
