@@ -31,11 +31,12 @@ def item_dict(item):
     except AttributeError:
         long = ""
 
-    item = {'create_date':item.create_date,
-            'title':item.title,
-            'image_url':image_url,
-            'content':item.heading,
-            'property':item.property,
+    item = {
+        'create_date':item.create_date,
+        'title':item.title,
+        'image_url':image_url,
+        'content':item.heading,
+        'property':item.property,
     }
 
     return item

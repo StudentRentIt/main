@@ -165,8 +165,8 @@
                     '{% endwith %}</div>{% endif %}</div>' +
                     '<div class="row" style="margin:10px inherit;">'+
                     '<div style="padding-left:5px; padding-right:5px;" class="text-center">' +
-                    '{% if p.type != "BUS" %}<div class="btn btn-brand btn-block" href="{% url "property" p.id p.title|slugify %}">View Full Listing</a>' +
-                    '{% else %}<a class="btn btn-rentsity btn-xlg" href="{% url "business" p.id p.title|slugify %}">View Deals and Info</a>{% endif %}' +
+                    '{% if p.type != "BUS" %}<a class="btn btn-brand btn-block" href="{{ p.get_absolute_url }}">View Full Listing</a>' +
+                    '{% else %}<a class="btn btn-brand btn-xlg" href="{% url "business" p.id p.title|slugify %}">View Deals and Info</a>{% endif %}' +
                     '</div>' +
                 '</div>',
                 {{ p.id }}]

@@ -5,7 +5,7 @@
         <tr>
             <td class="text-center hidden-xs hidden-sm">
                 <h3>{{ f.property.title }}</h3>
-                <a class="btn btn-rentsity btn-lg" href="{% url 'property' f.property.id f.property.title|slugify %}">View Listing</a>
+                <a class="btn btn-brand btn-lg" href="{% url 'property' f.property.id f.property.title|slugify %}">View Listing</a>
             </td>
             <td>
                 <img class="img-rounded img-responsive" style="max-width:200px;" src="{% with f.property.propertyimage_set.all|first as img %}

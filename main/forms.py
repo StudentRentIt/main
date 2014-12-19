@@ -86,6 +86,6 @@ class UserUpdateForm(ModelForm):
                 Div('email', css_class="col-md-12")
             ),
             ButtonHolder(
-                Submit('submit', 'Save', css_class='btn-rentsity btn-lg'), css_class="text-center"
+                Submit('submit', 'Save', css_class='btn-brand btn-lg'), css_class="text-center"
             )
         )

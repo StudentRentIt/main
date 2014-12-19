@@ -242,7 +242,8 @@ class Property(models.Model):
         return p.get('price__max')
 
     def get_absolute_url(self):
-        return reverse('property', kwargs={'pk':self.id, 'slug':slugify(self.title)})
+        return reverse('property', 
+            kwargs={'pk':self.id, 'slug':slugify(self.title)})
 
     def get_edit_url(self):
         return reverse('ca-edit-property', kwargs={'pk':self.id})

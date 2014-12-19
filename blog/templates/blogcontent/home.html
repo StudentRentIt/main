@@ -24,7 +24,7 @@
                                 <h4>{{ o.headline|safe }}</h4>
                                 {{ o.body|striptags|truncatechars:700 }}
                                 <div class="text-center">
-                                    <a href="{% url 'blog-article' o.id o.title|slugify %}" class="btn btn-rentsity btn-lg">Keep Reading</a>
+                                    <a href="{{ o.get_absolute_url }}" class="btn btn-brand btn-lg">Keep Reading</a>
                                 </div>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                                 <p>{{ o.body|striptags|truncatechars:350 }}</p>
                             </div>
                             <div class="text-center" style="margin:15px;">
-                                <a href="{% url 'blog-article' o.id o.title|slugify %}" class="btn btn-rentsity btn-lg">Keep Reading</a>
+                                <a href="{% url 'blog-article' o.id o.title|slugify %}" class="btn btn-brand btn-lg">Keep Reading</a>
                             </div>
                         </div>
                     </div>
