@@ -18,6 +18,9 @@ def get_article_image_path(instance, filename):
 
 #####blog models######
 class Tag(models.Model):
+    '''
+    used to group articles
+    '''
     tag_name = models.CharField(max_length=30)
 
     def __str__(self):
