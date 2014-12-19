@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block body %}
-<div class="container" style="margin-top:15px;">
-    <div class="row">
-        <div class="jumbotron text-center hidden-xs hidden-sm alt-color">
-            <h1>Rentsity Blog</h1>
-            <h4>Student Housing Information and Advice</h4>
-        </div>
+<div class="row main-inverse">
+    <div class="jumbotron text-center hidden-xs hidden-sm">
+        <h1 style="font-size:600%;">RentVersity Blog</h1>
+        <h4>Student Housing Information and Advice</h4>
     </div>
+</div>
+<div class="container margin-top">
     <div class="row">
         <div class="col-sm-9 col-xs-12 well">
             {% for o in object_list %}

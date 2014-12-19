@@ -178,6 +178,9 @@ footer {
     text-align:center;
 }
 
+.main-background {
+    background-color: #0fab72;
+}
 .main-color {
     color:#0fab72;
 }
