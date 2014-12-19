@@ -82,11 +82,18 @@ def get_school_items(type, school):
     '''
     items = []
 
+    '''
+    commenting out events and deals for now. To add them back in just
+    uncomment the add_events() and add_deals() functions.
+    AWW 20141218
+    '''
+
     # get the objects that we want to be in the list
     articles = Article.objects.filter(school=school)[:4]
-    events = Event.objects.filter(school=school)[:4]
+    #events = Event.objects.filter(school=school)[:4]
+    
     items = add_articles(articles, items)
-    items = add_events(events, items)
+    #items = add_events(events, items)
 
     return items
 
@@ -100,11 +107,11 @@ def get_neighborhood_items(type, neighborhood):
 
     # get the objects that we want to be in the list
     articles = Article.objects.filter(property__neighborhood=neighborhood)[:3]
-    events = Event.objects.filter(property__neighborhood=neighborhood)[:3]
-    deals = Deal.objects.filter(property__neighborhood=neighborhood)[:2]
+    #events = Event.objects.filter(property__neighborhood=neighborhood)[:3]
+    #deals = Deal.objects.filter(property__neighborhood=neighborhood)[:2]
 
     items = add_articles(articles, items)
-    items = add_events(events, items)
-    items = add_deals(deals, items)
+    #items = add_events(events, items)
+    #items = add_deals(deals, items)
 
     return items

@@ -870,6 +870,16 @@ html, body, #map-canvas {
     padding-left:30px;
     padding-right:30px;
     margin-bottom:20px;
+    opacity: 0.8;
+    transition: opacity .5s ease-in-out;
+}
+.school-item:hover {
+    opacity: 1;
+    transition: opacity .5s ease-in-out;
+}
+.school-item > a {
+    text-decoration: none;
+    color: inherit;
 }
 .school-item > .item-picture {
     padding:10px;
@@ -898,6 +908,7 @@ html, body, #map-canvas {
 #school-main-banner {
     width:100%;
 }
+
 
 .school-blog-content {
     border:1px solid #eeeeee;
@@ -967,8 +978,7 @@ html, body, #map-canvas {
 
 /***** Favorites *****/
 #favorites-container {
-  -webkit-transition: all .5s ease-in-out;
-          transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out;
 }
 
 .favorite-note-td {

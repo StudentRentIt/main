@@ -12,7 +12,7 @@ $(document).ready(function(){
         bed = $("#search-bed").val();
 
         // set the submit to go to the school link
-        if( schoolLink ){
+        if( schoolLink && schoolLink != "No Results"){
             $("#main-search-form").attr("action", schoolLink);
             $("#main-search-form").submit();
         }

@@ -12,7 +12,7 @@ Property Videos
 {% for p in properties %}
 {% if p.video_link %}
 <div class="search-video-modal-row">
-        <h2>{{ p.title }}</h2><a class="btn btn-success" href="{% url 'property' p.id p.title|slugify %}">View Full Listing</a>
+        <h2>{{ p.title }}</h2><a class="btn btn-brand" href="{% url 'property' p.id p.title|slugify %}">View Full Listing</a>
     {{ p.video_link|safe }}
 </div>
 {% endif %}

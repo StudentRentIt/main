@@ -2,15 +2,24 @@
     $(document).ready(function() {
         var source = [
             {% for s in schools %}
-            { value: "{{ s.get_absolute_url }}",
-              label: "{{ s.name|safe }}",
-              id: "{{ s.id }}"
-            },
+              { value: "{{ s.get_absolute_url }}",
+                label: "{{ s.name|safe }}",
+                id: "{{ s.id }}"
+              },
             {% endfor %}
         ];
+        var NoResultsLabel = "No Results";
 
         $("input.search-input").autocomplete({
-            source: source,
+            source: function(request, response) {
+                var results = $.ui.autocomplete.filter(source, request.term);
+
+                if (!results.length) {
+                    results = [NoResultsLabel];
+                }
+
+                response(results);
+            },
             select: function( event, ui ) {
                 event.preventDefault();
                 if (!$(this).hasClass("stay")) {

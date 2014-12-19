@@ -41,6 +41,7 @@
                 {% for i in items %}
                     {% if forloop.first or forloop.counter0|divisibleby:"2" %}<div class="row">{% endif %}
                         <div class="col-xs-6 school-item">
+                          <a href="{{ i.get_absolute_url }}">
                             <div class="row {{ i.type }}-item-header item-header">
                                 <h4>{{ i.title }}</h4>
                             </div>
@@ -52,6 +53,7 @@
                                     {{ i.content }}
                                 </div>
                             {% endif %}
+                          </a>
                         </div>
                     {% if forloop.last or forloop.counter|divisibleby:"2" %}</div>{% endif %}
                 {% empty %}
