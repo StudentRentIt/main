@@ -1,0 +1,31 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_head %}
+  <tr>
+    <th>Username</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th></th>
+  </tr>
+{% endblock %}
+
+{% block table_body %}
+  {% for m in members %}
+    <tr>
+      <td>{{ m.user.username }}</td>
+      <td>{{ m.user.first_name }}</td>
+      <td>{{ m.user.last_name }}</td>
+      <td>{{ m.user.email }}</td>
+      <td>
+        <form method="post">
+          {% csrf_token %}
+          <button class="btn btn-danger" type="submit" name="submit" 
+              value="remove{{ m.user.id }}">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+{% endblock %}

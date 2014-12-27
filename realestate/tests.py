@@ -1,60 +1,84 @@
-from django.utils import unittest
 from django.contrib.auth.models import User
-from django.test import Client, TestCase
+from django.test import TestCase
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate
 from django.utils.text import slugify
 
-from realestate.models import Company
+from .models import Company
+from .urls import prefix
 from school.models import School
 from main.models import City
 
 
-class ModelTests(unittest.TestCase):
-
+class RealEstateSetUp(TestCase):
     def setUp(self):
         # set up required model instances
+        self.user = User.objects.create_user(
+            'anonretester', 
+            'retester@somewhere.com', 
+            'testpassword'
+        )
+        self.real_estate_user = User.objects.create_user(
+            'retester', 
+            'retester@somewhere.com', 
+            'testpassword'
+        )
         self.city = City.objects.create(name="School Test Town", state="TX")
         self.school = School.objects.create(city=self.city, name="RE Test University",
                         long=-97.1234123, lat=45.7801234)
         self.company = Company.objects.create(name="Test Company", default_school=self.school)
-        
-    def test_models(self):
-        Company.objects.get(id=1)
+
+        self.real_estate_user.profile.real_estate_company = self.company
+        self.real_estate_user.profile.save()
+        self.access_denied_message = "You do not have access"
+
+    def login(self):
+        self.client.login(username=self.user.username, 
+            password='testpassword')
+
+    def login_re_user(self):
+        '''
+        log in a real estate user
+        '''
+        self.client.login(username=self.real_estate_user.username, 
+            password='testpassword')
 
 
-class ViewTests(TestCase):
-
-    def setUp(self):
-        self.user = User.objects.create_user('retester', 'retester@somewhere.com', 'testpassword')
-        self.client = Client()
-
-        # set up models
-        ModelTests.setUp(self)
-
-
-    def test_home(self):
-        url = reverse('re-home')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-
+class RealEstateModelTest(RealEstateSetUp):
     def test_company(self):
-        url = reverse('re-company', kwargs={'slug':slugify(self.company.name)})
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        Company.objects.get(name=self.company.name)
 
 
-# class FucntionTests(WebTest):
+class RealEstateViewTest(RealEstateSetUp):
+    def test_home(self):
+        url = reverse(prefix + 'home')
+        anon_response = self.client.get(url)
+        self.assertEqual(anon_response.status_code, 200)
 
-#     def setUp():
-#         # set up models
-#         ModelTests.setUp(self)
+    def test_company_home(self):
+        url = reverse(prefix + 'company-home', kwargs={'slug':slugify(self.company.name)})
+        
+        self.login()
+        no_access_response = self.client.get(url)
+        self.assertContains(no_access_response, self.access_denied_message)
 
-#     #TODO: test that users in a company can see their company pages
+        self.login_re_user()
+        re_response = self.client.get(url)
+        self.assertContains(re_response, self.company.name)
 
-#     #TODO: test that non-admin users out of a company can't see company pages
+    def test_company_members(self):
+        url = reverse(prefix + 'company-members', kwargs={'slug':slugify(self.company.name)})
+        
+        self.login()
+        no_access_response = self.client.get(url)
+        self.assertContains(no_access_response, self.access_denied_message)
 
-#     #TODO: test that admin users out of a company can see compay pages
+        self.login_re_user()
+        re_response = self.client.get(url)
+        self.assertContains(re_response, "Member Administration")
+
+
+class RealEstateFormTest(RealEstateSetUp):
+    pass
 
     
 

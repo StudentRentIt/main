@@ -1,0 +1,19 @@
+{% extends "reinclude/base.html" %}
+
+{% block body %}
+  <div class="container-fluid margin-top">
+    <div class="col-sm-2">
+        <ul class="nav nav-pills nav-stacked">
+          <li role="presentation" {% if page == "home" %}class="active"{% endif %}>
+            <a href="{{ company.get_absolute_url }}">HOME</a>
+          </li>
+          <li role="presentation" {% if page == "members" %}class="active"{% endif %}>
+            <a href="{% url 're-company-members' company.slug %}">MEMBERS</a>
+          </li>
+        </ul>
+    </div>
+    <div class="col-sm-10">
+      {% block re_content %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}
