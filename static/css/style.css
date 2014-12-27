@@ -1253,62 +1253,77 @@ html, body, #map-canvas {
 }
 
 
-/***** Campus Ambassador *****/
-.ca-container {
+/***** Dashboard *****/
+.dash-container {
     height:100%;
 }
-#ca-data {
+#dash-data {
     background-color:#282929;
     min-height:100%;
     color: white;
 }
-#ca-data .inner {
+#dash-data .inner {
     margin:25px;
     background-color:#fff;
     padding:10px;
     border-radius:5px;
 }
-#ca-data .inner {
+#dash-data .inner {
     color:#282929;
 }
+#dash-data legend {
+    text-align:center;
+    font-size:200%;
+    font-weight:300;
+}
+#dash-data form {
+    margin-top:30px;
+}
+#dash-data .nav a {
+    color:#282929;
+}
+#dash-data .nav li.active a {
+    color:#fff;
+}
 
-#ca-menu {
+#dash-menu {
     padding-right:0;
     border-right:none;
     border-top: 1px solid #dedede;
     border-bottom: 1px solid #dedede;
 }
-#ca-menu a {
+#dash-menu a {
     color:inherit;
     text-decoration:none;
 }
-#ca-menu a:hover {
+#dash-menu a:hover {
     cursor:hand;
 }
-#ca-menu .row {
+#dash-menu .row {
     border: 1px solid #dedede;
 }
-#ca-menu .row:hover {
+#dash-menu .row:hover {
     background-color:#0fab72;
     color:white;
 }
-#ca-menu .menu-icon {
+#dash-menu .menu-icon {
     background-color:#eee;
     text-align:center;
     height:50px;
     color:black;
 }
-#ca-menu .row {
+#dash-menu .row {
     border: 1px solid #dedede;
 }
-#ca-menu .row > a > div {
+#dash-menu .row > a > div {
     padding-top:15px;
     padding-bottom:15px;
 }
-#ca-menu .glyphicon {
+#dash-menu .glyphicon {
     float:right;
 }
 
+/***** Campus Ambassador *****/
 #ca-dashboard {
     margin:15px;
 }
@@ -1351,20 +1366,6 @@ div.testimonial > p {
     text-align: center;
     font-size: 250%;
     font-weight:300;
-}
-#ca-data legend {
-    text-align:center;
-    font-size:200%;
-    font-weight:300;
-}
-#ca-data form {
-    margin-top:30px;
-}
-#ca-data .nav a {
-    color:#282929;
-}
-#ca-data .nav li.active a {
-    color:#fff;
 }
 
 

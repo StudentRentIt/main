@@ -20,6 +20,6 @@ Student Rent It</p>
 {% endblock %}
 
 {% block panel_footer %}
-<a href="{% url 'property' property.id property.title|slugify %}" class="btn btn-success">View My Property</a>
-<a href="{% url 'update-property' property.id %}" class="btn btn-success">Update My Property</a>
+<a href="{% url 'property' property.id property.title|slugify %}" class="btn btn-brand">View My Property</a>
+<a href="{% url 'update-property' property.id %}" class="btn btn-brand">Update My Property</a>
 {% endblock %}

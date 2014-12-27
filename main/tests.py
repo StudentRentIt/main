@@ -1,43 +1,58 @@
-from django.contrib.auth.models import User
-from django.test import Client, TestCase
+from django.contrib.auth import get_user_model
+from django.test import TestCase
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.core.mail import send_mail
-from django.core import mail
-from django.contrib.auth import authenticate
-
-from main.models import City, UserProfile, Payment, TeamMember, Contact
-from school.models import School
+from django.utils.text import slugify
 
 from django_webtest import WebTest
 
+from .models import City, UserProfile, Payment, TeamMember, Contact
+from school.models import School
+from realestate.models import Company
 
-class TestUser(WebTest):
 
+class MainTestSetup(TestCase):
     def setUp(self):
+        User = get_user_model()
+
         # set up all types of users to be used
-        self.staff_user = User.objects.create_user('staff_user', 'staff@gmail.com', 'staffpass')
+        self.staff_user = User.objects.create_user('staff_user', 'staff@gmail.com', 'testpassword')
         self.staff_user.is_staff = True
         self.staff_user.save()
 
-        self.user = User.objects.create_user('user', 'user@gmail.com', 'userpass')
-        self.real_estate_user = User.objects.create_user('real_estate_user', 're@gmail.com', 'repass')
-
-
-class ModelTests(TestCase):
-
-    def setUp(self):
-        # set up required model instances
-        self.user = User.objects.create_user('maintester', 'maintester@somewhere.com', 'testpassword')
-
-        # set up the main models
+        self.user = User.objects.create_user('user', 'user@gmail.com', 'testpassword')
+        
         self.city = City.objects.create(name="Test Town", state="TX")
+        self.school = School.objects.create(city=self.city, name="RE Test University",
+                        long=-97.1234123, lat=45.7801234)
+        self.company = Company.objects.create(name="Test Company", default_school=self.school)
         self.payment = Payment.objects.create(user=self.user, amount=500)
         self.team_member = TeamMember.objects.create(user=self.user, name="Bob", title="Tester")
         self.contact = Contact.objects.create(first_name="Mr", last_name="Tester",
                     email="tester@gmail.com", phone_number=1231231234, subject="Test Subject",
                     body="this is the contact body")
 
+        self.real_estate_user = User.objects.create_user(
+            'real_estate_user', 're@gmail.com', 'testpassword')
+        self.real_estate_user.profile.real_estate_company = self.company
+        self.real_estate_user.profile.save()
+
+        self.manage_text = 'glyphicon-pencil'
+
+    def login(self):
+        self.client.login(username=self.user.username, 
+            password='testpassword')
+
+    def login_re_user(self):
+        # log in a real estate user
+        self.client.login(username=self.real_estate_user.username, 
+            password='testpassword')
+
+    def login_admin(self):
+        self.client.login(username=self.staff_user, password="testpassword")
+        
+
+class MainModelTests(MainTestSetup):
     def test_models(self):
         UserProfile.objects.get(id=1)
         City.objects.get(id=1)
@@ -46,21 +61,18 @@ class ModelTests(TestCase):
         Contact.objects.get(id=1)
 
 
-class ViewTests(TestCase):
-
-    def setUp(self):
-        self.client = Client()
-
-        # instance setup
-        self.user = User.objects.create_user('maintester', 'maintester@somewhere.com', 'testpassword')
-        self.city = City.objects.create(name="Test Town", state="TX")
-        self.school = School.objects.create(city=self.city, name="School Test University",
-                    long=-97.1234123, lat=45.7801234)
-
+class MainViewTests(MainTestSetup):
     def test_home(self):
         url = reverse('home-list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        manage_url = reverse('manage-property')
+        
+        anon_response = self.client.get(url)
+        self.assertEqual(anon_response.status_code, 200)
+        self.assertNotContains(anon_response, self.manage_text)
+
+        self.login_admin()
+        admin_response = self.client.get(url)
+        self.assertContains(admin_response, self.manage_text)
 
     def test_search(self):
         url = reverse('search')
@@ -68,22 +80,20 @@ class ViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_search_school(self):
-        url = reverse('search', kwargs={'slug':'school-test-university'})
+        url = reverse('search', kwargs={'slug':slugify(self.school.name)})
+
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
         # test the post of a blank property search
-        response = self.client.post(reverse('search', kwargs={'slug':'school-test-university'}),
-            {'priceMin': '', 'priceMax': '', 'leaseType':'', 'leaseTerm':'',
+        post = {
+            'priceMin': '', 'priceMax': '', 'leaseType':'', 'leaseTerm':'',
             'leaseStart':'', 'bathMin':'', 'bathMax':'', 'bedMin':'', 'bedMax':'',
-            'keyword':''})
+            'keyword':''
+        }
+        response = self.client.post(reverse('search', 
+            kwargs={'slug':slugify(self.school.name)}), post)
         self.assertEqual(response.status_code, 200)
-
-    # TODO: search real estate
-    # def test_search_real_estate(self):
-    #     url = reverse('search', kwargs={'slug':''})
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, 200)
 
     def test_contact(self):
         url = reverse('contact-view')
@@ -102,9 +112,11 @@ class ViewTests(TestCase):
 
     def test_user_profile(self):
         url = reverse('user_profile')
-        authenticate(username=self.user.username, password=self.user.password)
+        self.login()
+
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Update Profile")
 
     def test_mongoose(self):
         url = reverse('mongoose-analytics')
@@ -135,32 +147,4 @@ class ViewTests(TestCase):
         url = reverse('payment')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
-
-class FunctionTests(WebTest):
-
-    def setUp(self):
-        TestUser.setUp(self)
-
-    def test_footer_search(self):
-        '''
-        have the user run a search for a school in the footer and that search should bring us to the results of
-        the school search
-        '''
-        
-        # pull up the home page
-        home_page = self.app.get(reverse('home-list'), user=self.user)
-
-        # search for a school
-        form = home_page.forms['search-footer']
-        form['search-footer-text'] = "University of Washington"
-        form.submit()
-
-    # TODO: general send email test. Not failing properly with this code.
-    # def test_send_email(self):
-    #     # test if sending emails is working
-    #     mail = send_mail('subject', 'body', settings.EMAIL_HOST_USER, ['awwester@gmail.com'], fail_silently=False)
-    #     self.assertEquals(len(mail.outbox), 1)
-    #     self.assertEquals(mail.outbox[0].subject, 'subject')
-
 

@@ -11,7 +11,7 @@
                     <h3>{{ a.title }}</h3>
                     <p>{{ a.body|safe|slice:":250" }} ...</p>
                     <a href="{% url 'blog-article' a.id a.title|slugify %}"
-                        class="btn btn-success btn-block btn-sm">Keep Reading</a>
+                        class="btn btn-brand btn-block btn-sm">Keep Reading</a>
                 </td>
             </tr>
         {% endif %}

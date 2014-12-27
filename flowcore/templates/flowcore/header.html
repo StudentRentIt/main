@@ -19,10 +19,19 @@
       <ul class="nav navbar-nav navbar-right">
         <li>{% include "maininclude/general/social_links.html" %}</li>
         <li><a href="{% url 'search' %}">Search <span class="glyphicon glyphicon-search"></span></a></li>
-        <li><a href="#" data-toggle="modal" data-target="#manageModal">Manage <span class="glyphicon glyphicon-pencil"></span></a></li>
+        {% if user.is_staff %}
+          <li><a href="#" data-toggle="modal" data-target="#manageModal">Manage 
+            <span class="glyphicon glyphicon-pencil"></span></a>
+          </li>
+        {% endif %}
+        {% if user.profile.real_estate_company and not user.is_staff %}
+          <li><a href="{{ user.profile.real_estate_company.get_absolute_url }}">
+            Dashboard <span class="glyphicon glyphicon-dashboard"></span>
+          </a>
+        {% endif %}
         <li><a href="#" data-toggle="modal" data-target="#chooseSchoolModal">School Information <span class="glyphicon glyphicon-flag"></span></a></li>
         {% if user.is_authenticated %}
-        <li><a>Welcome, {% if user.first_name%}{{ user.first_name }}{% else %}User{% endif %}!</a></li>
+          <li><a>Welcome, {% if user.first_name %}{{ user.first_name }}{% else %}User{% endif %}!</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-asterisk"></span></a>
             <ul class="dropdown-menu">
@@ -33,7 +42,7 @@
             </ul>
           </li>
         {% else %}
-        <li><a href="#" data-toggle="modal" data-target="#loginModal">Log In/Register <span class="glyphicon glyphicon-user"></span></a></li>
+          <li><a href="#" data-toggle="modal" data-target="#loginModal">Log In/Register <span class="glyphicon glyphicon-user"></span></a></li>
         {% endif %}
       </ul>
     </div><!-- /.navbar-collapse -->

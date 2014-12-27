@@ -1,4 +1,3 @@
-from django.utils import unittest
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.core.urlresolvers import reverse
@@ -7,7 +6,6 @@ from django.utils.text import slugify
 from django_webtest import WebTest
 
 from main.models import City, UserProfile
-from main.tests import TestUser
 from property.utils import can_edit_property_list
 from property.models import Property, PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
                             Amenity, Service, Package, PropertyImage, PropertyVideo, \
@@ -16,8 +14,7 @@ from school.models import School, Deal, Event
 from realestate.models import Company
 
 
-class PropertyTestCase(unittest.TestCase):
-
+class PropertyTestCase(TestCase):
     def setUp(self):
         # set up required model instances for properties
         city = City.objects.create(name="Property Test Town", state="TX")
@@ -95,7 +92,7 @@ class PropertyTestCase(unittest.TestCase):
         property_reserve = PropertyReserve.objects.get(id=1)
 
 
-class ModelTests(unittest.TestCase):
+class ModelTests(TestCase):
 
     def setUp(self):
         # set up required model instances
@@ -258,11 +255,11 @@ class ViewTests(TestCase):
 class FunctionTests(WebTest):
 
     def setUp(self):
-        TestUser.setUp(self)
         ModelTests.setUp(self)
 
         self.real_estate_user.profile.real_estate_company = self.real_estate_company
         self.real_estate_user.profile.save()
+        self.user = User.objects.create_user('user', 'user@gmail.com', 'testpassword')
 
     def test_update_without_properties(self):
         user = self.user

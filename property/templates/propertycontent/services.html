@@ -44,7 +44,7 @@ and package and that will save the property.
                         {% if property.package.title = p.title %}
                         <a id="package{{ p.id }}" class="btn btn-default btn-added btn-package"><span class="glyphicon glyphicon-remove"></span> Remove Package</a> ${{ p.price }}/mo
                         {% else %}
-                        <a id="package{{ p.id }}" class="btn btn-success btn-add btn-package">Add Package</a> ${{ p.price }}/mo
+                        <a id="package{{ p.id }}" class="btn btn-brand btn-add btn-package">Add Package</a> ${{ p.price }}/mo
                         {% endif %}
                     </p>
                   </div>
@@ -76,7 +76,7 @@ and package and that will save the property.
                       {% if s in property.services.all %}
                       <a id="service{{ s.id }}" class="btn btn-default btn-added btn-service-recurring"><span class="glyphicon glyphicon-remove"></span> Remove Service</a>
                       {% else %}
-                      <a id="service{{ s.id }}" class="btn btn-success btn-add btn-service-recurring">Add Service</a> ${{ s.price }}/mo
+                      <a id="service{{ s.id }}" class="btn btn-brand btn-add btn-service-recurring">Add Service</a> ${{ s.price }}/mo
                       {% endif %}
                     </p>
                   </div>
@@ -102,7 +102,7 @@ and package and that will save the property.
                   <div class="panel-body service-panel-body">
                     <p>{{ s.description }}</p>
                     <p class="service-price text-center">
-                        <a id="service{{ s.id }}" class="btn btn-success btn-add btn-service-onetime">Purchase Service</a> ${{ s.price }}
+                        <a id="service{{ s.id }}" class="btn btn-brand btn-add btn-service-onetime">Purchase Service</a> ${{ s.price }}
                     </p>
                   </div>
                 </div>

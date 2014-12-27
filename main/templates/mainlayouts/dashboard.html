@@ -1,0 +1,21 @@
+{% extends "maininclude/base.html" %}
+
+{% block wrap %}
+  {% block header %}
+    {% include "flowcore/header.html" %}
+  {% endblock %}
+
+  {% block body %}
+    <div class="dash-container">
+      <div class="row full-height">
+        <div id="dash-menu" class="col-sm-2">
+          {% block menu %}{% endblock %}
+        </div>
+        <div id="dash-data" class="col-sm-10">
+          {% block data %}{% endblock %}
+        </div>
+      </div>
+    </div>
+  {% endblock %} {# end body #}
+
+{% endblock %} {# end wrap #}

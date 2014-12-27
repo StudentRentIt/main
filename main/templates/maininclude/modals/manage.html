@@ -11,19 +11,19 @@
       <div class="modal-body default-modal-body text-center">
         <div id="choose-manage-section">
             <div id="manage-new" class="manage-choice">
-                <a href="/property/add/" class="btn btn-brand manage-modal-btn">
+                <a href="{% url 'add-property' %}" class="btn btn-brand manage-modal-btn">
                     <span class="glyphicon glyphicon-plus"></span> Add New Property
                 </a>
             </div>
             {% if has_properties %}
-            <div id="manage-update" class="manage-choice">
-                <a href="/property/update/" class="btn btn-brand manage-modal-btn">
-                    <span class="glyphicon glyphicon-edit"></span> Update Property
-                </a>
-            </div>
+              <div id="manage-update" class="manage-choice">
+                  <a href="{% url 'manage-property' %}" class="btn btn-brand manage-modal-btn">
+                      <span class="glyphicon glyphicon-edit"></span> Update Property
+                  </a>
+              </div>
             {% endif %}
         </div>
-      </div><!-- end body -->
+      </div><
 
       <div class="modal-footer default-modal-footer">
         <button type="button" class="btn-lg btn-default" data-dismiss="modal">Cancel</button>

@@ -26,7 +26,7 @@
                 <div id="collapse-service{{ forloop.counter }}" class="panel-collapse collapse">
                   <div class="panel-body service-panel-body">
                     <p>{{ s.description }}</p>
-                    <button id="service{{ s.id }}" class="btn btn-service btn-success btn-add pull-right" data-price="{{ s.price }}">Add To Cart &nbsp
+                    <button id="service{{ s.id }}" class="btn btn-service btn-brand btn-add pull-right" data-price="{{ s.price }}">Add To Cart &nbsp
                         <span class="glyphicon glyphicon-shopping-cart"></span> ${{ s.price }}</button>
                   </div>
                 </div>
@@ -45,7 +45,7 @@
                 <input type="hidden" name="services" value="" id="services-input"/>
                 <input type="hidden" name="property" value="{{ property.id }}" id="property-input"/>
 
-                <button type="submit" id="stripe-button" class="btn btn-success btn-lg">Checkout <span class="glyphicon glyphicon-arrow-right"></span></button>
+                <button type="submit" id="stripe-button" class="btn btn-brand btn-lg">Checkout <span class="glyphicon glyphicon-arrow-right"></span></button>
                   <script class="stripe-button">
                     $('#stripe-button').click(function(){
                       var token = function(res){
