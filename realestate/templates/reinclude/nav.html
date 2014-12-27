@@ -1,1 +1,57 @@
-This is the navigation bar
+<div class="container-fluid">
+  <div class="row">
+    <a href="{{ company.get_absolute_url }}">
+        <div class="menu-icon col-sm-3">
+            <span class="glyphicon glyphicon-cog"></span>
+        </div>
+        <div class="menu-content col-sm-9">
+            <span>HOME</span>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </div>
+    </a>
+  </div>
+  <div class="row">
+    <a href="{% url 're-company-properties' company.slug %}">
+        <div class="menu-icon col-sm-3">
+            <span class="glyphicon glyphicon-home"></span>
+        </div>
+        <div class="menu-content col-sm-9">
+            <span>PROPERTIES</span>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </div>
+    </a>
+  </div>
+  <div class="row">
+    <a href="{% url 're-company-members' company.slug %}">
+        <div class="menu-icon col-sm-3">
+            <span class="glyphicon glyphicon-user"></span>
+        </div>
+        <div class="menu-content col-sm-9">
+            <span>MEMBERS</span>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </div>
+    </a>
+  </div>
+  <div class="row">
+    <a href="{% url 're-company-support' company.slug %}">
+        <div class="menu-icon col-sm-3">
+            <span class="glyphicon glyphicon-question-sign"></span>
+        </div>
+        <div class="menu-content col-sm-9">
+            <span>SUPPORT</span>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </div>
+    </a>
+  </div>
+  <div class="row">
+    <a href="{% url 'report-real-estate-home' %}">
+        <div class="menu-icon col-sm-3">
+            <span class="glyphicon glyphicon-stats"></span>
+        </div>
+        <div class="menu-content col-sm-9">
+            <span>REPORTS</span>
+            <span class="glyphicon glyphicon-share"></span>
+        </div>
+    </a>
+  </div>
+</div>

@@ -66,7 +66,8 @@ class RealEstateViewTest(RealEstateSetUp):
         self.assertContains(re_response, self.company.name)
 
     def test_company_members(self):
-        url = reverse(prefix + 'company-members', kwargs={'slug':slugify(self.company.name)})
+        url = reverse(prefix + 'company-members', 
+            kwargs={'slug':self.company.slug})
         
         self.login()
         no_access_response = self.client.get(url)
@@ -75,6 +76,30 @@ class RealEstateViewTest(RealEstateSetUp):
         self.login_re_user()
         re_response = self.client.get(url)
         self.assertContains(re_response, "Member Administration")
+
+    def test_company_properties(self):
+        url = reverse(prefix + 'company-properties', 
+            kwargs={'slug':self.company.slug})
+        
+        self.login()
+        no_access_response = self.client.get(url)
+        self.assertContains(no_access_response, self.access_denied_message)
+
+        self.login_re_user()
+        re_response = self.client.get(url)
+        self.assertContains(re_response, "Property")
+
+    def test_company_support(self):
+        url = reverse(prefix + 'company-support', 
+            kwargs={'slug':self.company.slug})
+        
+        self.login()
+        no_access_response = self.client.get(url)
+        self.assertContains(no_access_response, self.access_denied_message)
+
+        self.login_re_user()
+        re_response = self.client.get(url)
+        self.assertContains(re_response, "Support")
 
 
 class RealEstateFormTest(RealEstateSetUp):

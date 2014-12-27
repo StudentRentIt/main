@@ -1,37 +1,42 @@
-{% extends "reinclude/nav_layout.html" %}
+{% extends "reinclude/dashboard.html" %}
 
-{% block re_content %}
-  <div class="col-xs-12">
-    <h1 class="text-center">Member Administration {{ msg }}</h1>
-    <div class="re-admin-info">
-      Manage your users. The users that you have affiliated with {{ company }} will be able to see special priviledged information such as {{ company }}'s stats on RentVersity.
+{% block data %}
+  <h1 class="text-center">
+    Member Administration
+  </h1>
+  <div class="inner">
+    <div class="re-dash-info skinny">
+      The users that you have affiliated with {{ company }} will be able to see special priviledged information such as {{ company }}'s stats on RentVersity as well as 
+      have access to update your properties.
     </div>
-  </div>
 
-  <div class="col-sm-8">
-    {% include "reinclude/tables/members.html" %}
-  </div>
-  
-  <div class="col-sm-4">
-    <div id="re-add-user-container">
-      <h3 class="text-center">Add a user by their username</h3>
-      <form method="post">
-        {% csrf_token %}
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Add User" name="username">
-          <span class="input-group-btn">
-            <button class="btn btn-brand" type="submit" name="submit" value="add">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-          </span>
+    <div class="container-fluid">
+      <div class="col-sm-8">
+        {% include "reinclude/tables/members.html" %}
+      </div>
+      
+      
+        <div id="re-add-user-container">
+          <h3 class="text-center">Add a user by their username</h3>
+          <form method="post">
+            {% csrf_token %}
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Add User" name="username">
+              <span class="input-group-btn">
+                <button class="btn btn-brand" type="submit" name="submit" value="add">
+                  <span class="glyphicon glyphicon-plus"></span>
+                </button>
+              </span>
+            </div>
+            {% if error_msg %}
+              <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                {{ error_msg }}
+              </div>
+            {% endif %}
+          </form>
         </div>
-        {% if error_msg %}
-          <div class="alert alert-danger" role="alert">
-            <span class="glyphicon glyphicon-exclamation-sign"></span>
-            {{ error_msg }}
-          </div>
-        {% endif %}
-      </form>
+      </div>
     </div>
   </div>
 {% endblock %}

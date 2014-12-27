@@ -18,7 +18,7 @@
       <td>{{ m.user.last_name }}</td>
       <td>{{ m.user.email }}</td>
       <td>
-        <form method="post">
+        <form method="post" style="margin-top:0;">
           {% csrf_token %}
           <button class="btn btn-danger" type="submit" name="submit" 
               value="remove{{ m.user.id }}">

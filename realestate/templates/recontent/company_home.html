@@ -1,11 +1,13 @@
-{% extends "reinclude/nav_layout.html" %}
+{% extends "reinclude/dashboard.html" %}
 
-{% block re_content %}
+{% block data %}
   <h1 class="text-center">
     {{ company }} Administration
   </h1>
-  <div class="re-admin-info margin-top">
-    Welcome to the administration for {{ company }}. Please use the navigation to the left to perform
-    administrative tasks. Of course if you have any questions, don't hesitate to contact us.
+  <div class="inner">
+    <div class="re-dash-info skinny">
+        Welcome to the administration for {{ company }}. Please use the navigation to the left to perform
+        administrative tasks. Of course if you have any questions, don't hesitate to contact us.
+    </div>
   </div>
 {% endblock %}

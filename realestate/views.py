@@ -5,6 +5,7 @@ from django.views.generic import ListView, TemplateView, DetailView
 from .models import Company
 from .utils import user_in_company
 from main.models import UserProfile
+from property.models import Property
         
 
 def home(request):
@@ -79,6 +80,40 @@ def company_members(request, **kwargs):
         return render(request, template_name, context)
     else:
         return render(request, 'recontent/access_denied.html', 
+            {'company':company})
+
+
+def company_properties(request, **kwargs):
+    '''
+    Allow real estate users to edit properties as well as see their search 
+    page
+    '''
+    slug = kwargs["slug"]
+    company = Company.objects.get(slug=slug)
+
+    if user_in_company(request.user, company):
+        property_list = Property.objects.filter(real_estate_company=company)\
+            .order_by('title')
+
+        return render(request, "recontent/properties.html", 
+            {'company':company, 'property_list':property_list})
+    else:
+        return render(request, "recontent/access_denied.html", 
+            {'company':company})
+
+
+def company_support(request, **kwargs):
+    '''
+    Eventually we'll have some sort of support system for business users
+    '''
+    slug = kwargs["slug"]
+    company = Company.objects.get(slug=slug)
+
+    if user_in_company(request.user, company):
+        return render(request, "recontent/support.html", 
+            {'company':company})
+    else:
+        return render(request, "recontent/access_denied.html", 
             {'company':company})
 
 

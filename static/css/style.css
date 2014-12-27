@@ -1083,9 +1083,9 @@ html, body, #map-canvas {
 }
 
 /***** Real Estate *****/
-.re-admin-info {
-    width:80%;
-    margin-left:10%;
+.re-dash-info {
+    font-size: 180%;
+    margin: 20px;
 }
 
 

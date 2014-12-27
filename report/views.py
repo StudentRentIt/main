@@ -36,7 +36,8 @@ def real_estate_home(request):
 	dash_metrics = get_dash_metrics(properties)
 
 	return render(request, 'reportcontent/real_estate_home.html',
-		{'daily_metrics':daily_metrics, 'dash_metrics':dash_metrics})
+		{'daily_metrics':daily_metrics, 'dash_metrics':dash_metrics,
+        'company':company})
 
 
 @login_required
