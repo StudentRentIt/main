@@ -74,6 +74,11 @@ class MainViewTests(MainTestSetup):
         admin_response = self.client.get(url)
         self.assertContains(admin_response, self.manage_text)
 
+        self.login_re_user()
+        re_response = self.client.get(url)
+        self.assertContains(re_response, "Dashboard")
+        self.assertNotContains(re_response, self.manage_text)
+
     def test_search(self):
         url = reverse('search')
         response = self.client.get(url)
