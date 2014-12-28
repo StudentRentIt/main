@@ -18,8 +18,11 @@ class PropertySetUp(TestCase):
 
 
 class PropertyModelTests(PropertySetUp):
-    def test_property(self):
-        Property.objects.get(id=1)
+    def test_get_contact(self):
+        contact = self.property.get_contact_user()
+
+        self.assertEqual(contact, self.real_estate_user)
+        self.assertNotEqual(contact, self.user)
 
     def test_deal(self):
         Deal.objects.get(id=1)

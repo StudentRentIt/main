@@ -21,6 +21,12 @@ class RealEstateModelTest(RealEstateSetUp):
     def test_company(self):
         Company.objects.get(name=self.company.name)
 
+    def test_random_contact(self):
+        contact = self.company.get_random_contact()
+        
+        self.assertEqual(contact, self.real_estate_user)
+        self.assertNotEqual(contact, self.user)
+
 
 class RealEstateViewTest(RealEstateSetUp):
     def test_home(self):

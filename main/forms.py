@@ -34,7 +34,7 @@ class ContactForm(ModelForm):
                 'body'
             ),
             ButtonHolder(
-                Submit('submit', 'Contact Now', 
+                Submit('submit', 'Send', 
                     css_class='btn-brand btn-lg'), 
                     css_class="text-center"
             )

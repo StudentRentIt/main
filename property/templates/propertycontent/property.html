@@ -2,144 +2,144 @@
 {% load main_extras %}
 
 {% block title %}
-    {{ property.title }} {{ property.get_type_display }} {{ property.city }}, {{ property.state }} {{ property.zip_cd }}
+  {{ property.title }} {{ property.get_type_display }} {{ property.city }}, {{ property.state }} {{ property.zip_cd }}
 {% endblock %}
 
 {% block javascript %}
-    {% include "flowcore/general/openmodal.html" %}
-    {% include "flowcore/general/datepicker.html" %}
+  {% include "flowcore/general/openmodal.html" %}
+  {% include "flowcore/general/datepicker.html" %}
 {% endblock %}
 
 {% block body_extra %}
-    {% if contact.email %}
-        {% include "propertyinclude/modals/contact.html" %}
-        {% include "propertyinclude/modals/reserve.html" %}
-        {% include "propertyinclude/modals/schedule.html" %}
-    {% endif %}
+  {% if contact.email %}
+    {% include "propertyinclude/modals/contact.html" %}
+    {% include "propertyinclude/modals/reserve.html" %}
+    {% include "propertyinclude/modals/schedule.html" %}
+  {% endif %}
 
-    <script src="/static/js/favorite.js"></script>
-    <script src="/static/js/tooltip.js"></script>
+  <script src="/static/js/favorite.js"></script>
+  <script src="/static/js/tooltip.js"></script>
 {% endblock %}
 
 {% block body %}
 <img class="img-responsive img-full" src="/static/img/misc/landscape.jpg" />
 <div class="container">
-    <div class="row" id="property-summary-row">
-        <div class="col-sm-8 {% if not contact %}col-sm-offset-2{% endif %}" 
-            id="property-content-column">
-            <div class="row" style="margin-top:15px;">
-                {% include "propertyinclude/post_status.html" %}
-            </div>
-            <h1 class="skinny">{{ property.title }}</h1>
-            <h3 class="skinny">{{ property.get_full_address }}</h3>
-            <span class="skinny col-md-6">Distance to Campus: {{ property.get_distance_from_campus|floatformat:1 }} miles</span>
-            <span class="skinny col-md-6">
-                {% if walkscore %}
-                    <img src="{{ walkscore.logo_url }}" class="img-responsive score-image">
-                    <span class="score-text">{{ walkscore.walkscore }}</span>
-                {% endif %}
-            </span>
-            <div class="row" id="rooms-row">
-                {% include "propertyinclude/tables/property_data.html" %}
-            </div>
-        </div>
-        <div class="col-md-4">
-            {% if contact %}
-                <div class="col-md-offset-1 col-md-10 skinny" id="contact-detail">
-                    <div class="col-xs-6">
-                        {% if contact.pic %}
-                            <img src={{ contact.pic.url }} class="img-circle img-responsive img-contact" />
-                        {% else %}
-                            <img src="/static/img/logo_icon.ico" class="img-circle img-responsive img-contact"/>
-                        {% endif %}
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <h3>
-                            Contact
-                        </h3>
-                        <div class="row">
-                            <p>{{ contact.name }}</p>
-                        </div>
-                        {% if contact.phone %}
-                            <div class="row">
-                                <p>{{ contact.phone }}</p>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="col-md-12 text-center" style="margin:15px 0;">
-                    <div class="btn btn-lg">
-                        <a href="{% url 'property-action' property.id property.title|slugify 'schedule' %}" class="property-action">
-                            <span class="glyphicon glyphicon-time"></span> Schedule Tour
-                        </a>
-                    </div>
-                    <div class="btn btn-lg">
-                        <a href="{% url 'property-action' property.id property.title|slugify 'contact' %}" class="property-action">
-                            <span class="glyphicon glyphicon-envelope"></span> Email Contact
-                        </a>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
+  <div class="row" id="property-summary-row">
+    <div class="col-sm-8 {% if not contact %}col-sm-offset-2{% endif %}" 
+      id="property-content-column">
+      <div class="row" style="margin-top:15px;">
+        {% include "propertyinclude/post_status.html" %}
+      </div>
+      <h1 class="skinny">{{ property.title }}</h1>
+      <h3 class="skinny">{{ property.get_full_address }}</h3>
+      <span class="skinny col-md-6">Distance to Campus: {{ property.get_distance_from_campus|floatformat:1 }} miles</span>
+      <span class="skinny col-md-6">
+        {% if walkscore %}
+          <img src="{{ walkscore.logo_url }}" class="img-responsive score-image">
+          <span class="score-text">{{ walkscore.walkscore }}</span>
+        {% endif %}
+      </span>
+      <div class="row" id="rooms-row">
+        {% include "propertyinclude/tables/property_data.html" %}
+      </div>
     </div>
+    <div class="col-md-4">
+      {% if contact %}
+        <div class="col-md-offset-1 col-md-10 skinny" id="contact-detail">
+          <div class="col-xs-6">
+            {% if contact.profile.pic %}
+              <img src={{ contact.profile.pic.url }} class="img-circle img-responsive img-contact" />
+            {% else %}
+              <img src="/static/img/logo_icon.ico" class="img-circle img-responsive img-contact"/>
+            {% endif %}
+          </div>
+          <div class="col-xs-6 text-center">
+            <h3>
+              Contact
+            </h3>
+            <div class="row">
+              <p>{{ contact.get_full_name }}</p>
+            </div>
+            {% if contact.profile.phone %}
+              <div class="row">
+                <p>{{ contact.phone }}</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-12 text-center" style="margin:15px 0;">
+          <div class="btn btn-lg">
+            <a href="{% url 'property-action' property.id property.title|slugify 'schedule' %}" class="property-action">
+              <span class="glyphicon glyphicon-time"></span> Schedule Tour
+            </a>
+          </div>
+          <div class="btn btn-lg">
+            <a href="{% url 'property-action' property.id property.title|slugify 'contact' %}" class="property-action">
+              <span class="glyphicon glyphicon-envelope"></span> Email Contact
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
 </div>
 <div class="container-fluid">
-    <div class="row" id="property-detail-row">
-        <div class="col-md-5 col-md-offset-1">
-            {% include "propertyinclude/visual.html" %}
-        </div>
-        <div class="col-md-5" id="property-details">
-            <div class="row">
-                <div class="col-md-4 property-detail-label">
-                    Amenities
-                </div>
-                <div class="col-md-8">
-                    {% for a in property.amenities.all %}
-                        <div class="col-md-6">{{ a }}</div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="row" style="margin-top:30px;">
-                <div class="col-md-4 property-detail-label">
-                    Nearby
-                </div>
-                <div class="col-md-8" id="nearby-container">
-                    {% for p in nearby %}
-                        <div class="col-md-6">
-                            <a href="{% url 'business' p.id p.title|slugify %}">
-                                <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
-                                    class="img-responsive" />
-                                <h4>{{ p.title }}</h4>
-                            </a>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+  <div class="row" id="property-detail-row">
+    <div class="col-md-5 col-md-offset-1">
+      {% include "propertyinclude/visual.html" %}
     </div>
-    <div class="row" id="review-row-container">
-        <div class="col-md-10 col-md-offset-1">
-            {% for r in property.get_place_review_details %}
-                <div class="row review-row">
-                    <div class="col-md-3 text-center">
-                        <img src="{{ r.author_url|get_image_url }}" class="img-responsive img-circle" style="margin-left:auto; margin-right:auto;"/>
-                        <p>{{ r.author_name }}</p>
-                        <p>
-                            {% with r.rating as rating %}
-                                {% include "maininclude/rating.html" %}
-                            {% endwith %}
-                        </p>
-                    </div>
-                    <div class="col-md-9">
-                        {{ r.text }}
-                    </div>
-                </div>
-            {% empty %}
-            <div class="jumbotron text-center">
-                <h2>There are no reviews for this property</h2>
-            </div>
-            {% endfor %}
+    <div class="col-md-5" id="property-details">
+      <div class="row">
+        <div class="col-md-4 property-detail-label">
+          Amenities
         </div>
+        <div class="col-md-8">
+          {% for a in property.amenities.all %}
+            <div class="col-md-6">{{ a }}</div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="row" style="margin-top:30px;">
+        <div class="col-md-4 property-detail-label">
+          Nearby
+        </div>
+        <div class="col-md-8" id="nearby-container">
+          {% for p in nearby %}
+            <div class="col-md-6">
+              <a href="{% url 'business' p.id p.title|slugify %}">
+                <img src="{% with p.propertyimage_set.all|first as img %}{{ img.get_url }}{% endwith %}"
+                  class="img-responsive" />
+                <h4>{{ p.title }}</h4>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
+  </div>
+  <div class="row" id="review-row-container">
+    <div class="col-md-10 col-md-offset-1">
+      {% for r in property.get_place_review_details %}
+        <div class="row review-row">
+          <div class="col-md-3 text-center">
+            <img src="{{ r.author_url|get_image_url }}" class="img-responsive img-circle" style="margin-left:auto; margin-right:auto;"/>
+            <p>{{ r.author_name }}</p>
+            <p>
+              {% with r.rating as rating %}
+                {% include "maininclude/rating.html" %}
+              {% endwith %}
+            </p>
+          </div>
+          <div class="col-md-9">
+            {{ r.text }}
+          </div>
+        </div>
+      {% empty %}
+      <div class="jumbotron text-center">
+        <h2>There are no reviews for this property</h2>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 {% endblock %}

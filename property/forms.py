@@ -145,7 +145,7 @@ class ScheduleForm(ModelForm):
                 Div('schedule_time', css_class="col-md-4"),
             ),
             ButtonHolder(
-                Submit('submit', 'Schedule Now', css_class='btn-brand btn-lg'),
+                Submit('submit', 'Schedule', css_class='btn-brand btn-lg'),
                 css_class="text-center"
             )
         )

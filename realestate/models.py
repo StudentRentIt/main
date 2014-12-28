@@ -1,9 +1,12 @@
+import random
+
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 
-School = 'school.School'
+from main.models import UserProfile
+from school.models import School
 
 
 class Company(models.Model):
@@ -27,3 +30,12 @@ class Company(models.Model):
         self.slug = slugify(self.name)
         
         super(Company, self).save(*args, **kwargs)   
+
+    def get_random_contact(self):
+        '''
+        used to get a contact when no contact is listed on the Company
+        '''
+        members = User.objects.filter(profile__real_estate_company=self)
+        contact = random.choice(members)
+        return contact
+        

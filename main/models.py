@@ -4,14 +4,13 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
-from realestate.models import Company
-
 from localflavor.us.models import PhoneNumberField, USStateField
 
 
 #need to do this to avoid circular reference on ForeignKey fields
 Property = 'property.Property'
 Service = 'property.Service'
+Company = 'realestate.Company'
 
 
 USER_TYPE_CHOICES = (
