@@ -28,6 +28,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    
     'allauth', #used for social logins as well as normal login/registration
     'allauth.account',
     'allauth.socialaccount',
@@ -37,6 +38,7 @@ INSTALLED_APPS = (
     'south',
     'braces',
     'crispy_forms',
+    
     'flowcore',
     'main',
     'property',
@@ -47,6 +49,7 @@ INSTALLED_APPS = (
     'scrape',
     'realestate',
     'report',
+    'test',
 )
 
 MIDDLEWARE_CLASSES = (
