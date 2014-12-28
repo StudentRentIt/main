@@ -6,23 +6,25 @@
   </h1>
   <div class="inner">
     <div class="re-dash-info skinny text-center">
-      You can edit your properties or view the search page
+      You can edit your properties, view the search page with all your properties, or create
+      a new property
     </div>
     <div class="container-fluid">
       <div class="col-sm-8" style="border-right: 2px solid #282929">
         {% for p in property_list %}
-          <a class="btn btn-brand btn-lg" href="{% url 'update-property' p.id %}"
+          <a class="btn btn-brand" href="{% url 'update-property' p.id %}"
             style="margin-bottom:15px;">
             <span class="glyphicon glyphicon-pencil"></span> {{ p }}
           </a>
         {% endfor %}
       </div>
       <div class="col-sm-4">
-        <h4 class="text-center">
-          <a class="btn btn-brand btn-lg" href="{% url 'search' company.slug %}">
-            View in search page <span class="glyphicon glyphicon-search"></span>
-          </a>
-        </h4>
+        <a class="btn btn-brand btn-lg" href="{% url 'search' company.slug %}">
+          View in search page <span class="glyphicon glyphicon-search"></span>
+        </a>
+        <a class="btn btn-brand btn-lg" style="margin-top:10px;" href="{% url 'add-property' %}">
+          Create Property <span class="glyphicon glyphicon-plus"></span>
+        </a>
       </div>
     </div>
   </div>

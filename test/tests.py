@@ -5,8 +5,9 @@ from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
 from main.models import City, UserProfile, Payment, TeamMember, Contact
-from school.models import School
+from school.models import School, Deal, Event
 from realestate.models import Company
+from property.models import Property, PropertyFavorite
 
 
 class UserSetup(object):
@@ -62,5 +63,26 @@ class CompanySetup(object):
         # log in a real estate user
         self.client.login(username=self.real_estate_user.username, 
             password='testpassword')
+
+
+class PropertySetup(object):
+    def setUp(self):
+        User = get_user_model()
+        CompanySetup.setUp(self)
+
+        
+
+        # create property, not at top because school is required first
+        self.property = Property.objects.create(school=self.school, user=self.user, title="test property",
+                        addr="13 Test St.", city="Test Town", state="TX", real_estate_company=self.company)
+
+        self.deal = Deal.objects.create(school=self.school, property=self.property, user=self.user,
+                        title="test deal", description="This is the deal object created in testing")
+
+        self.event = Event.objects.create(user=self.user, school=self.school, title="test event",
+                    description="this is the test event object", location="somewhere yonder")
+
+        self.favorite = PropertyFavorite.objects.create(property=self.property,
+                            user=self.user, note="test note")
 
 
