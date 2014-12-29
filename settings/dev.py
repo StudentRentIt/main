@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = True
 TEMPLATE_DEBUG = True
-ALLOWED_HOSTS = ['studentrentit.pythonanywhere.com']
+ALLOWED_HOSTS = ['dev.rentversity.com']
 
 
 DATABASES = {
