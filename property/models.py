@@ -5,8 +5,8 @@ from decimal import Decimal
 
 from django.db import models
 from django.db.models import Avg, Q, Max, Min
+from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 from localflavor.us.models import PhoneNumberField, USStateField
@@ -157,7 +157,7 @@ class Property(models.Model):
     school= models.ForeignKey(School)
     neighborhood = models.ForeignKey(Neighborhood, null=True, blank=True)
     type = models.CharField(max_length=20, choices=PROPERTY_TYPE_CHOICES, default="APT")
-    user = models.ForeignKey(User, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
     title = models.CharField(max_length=50)
     addr = models.CharField(max_length=1000)
     city = models.CharField(max_length=1000)
@@ -181,7 +181,7 @@ class Property(models.Model):
     special = models.TextField(null=True, blank=True)
     fee_desc = models.TextField(null=True, blank=True)
     internal = models.BooleanField(default=False)
-    contact_user = models.ForeignKey(User, null=True, blank=True, 
+    contact_user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, 
         related_name="property_contact_user")
 
     services = models.ManyToManyField(Service, null=True, blank=True)
@@ -436,7 +436,7 @@ class PropertyRoom(models.Model):
 
 class PropertyFavorite(models.Model):
     property = models.ForeignKey(Property)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     note = models.TextField(null=True, blank=True)
 
     def __str__(self):
@@ -446,12 +446,12 @@ class PropertyFavorite(models.Model):
 class PropertyHidden(models.Model):
     # used to hide certain properties from searches by a specific user
     property = models.ForeignKey(Property)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
 
 class PropertyReserve(models.Model):
     property = models.ForeignKey(Property)
-    user = models.ForeignKey(User, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.CharField(max_length=80)
@@ -470,7 +470,7 @@ class PropertyReserve(models.Model):
 
 class PropertySchedule(models.Model):
     property = models.ForeignKey(Property)
-    user = models.ForeignKey(User, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.CharField(max_length=80)

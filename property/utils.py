@@ -50,7 +50,7 @@ def can_edit_property_list(user):
     # get a list of properties that a user has access to edit
     from property.models import Property
     property_list = Property.objects.filter(Q(user=user)|
-        Q(real_estate_company=user.profile.real_estate_company, real_estate_company__isnull=False))
+        Q(real_estate_company=user.real_estate_company, real_estate_company__isnull=False))
 
     return property_list
 

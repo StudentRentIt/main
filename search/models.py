@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.core.urlresolvers import reverse
 
 from property.models import Property
@@ -17,7 +17,7 @@ class Group(models.Model):
 
 
 class GroupMember(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     group = models.ForeignKey(Group)
     # TODO: user characteristics such as admin
 

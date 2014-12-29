@@ -24,8 +24,8 @@
             <span class="glyphicon glyphicon-pencil"></span></a>
           </li>
         {% endif %}
-        {% if user.profile.real_estate_company and not user.is_staff %}
-          <li><a href="{{ user.profile.real_estate_company.get_absolute_url }}">
+        {% if user.real_estate_company and not user.is_staff %}
+          <li><a href="{{ user.real_estate_company.get_absolute_url }}">
             Dashboard <span class="glyphicon glyphicon-dashboard"></span>
           </a>
         {% endif %}

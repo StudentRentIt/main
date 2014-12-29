@@ -6,7 +6,7 @@ from django.utils.text import slugify
 
 from django_webtest import WebTest
 
-from .models import City, UserProfile, Payment, TeamMember, Contact
+from .models import City, Payment, TeamMember, Contact
 from school.models import School
 from realestate.models import Company
 from test.tests import CompanySetup, UserSetup
@@ -25,7 +25,6 @@ class MainTestSetup(TestCase):
 
 class MainModelTests(MainTestSetup):
     def test_models(self):
-        UserProfile.objects.get(id=1)
         City.objects.get(id=1)
         Contact.objects.get(id=1)
 

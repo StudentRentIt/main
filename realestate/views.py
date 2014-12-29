@@ -4,7 +4,6 @@ from django.views.generic import ListView, TemplateView, DetailView
 
 from .models import Company
 from .utils import user_in_company
-from main.models import UserProfile
 from property.models import Property
         
 
@@ -26,7 +25,7 @@ def company_home(request, **kwargs):
     company = Company.objects.get(slug=slug)
 
     if user_in_company(request.user, company):
-        agents = UserProfile.objects.filter(real_estate_company=company)
+        agents = User.objects.filter(real_estate_company=company)
         page = "home"
 
         return render(request, 'recontent/company_home.html', 
@@ -48,7 +47,7 @@ def company_members(request, **kwargs):
         page = "members"
 
         User = get_user_model()
-        members = UserProfile.objects.filter(real_estate_company=company)
+        members = User.objects.filter(real_estate_company=company)
         
         context = {
             'company':company, 
@@ -65,17 +64,17 @@ def company_members(request, **kwargs):
                 # receive a post button with value "remove(@user_id)"
                 user_id = int(request.POST["submit"].strip("remove"))
                 user = User.objects.get(id=user_id)
-                user.profile.real_estate_company = None
+                user.real_estate_company = None
             elif request.POST["submit"] == "add":
                 try:
                     username = request.POST["username"]
                     user = User.objects.get(username=username)
-                    user.profile.real_estate_company = company
+                    user.real_estate_company = company
                 except User.DoesNotExist:
                     context['error_msg'] = username + " does not exist"
                     return render(request, template_name, context)
 
-            user.profile.save()
+            user.save()
 
         return render(request, template_name, context)
     else:

@@ -14,6 +14,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
+AUTH_USER_MODEL = 'main.User'
+
 #500 error emails
 ADMINS = (
     ('Adam', 'awwester@gmail.com'),

@@ -1,8 +1,9 @@
 import os
 from decimal import Decimal
+
+from django.conf import settings
 from django.db import models
-from django.db.models.signals import post_save
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 from localflavor.us.models import PhoneNumberField, USStateField
 
@@ -22,17 +23,20 @@ USER_TYPE_CHOICES = (
 '''*****************************************************************************
 General Models
 '''
-class UserProfile(models.Model):
+class User(AbstractUser):
 
     def get_user_image_path(instance, filename):
         return os.path.join('user/', filename)
 
-    user = models.OneToOneField(User, related_name='profile')
     user_type = models.CharField(max_length=30, null=True, blank = True,
         choices=USER_TYPE_CHOICES)
     pic = models.ImageField(upload_to=get_user_image_path, null=True, blank = True)
     real_estate_company = models.ForeignKey(Company, null=True, blank=True)
     phone_number = PhoneNumberField(null=True, blank=True)
+
+    class Meta:
+        # store the users in the auth_user table after migration
+        db_table = 'auth_user'
 
     def get_groups(self):
         '''
@@ -75,23 +79,12 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-def create_user_profile(sender, instance, created, **kwargs):
-    '''
-    Create User Profile when a User is created so that we can update the profile
-    in the same scope
-    '''
-    if created:
-        UserProfile.objects.get_or_create(user=instance)
-
-post_save.connect(create_user_profile, sender=User)
-
-
 class TeamMember(models.Model):
 
     def get_teammember_image_path(instance, filename):
         return os.path.join('teammember/', filename)
 
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     name = models.CharField(max_length=50)
     title = models.CharField(max_length=50)
     picture = models.ImageField(upload_to=get_teammember_image_path, null=True, blank=True)
@@ -127,7 +120,7 @@ class Contact(models.Model):
 class Payment(models.Model):
     payment_date = models.DateField(auto_now_add=True)
     property = models.ForeignKey(Property, null=True, blank=True)
-    user = models.ForeignKey(User, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
     services = models.ManyToManyField(Service, null=True, blank=True)
     recurring = models.BooleanField(default=False)
     amount = models.IntegerField()

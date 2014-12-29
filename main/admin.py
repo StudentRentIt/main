@@ -1,10 +1,8 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
-from django.contrib.auth.admin import UserAdmin
 #from django.contrib.auth import get_user_model
 #from django.contrib.auth.admin import UserAdmin
 
-from main.models import UserProfile, City, Payment, TeamMember
+from main.models import City, Payment, TeamMember
 from school.models import School, Event, Deal, Neighborhood
 from blog.models import Article, Tag
 from property.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
@@ -25,14 +23,6 @@ class CommonMedia:
   }
 
 #allow extension of the user in admin
-class UserProfileInline(admin.StackedInline):
-    model = UserProfile
-    can_delete = False
-    verbose_name_plural = 'UserProile'
-
-#Define a new User admin
-class CustomUserAdmin(UserAdmin):
-    inlines = (UserProfileInline, )
 
 
 class PropertyImageInline(admin.StackedInline):
@@ -50,8 +40,6 @@ class PropertyVideoInline(admin.StackedInline):
 class PropertyAdmin(admin.ModelAdmin):
     inlines = [PropertyImageInline, PropertyRoomInline, PropertyVideoInline, ]
 
-admin.site.unregister(User)
-admin.site.register(User, CustomUserAdmin)
 admin.site.register(School)
 admin.site.register(Neighborhood)
 admin.site.register(Property, PropertyAdmin)

@@ -1,7 +1,7 @@
 from django.db import models
 import os
 
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
@@ -70,7 +70,7 @@ class SchoolBaseItem(models.Model):
     to display them effectively on the front-end
     '''
     create_date = models.DateField(auto_now_add=True)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     school = models.ForeignKey(School)
     title = models.CharField(max_length=50)
     description = models.TextField()

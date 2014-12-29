@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
-from main.models import City, UserProfile, Payment, TeamMember, Contact
+from main.models import City, Payment, TeamMember, Contact
 from school.models import School, Deal, Event
 from realestate.models import Company
 from property.models import Property, PropertyFavorite
@@ -56,8 +56,8 @@ class CompanySetup(object):
             'real_estate_user', 
             're@gmail.com', 
             'testpassword')
-        self.real_estate_user.profile.real_estate_company = self.company
-        self.real_estate_user.profile.save()
+        self.real_estate_user.real_estate_company = self.company
+        self.real_estate_user.save()
     
     def login_re_user(self):
         # log in a real estate user

@@ -29,7 +29,7 @@ def real_estate_home(request):
 	Home page for real estate users. Any real estate user can access
 	this page, and the data will be filtered to their respective properties
 	'''
-	company = request.user.profile.real_estate_company
+	company = request.user.real_estate_company
 	properties = Property.objects.filter(real_estate_company=company, 
 		real_estate_company__isnull=False)
 	daily_metrics = get_daily_metrics(properties)

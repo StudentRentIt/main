@@ -1,18 +1,17 @@
 import random
 
 from django.db import models
+from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
 from django.utils.text import slugify
 
-from main.models import UserProfile
 from school.models import School
 
 
 class Company(models.Model):
     name = models.CharField(max_length=60)
     slug = models.SlugField(unique=True, blank=True, editable=False)
-    contact = models.ForeignKey(User, null=True, blank=True)
+    contact = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
     
     # default_school is used to center the map
     default_school = models.ForeignKey(School, null=True, blank=True)
@@ -35,7 +34,7 @@ class Company(models.Model):
         '''
         used to get a contact when no contact is listed on the Company
         '''
-        members = User.objects.filter(profile__real_estate_company=self)
+        members = User.objects.filter(real_estate_company=self)
         contact = random.choice(members)
         return contact
         

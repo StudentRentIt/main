@@ -15,7 +15,7 @@
                 <h4>{{ p.addr }}</h4>
             </div>
             <div class="col-sm-3 button-group">
-                {% if request.user.profile.get_groups and not gp %}
+                {% if request.user.get_groups and not gp %}
                     {% include "searchinclude/group_search_button.html" %}
                 {% endif %}
                 {% include "propertyinclude/favorite.html" %}

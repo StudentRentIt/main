@@ -1,7 +1,7 @@
 import os
 
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
@@ -31,7 +31,7 @@ class Tag(models.Model):
 
 
 class Article(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     school = models.ForeignKey(School, null=True, blank=True)
     property = models.ForeignKey(Property, null=True, blank=True)
     title = models.CharField(max_length=100)

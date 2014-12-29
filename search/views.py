@@ -399,7 +399,7 @@ def manage_property(request):
     property_id = request.POST["property_id"]
     property = Property.objects.get(id=property_id)
     user = User.objects.get(username=request.user.username)
-    groups = user.profile.get_groups()
+    groups = user.get_groups()
 
     # determine if we're going to add or remove
     gp_list = GroupProperty.objects.filter(group__in=groups, property=property)
