@@ -35,7 +35,6 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
     'localflavor', #used for US model fields
-    'south',
     'braces',
     'crispy_forms',
     

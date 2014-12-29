@@ -69,7 +69,7 @@ class AddDealForm(ModelForm):
 
     class Meta:
         model = Deal
-        excludes = ['user']
+        exclude = ['user']
 
     def __init__(self, *args, **kwargs):
         super(AddDealForm, self).__init__(*args, **kwargs)
@@ -126,7 +126,7 @@ class AddEventForm(ModelForm):
 
     class Meta:
         model = Event
-        excludes = ['user']
+        exclude = ['user']
 
     def __init__(self, *args, **kwargs):
         super(AddEventForm, self).__init__(*args, **kwargs)

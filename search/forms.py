@@ -16,6 +16,7 @@ class GroupForm(ModelForm):
 
     class Meta:
         model = Group
+        fields = ['name', 'description']
 
     def __init__(self, *args, **kwargs):
         super(GroupForm, self).__init__(*args, **kwargs)
