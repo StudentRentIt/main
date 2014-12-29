@@ -13,7 +13,7 @@ class Company(models.Model):
     name = models.CharField(max_length=60)
     slug = models.SlugField(unique=True, blank=True, editable=False)
     contact = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
-    
+
     # default_school is used to center the map
     default_school = models.ForeignKey(School, null=True, blank=True)
 
@@ -28,14 +28,16 @@ class Company(models.Model):
         set the slug based on the title field
         '''
         self.slug = slugify(self.name)
-        
-        super(Company, self).save(*args, **kwargs)   
+
+        super(Company, self).save(*args, **kwargs)
 
     def get_random_contact(self):
         '''
         used to get a contact when no contact is listed on the Company
         '''
         members = get_user_model().objects.filter(real_estate_company=self)
-        contact = random.choice(members)
-        return contact
-        
+        if members:
+            contact = random.choice(members)
+            return contact
+        else:
+            return None
