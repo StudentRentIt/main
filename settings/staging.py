@@ -1,9 +1,9 @@
 from .base import *
 
 # production environment
-DEBUG = False
-TEMPLATE_DEBUG = False
-ALLOWED_HOSTS = ['test.rentversity.com']
+DEBUG = True
+TEMPLATE_DEBUG = True
+ALLOWED_HOSTS = ['staging.rentversity.com']
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
