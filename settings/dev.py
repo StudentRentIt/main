@@ -7,7 +7,7 @@ ALLOWED_HOSTS = ['studentrentit.pythonanywhere.com']
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'mysql.connector.django', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'studentrentit$dev',                      # Or path to database file if using sqlite3. '/home/studentrentit/dev/main/dev.db'
         'USER': 'studentrentit',                      # Not used with sqlite3.
         'PASSWORD': 'student12',                  # Not used with sqlite3.
