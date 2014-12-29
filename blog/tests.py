@@ -1,5 +1,5 @@
 from django.utils import unittest
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.core.urlresolvers import reverse
 
@@ -14,7 +14,7 @@ class ModelTests(unittest.TestCase):
     def setUp(self):
         # set up required model instances
         self.city = City.objects.create(name="Blog Test Town", state="TX")
-        self.user = User.objects.create_user('blogtester', 'blogtester@somewhere.com', 'testpassword')
+        self.user = get_user_model().objects.create_user('blogtester', 'blogtester@somewhere.com', 'testpassword')
         self.school = School.objects.create(city=self.city, name="Blog Test University",
                         long=-97.1234123, lat=45.7801234)
         self.property = Property.objects.create(school=self.school, user=self.user, title="test property",
@@ -39,7 +39,7 @@ class ViewTests(TestCase):
 
         # set up required model instances
         self.city = City.objects.create(name="Blog Test Town", state="TX")
-        self.user = User.objects.create_user('blogtester', 'blogtester@somewhere.com', 'testpassword')
+        self.user = get_user_model().objects.create_user('blogtester', 'blogtester@somewhere.com', 'testpassword')
         self.school = School.objects.create(city=self.city, name="Blog Test University",
                         long=-97.1234123, lat=45.7801234)
         self.property = Property.objects.create(school=self.school, user=self.user, title="test property",

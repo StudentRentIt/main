@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.template import Context
 from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.edit import CreateView
@@ -197,8 +197,8 @@ def property(request, pk, slug, action = None):
 
                 #save the user if logged in
                 try:
-                    schedule.user = User.objects.get(username = request.user)
-                except User.DoesNotExist:
+                    schedule.user = get_user_model().objects.get(username = request.user)
+                except get_user_model().DoesNotExist:
                     pass
                 schedule.save()
 

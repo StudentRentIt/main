@@ -2,7 +2,7 @@ import stripe
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse_lazy
 from django.core.mail import send_mail
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.contrib.sitemaps import Sitemap
 from django.views.generic import FormView
@@ -148,7 +148,7 @@ class ContactView(FormView, FormValidateMixin):
 
 class ProfileUpdateView(LoginRequiredMixin, FormValidateMixin, UpdateView):
 
-    model = User
+    model = get_user_model()
     form_class = UserUpdateForm
     template_name = 'maincontent/profile.html'
     success_url = '/accounts/profile/'
@@ -159,7 +159,7 @@ class ProfileUpdateView(LoginRequiredMixin, FormValidateMixin, UpdateView):
         return context
 
     def get_object(self):
-        return get_object_or_404(User, username=self.request.user)
+        return get_object_or_404(get_user_model(), username=self.request.user)
 
 
 def onetime_payment(request):

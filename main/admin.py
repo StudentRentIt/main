@@ -2,7 +2,7 @@ from django.contrib import admin
 #from django.contrib.auth import get_user_model
 #from django.contrib.auth.admin import UserAdmin
 
-from main.models import City, Payment, TeamMember
+from main.models import City, Payment, TeamMember, User
 from school.models import School, Event, Deal, Neighborhood
 from blog.models import Article, Tag
 from property.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
@@ -41,6 +41,7 @@ class PropertyAdmin(admin.ModelAdmin):
     inlines = [PropertyImageInline, PropertyRoomInline, PropertyVideoInline, ]
 
 admin.site.register(School)
+admin.site.register(User)
 admin.site.register(Neighborhood)
 admin.site.register(Property, PropertyAdmin)
 admin.site.register(Amenity)

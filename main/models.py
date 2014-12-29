@@ -76,7 +76,7 @@ class User(AbstractUser):
         return property_list
 
     def __str__(self):
-        return self.user.username
+        return self.username
 
 
 class TeamMember(models.Model):

@@ -2,6 +2,7 @@ import random
 
 from django.db import models
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
@@ -34,7 +35,7 @@ class Company(models.Model):
         '''
         used to get a contact when no contact is listed on the Company
         '''
-        members = User.objects.filter(real_estate_company=self)
+        members = get_user_model().objects.filter(real_estate_company=self)
         contact = random.choice(members)
         return contact
         

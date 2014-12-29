@@ -13,15 +13,15 @@
 {% block table_body %}
   {% for m in members %}
     <tr>
-      <td>{{ m.user.username }}</td>
-      <td>{{ m.user.first_name }}</td>
-      <td>{{ m.user.last_name }}</td>
-      <td>{{ m.user.email }}</td>
+      <td>{{ m.username }}</td>
+      <td>{{ m.first_name }}</td>
+      <td>{{ m.last_name }}</td>
+      <td>{{ m.email }}</td>
       <td>
         <form method="post" style="margin-top:0;">
           {% csrf_token %}
           <button class="btn btn-danger" type="submit" name="submit" 
-              value="remove{{ m.user.id }}">
+              value="remove{{ m.id }}">
             <span class="glyphicon glyphicon-remove"></span>
           </button>
         </form>

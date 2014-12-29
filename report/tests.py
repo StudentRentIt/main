@@ -1,8 +1,6 @@
-from django.test import TestCase, Client
-from django.contrib.auth.models import User
+from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-from report.views import admin_home
 from test.tests import CompanySetup, UserSetup
 
 '''

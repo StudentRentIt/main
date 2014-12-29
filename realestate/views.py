@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView, DetailView
 
 from .models import Company
 from .utils import user_in_company
@@ -16,6 +16,7 @@ def home(request):
     return render(request, 'recontent/home.html', {})
 
 
+@login_required
 def company_home(request, **kwargs):
     '''
     home page for a real estate company. Might show show some stats or general
@@ -25,7 +26,7 @@ def company_home(request, **kwargs):
     company = Company.objects.get(slug=slug)
 
     if user_in_company(request.user, company):
-        agents = User.objects.filter(real_estate_company=company)
+        agents = get_user_model().objects.filter(real_estate_company=company)
         page = "home"
 
         return render(request, 'recontent/company_home.html', 
@@ -35,6 +36,7 @@ def company_home(request, **kwargs):
             {'company':company})
 
 
+@login_required
 def company_members(request, **kwargs):
     '''
     place for real estate companies to manage their members
@@ -46,8 +48,7 @@ def company_members(request, **kwargs):
         template_name = 'recontent/members.html'
         page = "members"
 
-        User = get_user_model()
-        members = User.objects.filter(real_estate_company=company)
+        members = get_user_model().objects.filter(real_estate_company=company)
         
         context = {
             'company':company, 
@@ -63,14 +64,14 @@ def company_members(request, **kwargs):
             if "remove" in request.POST["submit"]:
                 # receive a post button with value "remove(@user_id)"
                 user_id = int(request.POST["submit"].strip("remove"))
-                user = User.objects.get(id=user_id)
+                user = get_user_model().objects.get(id=user_id)
                 user.real_estate_company = None
             elif request.POST["submit"] == "add":
                 try:
                     username = request.POST["username"]
-                    user = User.objects.get(username=username)
+                    user = get_user_model().objects.get(username=username)
                     user.real_estate_company = company
-                except User.DoesNotExist:
+                except get_user_model().DoesNotExist:
                     context['error_msg'] = username + " does not exist"
                     return render(request, template_name, context)
 
@@ -82,6 +83,7 @@ def company_members(request, **kwargs):
             {'company':company})
 
 
+@login_required
 def company_properties(request, **kwargs):
     '''
     Allow real estate users to edit properties as well as see their search 
@@ -101,6 +103,7 @@ def company_properties(request, **kwargs):
             {'company':company})
 
 
+@login_required
 def company_support(request, **kwargs):
     '''
     Eventually we'll have some sort of support system for business users

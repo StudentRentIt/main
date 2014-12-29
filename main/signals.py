@@ -1,5 +1,5 @@
 from django.dispatch import receiver
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from allauth.socialaccount.models import SocialAccount
 from allauth.account.signals import user_signed_up
@@ -19,7 +19,7 @@ def populate_profile(request, sender, **kwargs):
         fb_first_name = facebook_user[0].extra_data['first_name']
         fb_last_name = facebook_user[0].extra_data['last_name']
 
-        user = User.objects.get(id=sender.user.id)
+        user = get_user_model().objects.get(id=sender.user.id)
         user.first_name = fb_first_name
         user.last_name = fb_last_name
         user.save()

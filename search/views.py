@@ -3,7 +3,7 @@ from django.utils.text import slugify
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 
 from search.forms import GroupForm
@@ -308,7 +308,7 @@ def view_group(request, pk):
         property_id = request.POST["propertyId"]
 
         property = get_object_or_404(Property, id=property_id)
-        user = User.objects.get(username=request.user.username)
+        user = get_user_model().objects.get(username=request.user.username)
         gp = get_object_or_404(GroupProperty, property=property, group=group)
         gm = GroupMember.objects.get(group=group, user=user)
 
@@ -360,7 +360,7 @@ def manage_group(request):
             the user entered the username to add incorrectly
             '''
             try:
-                user = User.objects.get(username=username)
+                user = get_user_model().objects.get(username=username)
                 group = Group.objects.get(id=group_id)
                 gm = GroupMember(user=user, group=group)
                 gm.save()
@@ -374,7 +374,7 @@ def manage_group(request):
                 '''
                 remove the user from a group
                 '''
-                user = User.objects.get(username=username)
+                user = get_user_model().objects.get(username=username)
                 group = Group.objects.get(id=group_id)
                 gm = GroupMember.objects.get(user=user, group=group)
                 gm.delete()
@@ -398,7 +398,7 @@ def manage_property(request):
     '''
     property_id = request.POST["property_id"]
     property = Property.objects.get(id=property_id)
-    user = User.objects.get(username=request.user.username)
+    user = get_user_model().objects.get(username=request.user.username)
     groups = user.get_groups()
 
     # determine if we're going to add or remove
