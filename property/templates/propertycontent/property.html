@@ -47,8 +47,8 @@
       {% if contact %}
         <div class="col-md-offset-1 col-md-10 skinny" id="contact-detail">
           <div class="col-xs-6">
-            {% if contact.profile.pic %}
-              <img src={{ contact.profile.pic.url }} class="img-circle img-responsive img-contact" />
+            {% if contact.get_image_url %}
+              <img src={{ contact.get_image_url }} class="img-circle img-responsive img-contact" />
             {% else %}
               <img src="/static/img/logo_icon.ico" class="img-circle img-responsive img-contact"/>
             {% endif %}

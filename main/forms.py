@@ -70,10 +70,11 @@ class UserCreationFormExtended(UserCreationForm):
 class UserUpdateForm(ModelForm):
     first_name = forms.CharField(required=True)
     email = forms.EmailField(required=True)
+    pic = forms.ImageField(required=False)
 
     class Meta:
         model = get_user_model()
-        fields = ("first_name", "last_name", "email")
+        fields = ("first_name", "last_name", "email", "pic")
 
     def __init__(self, *args, **kwargs):
         super(UserUpdateForm, self).__init__(*args, **kwargs)
@@ -81,9 +82,10 @@ class UserUpdateForm(ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 'Accurate data is important for contacting apartments',
-                Div('first_name', css_class="col-md-6"),
-                Div('last_name', css_class="col-md-6"),
-                Div('email', css_class="col-md-12")
+                Div('first_name', css_class="col-sm-6"),
+                Div('last_name', css_class="col-sm-6"),
+                Div('email', css_class="col-sm-12"),
+                Div('pic', css_class="col-sm-12")
             ),
             ButtonHolder(
                 Submit('submit', 'Save', css_class='btn-brand btn-lg'), css_class="text-center"

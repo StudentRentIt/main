@@ -30,7 +30,7 @@ class User(AbstractUser):
 
     user_type = models.CharField(max_length=30, null=True, blank = True,
         choices=USER_TYPE_CHOICES)
-    pic = models.ImageField(upload_to=get_user_image_path, null=True, blank = True)
+    pic = models.ImageField(upload_to=get_user_image_path, null=True, blank=True)
     real_estate_company = models.ForeignKey(Company, null=True, blank=True)
     phone_number = PhoneNumberField(null=True, blank=True)
 
@@ -74,6 +74,23 @@ class User(AbstractUser):
             property_list.append(gp.property)
 
         return property_list
+
+    def get_image_url(self):
+        '''
+        get the image for the user. It can come from a social account or from
+        their local user account
+        '''
+        if self.pic:
+            return self.pic.url
+        else:
+            try:
+                return self.socialaccount_set.all()[0].get_avatar_url()
+            except:
+                return None
+
+        #nothing returned
+        return None
+
 
     def __str__(self):
         return self.username

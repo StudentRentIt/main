@@ -224,11 +224,12 @@ class Property(models.Model):
 
     def get_full_address(self):
         # provide a uniform way to display a full full_address
-        if self.addr and self.city and self.state and self.zip_cd:
-            full_address = self.addr + ' ' + self.city + ', ' + self.state + ' ' + self.zip_cd
-            return full_address
-        else:
-            return None
+        full_address = self.addr + ' ' + self.city + ', ' + self.state
+
+        if self.zip_cd:
+            full_address = full_address + ' ' + self.zip_cd
+            
+        return full_address
 
     def avg_price(self):
         avg_price = PropertyRoom.objects.filter(property=self).aggregate(Avg('price'))
