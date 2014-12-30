@@ -1,0 +1,19 @@
+{% load socialaccount %}
+{# these are the social accounts, need to add if we add new ones #}
+
+<div class="social-btn-container">
+  {% for provider in socialaccount.providers %}
+    {% if provider.name == "Facebook" %}
+      <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}}" 
+          href="{% provider_login_url provider.id process=process %}">
+        <img src="/static/img/social/facebook_account.png" class="social-btn"/>
+      </a>
+    {% elif provider.name == "Google" %}
+      <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}}" 
+         href="{% provider_login_url provider.id process=process %}">
+        <img src="/static/img/social/google_account.png"
+        class="social-btn" />
+      </a>
+    {% endif %}
+  {% endfor %}
+</div>

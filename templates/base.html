@@ -1,0 +1,53 @@
+{% extends "flowcore/base.html" %}
+{% load url from future %}
+
+{% block header %}
+  {% include "flowcore/header.html" %}
+{% endblock %}
+
+{% block main %}
+  {% block body %}
+    <div class="container auth-container margin-top">
+        <div class="col-sm-6 col-sm-offset-3">
+        {% if messages %}
+          <div id="auth-messages">
+            <strong>Messages:</strong>
+            <ul>
+              {% for message in messages %}
+                <li>{{message}}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        <div class="hidden">
+          <strong>Menu:</strong>
+          <ul>
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+              <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+            {% else %}
+              <li><a href="{% url 'account_login' %}">Sign In</a></li>
+              <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <div class="auth-content">
+          {% block content %}
+          <div class="panel panel-brand">
+            <div class="panel-heading">
+              {% block panel_heading %}{% endblock %}
+            </div>
+            <div class="panel-body">
+              {% block panel_body %}{% endblock %}
+            </div>
+          {% endblock %}
+        </div>
+        <div class="auth-extra-body">
+          {% block extra_body %}{% endblock %}
+        </div>
+      </div>
+    </div>
+  {% endblock %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "account/base.html" %}
+
+{% load crispy_forms_tags %}
+{% load url from future %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block panel_heading %}
+  <h1>{% trans "Sign Up" %}</h1>
+{% endblock %}
+
+{% block panel_body %}
+  <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+  <div class="socialaccount_ballot">
+    {% include "socialaccount/snippets/providers.html" with process="login" %}
+    <div class="or-text">{% trans 'or' %}</div>
+  </div>
+
+  <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+    {% csrf_token %}
+    {% crispy form %}
+    
+    {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+
+  </form>
+{% endblock %}
+
+

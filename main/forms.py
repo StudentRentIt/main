@@ -8,6 +8,7 @@ from property.models import PropertyFavorite
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, Fieldset, ButtonHolder
+from allauth.account import forms as allauthforms
 
 
 class ContactForm(ModelForm):
@@ -91,3 +92,97 @@ class UserUpdateForm(ModelForm):
                 Submit('submit', 'Save', css_class='btn-brand btn-lg'), css_class="text-center"
             )
         )
+
+class LoginForm(allauthforms.LoginForm):
+
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                '',
+                Div('login'),
+                Div('password'),
+            ),
+            ButtonHolder(
+                Submit('submit', 'Sign In', css_class='btn-brand btn-lg'), 
+                    css_class="text-center"
+            )
+        )
+
+
+class SignupForm(allauthforms.SignupForm):
+    #used as a replacement for allauth SignUpForm
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(SignupForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                '',
+                Div('username', css_class="col-sm-12"),
+                Div('email', css_class="col-sm-12"),
+                Div('first_name', css_class="col-sm-6"),
+                Div('last_name', css_class="col-sm-6"),
+                Div('password1', css_class="col-sm-12"),
+                Div('password2', css_class="col-sm-12"),
+            ),
+            ButtonHolder(
+                Submit('submit', 'Sign Up', css_class='btn-brand btn-lg'), 
+                    css_class="text-center"
+            )
+        )
+
+class ResetPasswordForm(allauthforms.ResetPasswordForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(ResetPasswordForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                '',
+                Div('email', css_class="col-sm-12"),
+            ),
+            ButtonHolder(
+                Submit('submit', 'Reset My Password', css_class='btn-brand btn-lg'), 
+                    css_class="text-center"
+            )
+        )
+
+
+class ChangePasswordForm(allauthforms.ChangePasswordForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                '',
+                Div('password1', css_class="col-sm-12"),
+                Div('password2', css_class="col-sm-12"),
+            ),
+            ButtonHolder(
+                Submit('submit', 'Change Password', css_class='btn-brand btn-lg'), 
+                    css_class="text-center"
+            )
+        )
+
+class ResetPasswordKeyForm(allauthforms.ResetPasswordKeyForm):
+
+    def __init__(self, *args, **kwargs):
+        super(ResetPasswordKeyForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                '',
+                Div('password1', css_class="col-sm-12"),
+                Div('password2', css_class="col-sm-12"),
+            ),
+            ButtonHolder(
+                Submit('submit', 'Change Password', css_class='btn-brand btn-lg'), 
+                    css_class="text-center"
+            )
+        )
+

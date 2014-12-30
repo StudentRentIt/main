@@ -37,6 +37,9 @@ html, body {
     margin-left:0;
     margin-right:0;
 }
+.transition {
+    transition: all 0.5s ease-in-out;
+}
 .margin-top {
     margin-top: 50px;
 }
@@ -172,10 +175,15 @@ footer {
     opacity:1;
 }
 
+.social-btn-container {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
 .social-btn {
+    border-radius: 6px;
     max-width:70%;
     display:inline;
-    text-align:center;
 }
 
 .main-background {
@@ -227,6 +235,13 @@ footer {
 
 .ui-autocomplete {
     z-index:9999;
+}
+
+
+/***** allauthuth *****/
+.auth-container form {
+    margin-left:20%;
+    width:60%;
 }
 
 /***** Walkscore Objects *****/
@@ -319,6 +334,7 @@ footer {
 .or-text {
     font-size: 24px;
     padding:10px;
+    text-align: center;
 }
 
 /***** Forms *****/
@@ -669,6 +685,22 @@ html, body, #map-canvas {
 
 /* add onhover to dropdowns. There is also the bootstrap-dropdown-hover.js
     file but it isn't working correctly in the nav yet */
+.panel-brand {
+  border-color: #a6a6a6;
+}
+.panel-brand > .panel-heading {
+  color: white;
+  background-color: #0fab72;
+  border-color: #a6a6a6;
+}
+.panel-brand > .panel-heading + .panel-collapse .panel-body {
+  border-top-color: #a6a6a6;
+}
+.panel-brand > .panel-footer + .panel-collapse .panel-body {
+  border-bottom-color: #a6a6a6;
+}
+
+
 .sidebar-nav {
     padding: 9px 0;
 }
@@ -1091,7 +1123,11 @@ html, body, #map-canvas {
 
 /***** Responsive Section *****/
 @media (max-width: 768px) {
-
+    /*** allauth ***/
+    .auth-container form {
+        margin-left:0;
+        width:100%;
+    }
 
     /*** Property ***/
     .property-tabs {

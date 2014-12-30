@@ -21,6 +21,8 @@ ADMINS = (
     ('Adam', 'awwester@gmail.com'),
 )
 
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -127,6 +129,13 @@ SITE_ID=1
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_FORMS = ({
+    'login': 'main.forms.LoginForm',
+    'signup': 'main.forms.SignupForm',
+    'reset_password': 'main.forms.ResetPasswordForm',
+    'change_password': 'main.forms.ChangePasswordForm',
+    'reset_password_from_key': 'main.forms.ResetPasswordKeyForm',
+})
 
 LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_QUERY_EMAIL = True
