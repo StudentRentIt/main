@@ -9,7 +9,7 @@ def get_school(slug):
     '''
     pass in value to return the correct school object
     '''
-    school = get_object_or_404(School, name__contains=unslugify(slug))
+    school = get_object_or_404(School, slug=slug)
 
     return school
 

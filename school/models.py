@@ -28,6 +28,7 @@ class School(models.Model):
     '''
     city = models.ForeignKey(City, null=True, blank=True)
     name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=110)
     link = models.CharField(max_length=100, null=True, blank=True)
     mascot = models.CharField(max_length=50, null=True, blank=True)
     long =  models.DecimalField(max_digits=10, decimal_places=6)
@@ -41,9 +42,13 @@ class School(models.Model):
         # url for the school info page
         return reverse('school-info', kwargs={'slug':slugify(self.name),
                                               'type':'info'})
-
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(School, self).save(*args, **kwargs)
+
 
 
 class Neighborhood(models.Model):
