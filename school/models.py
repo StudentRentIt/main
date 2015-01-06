@@ -28,7 +28,7 @@ class School(models.Model):
     '''
     city = models.ForeignKey(City, null=True, blank=True)
     name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=110)
+    slug = models.SlugField(max_length=110, editable=False)
     link = models.CharField(max_length=100, null=True, blank=True)
     mascot = models.CharField(max_length=50, null=True, blank=True)
     long =  models.DecimalField(max_digits=10, decimal_places=6)
@@ -46,7 +46,7 @@ class School(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name).__str__()
         super(School, self).save(*args, **kwargs)
 
 
