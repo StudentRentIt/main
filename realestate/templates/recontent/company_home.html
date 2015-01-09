@@ -1,13 +1,19 @@
 {% extends "reinclude/dashboard.html" %}
+{% load crispy_forms_tags %}
 
 {% block data %}
   <h1 class="text-center">
     {{ company }} Administration
   </h1>
-  <div class="inner">
-    <div class="re-dash-info skinny">
-        Welcome to the administration for {{ company }}. Please use the navigation to the left to perform
-        administrative tasks. Of course if you have any questions, don't hesitate to contact us.
+  <div class="inner container">
+    <div class="re-dash-info skinny row">
+      Welcome to the administration for {{ company }}. Please use the navigation to the left to perform
+      administrative tasks. Of course if you have any questions, don't hesitate to contact us.
+    </div>
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1">
+        {% crispy form %}
+      </div>
     </div>
   </div>
 {% endblock %}

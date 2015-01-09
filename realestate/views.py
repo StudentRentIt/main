@@ -1,45 +1,72 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
+from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic.edit import UpdateView
+from django.views.generic.detail import SingleObjectMixin
 
 from .models import Company
+from .forms import CompanyForm
 from .utils import user_in_company
 from property.models import Property
         
 
-def home(request):
+class CompanyAccessMixin(object):
     '''
-    This will be informative information for real estate companies that might want 
+    check if a user is in a certain company. If they are, let them
+    see the view. If they're not, send them to the access_denied
+    '''
+    def dispatch(self, request, *args, **kwargs):
+        company = self.get_object()
+ 
+        if not user_in_company(self.request.user, company):
+            return render(request, 'recontent/access_denied.html', 
+                {'company':company})
+        else:
+            return super(CompanyAccessMixin, self).dispatch(
+                request, *args, **kwargs)
+
+
+class HomeTemplateView(TemplateView):
+    '''
+    This will be information for real estate companies that might want 
     to join us.
     '''
+    template_name = 'recontent/home.html'
 
-    return render(request, 'recontent/home.html', {})
+
+class CompanyHomeFormView(CompanyAccessMixin, UpdateView):
+    template_name = 'recontent/company_home.html'
+    model = Company
+    form_class = CompanyForm
+
+    def get_context_data(self, **kwargs):
+        context = super(CompanyHomeFormView, self).get_context_data(**kwargs)
+        context['agents'] = get_user_model().objects.filter(real_estate_company=self.object)
+        context['page'] = 'home'
+        return context
 
 
-@login_required
-def company_home(request, **kwargs):
-    '''
-    home page for a real estate company. Might show show some stats or general
-    information
-    '''
-    slug = kwargs["slug"]
-    company = Company.objects.get(slug=slug)
+class CompanyPropertiesListView(CompanyAccessMixin, DetailView):
+    template_name = "recontent/properties.html"
+    model = Company
 
-    if user_in_company(request.user, company):
-        agents = get_user_model().objects.filter(real_estate_company=company)
-        page = "home"
+    def get_context_data(self, **kwargs):
+        context = super(CompanyPropertiesListView, self).get_context_data(**kwargs)
+        context['property_list'] = Property.objects.filter(real_estate_company=self.get_object())
+        return context
 
-        return render(request, 'recontent/company_home.html', 
-            {'company':company, 'agents':agents, 'page':page})
-    else:
-        return render(request, 'recontent/access_denied.html', 
-            {'company':company})
+
+class CompanySupportTemplateView(CompanyAccessMixin, DetailView):
+    template_name = "recontent/support.html"
+    model = Company
 
 
 @login_required
 def company_members(request, **kwargs):
     '''
     place for real estate companies to manage their members
+    TODO: Convert this into a CBV
     '''
     slug = kwargs["slug"]
     company = Company.objects.get(slug=slug)
@@ -80,42 +107,6 @@ def company_members(request, **kwargs):
         return render(request, template_name, context)
     else:
         return render(request, 'recontent/access_denied.html', 
-            {'company':company})
-
-
-@login_required
-def company_properties(request, **kwargs):
-    '''
-    Allow real estate users to edit properties as well as see their search 
-    page
-    '''
-    slug = kwargs["slug"]
-    company = Company.objects.get(slug=slug)
-
-    if user_in_company(request.user, company):
-        property_list = Property.objects.filter(real_estate_company=company)\
-            .order_by('title')
-
-        return render(request, "recontent/properties.html", 
-            {'company':company, 'property_list':property_list})
-    else:
-        return render(request, "recontent/access_denied.html", 
-            {'company':company})
-
-
-@login_required
-def company_support(request, **kwargs):
-    '''
-    Eventually we'll have some sort of support system for business users
-    '''
-    slug = kwargs["slug"]
-    company = Company.objects.get(slug=slug)
-
-    if user_in_company(request.user, company):
-        return render(request, "recontent/support.html", 
-            {'company':company})
-    else:
-        return render(request, "recontent/access_denied.html", 
             {'company':company})
 
 

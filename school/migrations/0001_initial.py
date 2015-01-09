@@ -11,7 +11,6 @@ class Migration(migrations.Migration):
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('property', '__first__'),
-        ('main', '0005_user_user_type'),
     ]
 
     operations = [

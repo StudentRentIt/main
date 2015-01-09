@@ -1,5 +1,6 @@
 {% extends "maininclude/base.html" %}
 {% load main_extras %}
+{% load static %}
 
 {% block title %}
   {{ property.title }} {{ property.get_type_display }} {{ property.city }}, {{ property.state }} {{ property.zip_cd }}
@@ -48,9 +49,11 @@
         <div class="col-md-offset-1 col-md-10 skinny" id="contact-detail">
           <div class="col-xs-6">
             {% if contact.get_image_url %}
-              <img src={{ contact.get_image_url }} class="img-circle img-responsive img-contact" />
+              <img src="{{ contact.get_image_url }}" class="img-circle img-responsive img-contact" />
+            {% elif property.real_estate_company.logo %}
+              <img src="{{ property.real_estate_company.logo.url }}" class="img-responsive" />
             {% else %}
-              <img src="/static/img/logo_icon.ico" class="img-circle img-responsive img-contact"/>
+              <img src="{% static 'img/logo_icon.ico' %}" class="img-circle img-responsive img-contact"/>
             {% endif %}
           </div>
           <div class="col-xs-6 text-center">

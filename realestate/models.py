@@ -1,4 +1,5 @@
 import random
+import os
 
 from django.db import models
 from django.conf import settings
@@ -10,9 +11,13 @@ from school.models import School
 
 
 class Company(models.Model):
+    def get_company_logo_path(instance, filename):
+        return os.path.join('company/' + filename)
+
     name = models.CharField(max_length=60)
     slug = models.SlugField(unique=True, blank=True, editable=False)
     contact = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+    logo = models.ImageField(upload_to=get_company_logo_path, null=True, blank=True)
 
     # default_school is used to center the map
     default_school = models.ForeignKey(School, null=True, blank=True)
