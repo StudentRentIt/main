@@ -32,7 +32,7 @@ class Company(models.Model):
         '''
         set the slug based on the title field
         '''
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name).__str__()
 
         super(Company, self).save(*args, **kwargs)
 
