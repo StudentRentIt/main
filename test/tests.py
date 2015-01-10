@@ -9,6 +9,9 @@ from school.models import School, Deal, Event
 from realestate.models import Company
 from property.models import Property, PropertyFavorite
 
+from .factories import FavoriteFactory, PropertyFactory, DealFactory, EventFactory, \
+                       SchoolFactory, CompanyFactory, CityFactory
+
 
 class UserSetup(object):
     def setUp(self):
@@ -39,9 +42,8 @@ class UserSetup(object):
 
 class SchoolSetup(object):
     def setUp(self):
-        self.city = City.objects.create(name="Test Town", state="TX")
-        self.school = School.objects.create(city=self.city, name="RE Test University",
-                        long=-97.1234123, lat=45.7801234)
+        self.city = CityFactory.create()
+        self.school = SchoolFactory.create(city=self.city)
 
 
 class CompanySetup(object):
@@ -50,7 +52,7 @@ class CompanySetup(object):
 
         UserSetup.setUp(self)
         SchoolSetup.setUp(self)
-        self.company = Company.objects.create(name="Test Company", default_school=self.school)
+        self.company = CompanyFactory.create(default_school=self.school)
 
         self.real_estate_user = User.objects.create_user(
             'real_estate_user', 
@@ -63,26 +65,5 @@ class CompanySetup(object):
         # log in a real estate user
         self.client.login(username=self.real_estate_user.username, 
             password='testpassword')
-
-
-class PropertySetup(object):
-    def setUp(self):
-        User = get_user_model()
-        CompanySetup.setUp(self)
-
-        
-
-        # create property, not at top because school is required first
-        self.property = Property.objects.create(school=self.school, user=self.user, title="test property",
-                        addr="13 Test St.", city="Test Town", state="TX", real_estate_company=self.company)
-
-        self.deal = Deal.objects.create(school=self.school, property=self.property, user=self.user,
-                        title="test deal", description="This is the deal object created in testing")
-
-        self.event = Event.objects.create(user=self.user, school=self.school, title="test event",
-                    description="this is the test event object", location="somewhere yonder")
-
-        self.favorite = PropertyFavorite.objects.create(property=self.property,
-                            user=self.user, note="test note")
 
 
