@@ -59,7 +59,7 @@ class CompanyPropertiesListView(CompanyAccessMixin, DetailView):
         try:    
             context['search'] = search
             property_list = Property.objects.filter(real_estate_company=self.get_object(),
-                title__contains=search)
+                title__icontains=search)
         except:
             property_list = Property.objects.filter(real_estate_company=self.get_object())
             context['search'] = "no search"
