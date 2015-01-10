@@ -685,6 +685,17 @@ html, body, #map-canvas {
 
 /* add onhover to dropdowns. There is also the bootstrap-dropdown-hover.js
     file but it isn't working correctly in the nav yet */
+.pagination-brand > .active > a, 
+.pagination-brand > .active > span, 
+.pagination-brand > .active > a:hover, 
+.pagination-brand > .active > span:hover, 
+.pagination-brand > .active > a:focus, 
+.pagination-brand > .active > span:focus {
+    background-color: #0fab72;
+    border-color: #0fab72;
+}
+
+
 .panel-brand {
   border-color: #a6a6a6;
 }

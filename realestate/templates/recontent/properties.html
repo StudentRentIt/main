@@ -1,4 +1,5 @@
 {% extends "reinclude/dashboard.html" %}
+{% load pagination_tags %}
 
 {% block data %}
   <h1 class="text-center">
@@ -7,24 +8,41 @@
   <div class="inner">
     <div class="re-dash-info skinny text-center">
       You can edit your properties, view the search page with all your properties, or create
-      a new property
+      a new property {{ search}}
     </div>
     <div class="container-fluid">
-      <div class="col-sm-8" style="border-right: 2px solid #282929">
-        {% for p in property_list %}
-          <a class="btn btn-brand" href="{% url 'update-property' p.id %}"
-            style="margin-bottom:15px;">
-            <span class="glyphicon glyphicon-pencil"></span> {{ p }}
+      <div class="row">
+        <div class="col-sm-5">
+          <form method="get" style="margin-top:0;">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="Filter Properties">
+              <span class="input-group-btn">
+                <button class="btn btn-brand" type="submit">
+                  <span class="glyphicon glyphicon-search"></span>
+                </button>
+              </span>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-3 col-sm-offset-1">
+          <a class="btn btn-brand" href="{% url 'search' company.slug %}">
+            View in Search Page
           </a>
-        {% endfor %}
+        </div>
+        <div class="col-sm-3">
+          <a class="btn btn-brand" href="{% url 'add-property' %}">
+            Create New Property
+          </a>
+        </div>
       </div>
-      <div class="col-sm-4">
-        <a class="btn btn-brand btn-lg" href="{% url 'search' company.slug %}">
-          View in search page <span class="glyphicon glyphicon-search"></span>
-        </a>
-        <a class="btn btn-brand btn-lg" style="margin-top:10px;" href="{% url 'add-property' %}">
-          Create Property <span class="glyphicon glyphicon-plus"></span>
-        </a>
+      {% autopaginate property_list 10 %}
+    </div>
+    <div class="row">
+      <div class="col-sm-offset-1 col-sm-10">
+        {% include "reinclude/tables/properties.html" %}
+        <div class="text-center">
+          {% paginate %}
+        </div>
       </div>
     </div>
   </div>

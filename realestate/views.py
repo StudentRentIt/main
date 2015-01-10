@@ -53,9 +53,20 @@ class CompanyPropertiesListView(CompanyAccessMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(CompanyPropertiesListView, self).get_context_data(**kwargs)
-        context['property_list'] = Property.objects.filter(real_estate_company=self.get_object())
-        return context
 
+        search = self.request.GET.get('q')
+
+        try:    
+            context['search'] = search
+            property_list = Property.objects.filter(real_estate_company=self.get_object(),
+                title__contains=search)
+        except:
+            property_list = Property.objects.filter(real_estate_company=self.get_object())
+            context['search'] = "no search"
+        
+        context['property_list'] = property_list 
+        return context
+        
 
 class CompanySupportTemplateView(CompanyAccessMixin, DetailView):
     template_name = "recontent/support.html"

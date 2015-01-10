@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'localflavor', #used for US model fields
     'braces',
     'crispy_forms',
+    'pagination',
     
     'flowcore',
     'main',
@@ -62,6 +63,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'pagination.middleware.PaginationMiddleware',
 )
 
 ROOT_URLCONF = 'proj.urls'

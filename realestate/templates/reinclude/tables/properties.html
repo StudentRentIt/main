@@ -1,0 +1,27 @@
+{% extends "flowcore/tables/default.html" %}
+
+{% block table_head %}
+  <tr>
+    <th>Property</th>
+    <th class="text-center">Edit</th>
+    <th class="text-center">View</th>
+  </tr>
+{% endblock %}
+
+{% block table_body %}
+  {% for p in property_list %}
+    <tr>
+      <td>{{ p }}</td>
+      <td>
+        <a class="btn btn-default btn-block" href="{% url 'update-property' p.id%}">
+          <span class="glyphicon glyphicon-edit"></span>
+        </a>
+      </td>
+      <td>
+        <a class="btn btn-default btn-block" href="{{ p.get_absolute_url }}">
+          <span class="glyphicon glyphicon-eye-open"></span>
+        </a>
+      </td>
+    </tr>
+  {% endfor %}
+{% endblock %}
