@@ -1,15 +1,33 @@
-from django.contrib.auth import get_user_model
-
+import factory
 from factory.django import DjangoModelFactory
 
+from django.contrib.auth import get_user_model
+
 from property.models import Property, PropertyFavorite
-from school.models import Deal, Event, School
+from school.models import Deal, Event, School, Neighborhood
 from realestate.models import Company
-from main.models import City
+from main.models import City, Contact
+from blog.models import Tag, Article
 
 User = get_user_model()
 
 
+
+##### MAIN #####
+class ContactFactory(DjangoModelFactory):
+
+    class Meta:
+        model = Contact
+
+    first_name="Mr"
+    last_name="Tester"
+    email="tester@gmail.com"
+    phone_number=1231231234
+    subject="Test Subject"
+    body="this is the contact body"
+
+
+##### PROPERTY #####
 class PropertyFactory(DjangoModelFactory):
     # pass in school, user, real_estate_company
     class Meta:
@@ -29,12 +47,23 @@ class FavoriteFactory(DjangoModelFactory):
     note="test note"
 
 
+##### SCHOOL #####
 class SchoolFactory(DjangoModelFactory):
     # need to pass in city
     class Meta:
         model = School
 
     name="RE Test University"
+    long=-97.1234123
+    lat=45.7801234
+
+
+class NeighborhoodFactory(DjangoModelFactory):
+    # pass in school
+    class Meta:
+        model = Neighborhood
+
+    name = "Test Neighborhood"
     long=-97.1234123
     lat=45.7801234
 
@@ -58,6 +87,7 @@ class EventFactory(DjangoModelFactory):
     location="somewhere yonder"
 
 
+##### REAL ESTATE #####
 class CompanyFactory(DjangoModelFactory):
     # need to pass in default_school
     class Meta:
@@ -66,6 +96,7 @@ class CompanyFactory(DjangoModelFactory):
     name="Test Company"
 
 
+##### MAIN #####
 class UserFactory(DjangoModelFactory):
     class Meta:
         model = User
@@ -81,11 +112,11 @@ class NormalUserFactory(UserFactory):
 
 class RealEstateUserFactory(UserFactory):
     # pass in real_estate_company
-    username = 'bloguser'
-    password = 'blogpassword'
-    email = 'blog@email.com'
+    username = 'realestateuser'
+    password = 'repassword'
+    email = 're@email.com'
     first_name = 'Sir'
-    last_name = 'Blogger'
+    last_name = 'Real Estate'
 
 
 
@@ -114,3 +145,21 @@ class CityFactory(DjangoModelFactory):
 
     name = "Test Town"
     state = "TX"
+
+
+###### BLOG #####
+class ArticleFactory(DjangoModelFactory):
+    # pass in user, school, property
+    class Meta:
+        model = Article
+
+    title="Test Article" 
+    body="This is the body of the article."
+    image=factory.django.ImageField(color='blue')
+
+
+class TagFactory(DjangoModelFactory):
+    # pass in title
+    class Meta:
+        model = Tag
+

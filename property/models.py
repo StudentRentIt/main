@@ -443,6 +443,9 @@ class PropertyFavorite(models.Model):
     def __str__(self):
         return str(self.user) + ' - ' + self.property.title
 
+    def get_absolute_url(self):
+        return reverse('favorites', kwargs={'id':self.id})
+
 
 class PropertyHidden(models.Model):
     # used to hide certain properties from searches by a specific user

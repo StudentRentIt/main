@@ -1,69 +1,36 @@
-from django.contrib.auth import get_user_model
-from django.test import TestCase
-from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.utils.text import slugify
+class AccessMixin(object):
+    # check that a page has the proper access
+    def staff_required(self, url, text=None):
+        """ Run through permission tests that require staff. 
+            Sometimes we'll pass in a string and check the response 
+            for that string
+        """
+        anon_response = self.app.get(url)
+        self.assertEqual(anon_response.status_code, 302)
 
-from main.models import City, Payment, TeamMember, Contact
-from school.models import School, Deal, Event
-from realestate.models import Company
-from property.models import Property, PropertyFavorite
+        user_response = self.app.get(url, user=self.user)
+        self.assertNotEqual(anon_response.status_code, 200)     
+        
+        staff_response = self.app.get(url, user=self.staff_user)
+        self.assertEqual(staff_response.status_code, 200)
 
-from .factories import FavoriteFactory, PropertyFactory, DealFactory, EventFactory, \
-                       SchoolFactory, CompanyFactory, CityFactory
+    def login_required(self, url):
+        """ test login required views and forms
+        """
+        response = self.app.get(url)
+        self.assertEqual(response.status_code, 302)
 
+        response = self.app.get(url, user=self.user)
+        self.assertEqual(response.status_code, 200)
 
-class UserSetup(object):
-    def setUp(self):
-        self.User = get_user_model()
+    def real_estate_access(self, url, text):
+        """ test that the real estate users are the only non-admin users
+            that can access their real estate information
+        """
+        user_response = self.app.get(url, user=self.user)
+        assert self.access_denied_message in user_response
 
-        # set up all types of users to be used
-        self.staff_user = self.User.objects.create_user(
-            'staff_user', 
-            'staff@gmail.com', 
-            'testpassword'
-        )
-        self.staff_user.is_staff = True
-        self.staff_user.save()
-
-        self.user = self.User.objects.create_user(
-            'user', 
-            'user@gmail.com', 
-            'testpassword'
-        )
-
-    def login(self):
-        self.client.login(username=self.user.username, 
-            password='testpassword')
-
-    def login_admin(self):
-        self.client.login(username=self.staff_user, password="testpassword")
-
-
-class SchoolSetup(object):
-    def setUp(self):
-        self.city = CityFactory.create()
-        self.school = SchoolFactory.create(city=self.city)
-
-
-class CompanySetup(object):
-    def setUp(self):
-        User = get_user_model()
-
-        UserSetup.setUp(self)
-        SchoolSetup.setUp(self)
-        self.company = CompanyFactory.create(default_school=self.school)
-
-        self.real_estate_user = User.objects.create_user(
-            'real_estate_user', 
-            're@gmail.com', 
-            'testpassword')
-        self.real_estate_user.real_estate_company = self.company
-        self.real_estate_user.save()
-    
-    def login_re_user(self):
-        # log in a real estate user
-        self.client.login(username=self.real_estate_user.username, 
-            password='testpassword')
+        re_response = self.app.get(url, user=self.real_estate_user)
+        assert text in re_response
 
 

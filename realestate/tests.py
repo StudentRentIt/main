@@ -1,26 +1,27 @@
-from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from django.utils.text import slugify
+
+from django_webtest import WebTest
 
 from .models import Company
 from .urls import prefix
-from school.models import School
-from main.models import City
-from test.tests import CompanySetup, UserSetup
+from test.factories import CityFactory, SchoolFactory, CompanyFactory, RealEstateUserFactory, \
+                           NormalUserFactory
+from test.tests import AccessMixin
+                           
 
-
-class RealEstateSetUp(TestCase):
+class RealEstateSetUp(object):
     def setUp(self):
-        CompanySetup.setUp(self)
-        
+        self.user = NormalUserFactory.create()
+        self.city = CityFactory.create()
+        self.school = SchoolFactory.create(city=self.city)
+        self.company = CompanyFactory.create(default_school=self.school)
+        self.real_estate_user = RealEstateUserFactory.create(real_estate_company=self.company)
+
         self.access_denied_message = "You do not have access"
 
 
 class RealEstateModelTest(RealEstateSetUp):
-    def test_company(self):
-        Company.objects.get(name=self.company.name)
-
     def test_random_contact(self):
         contact = self.company.get_random_contact()
         
@@ -28,62 +29,30 @@ class RealEstateModelTest(RealEstateSetUp):
         self.assertNotEqual(contact, self.user)
 
 
-class RealEstateViewTest(RealEstateSetUp):
+class RealEstateViewTest(AccessMixin, RealEstateSetUp, WebTest):
     def test_home(self):
         url = reverse(prefix + 'home')
-        anon_response = self.client.get(url)
+        anon_response = self.app.get(url)
         self.assertEqual(anon_response.status_code, 200)
 
-        url = reverse(prefix + 'company-home', kwargs={'slug':slugify(self.company.name)})
-        
-        UserSetup.login(self)
-        no_access_response = self.client.get(url)
-        self.assertContains(no_access_response, self.access_denied_message)
-
-        CompanySetup.login_re_user(self)
-        re_response = self.client.get(url)
-        self.assertContains(re_response, self.company.name)
+    def test_company_home(self):
+        url = self.company.get_absolute_url()
+        self.real_estate_access(url, self.company.name)
 
     def test_company_members(self):
         url = reverse(prefix + 'company-members', 
             kwargs={'slug':self.company.slug})
-        
-        UserSetup.login(self)
-        no_access_response = self.client.get(url)
-        self.assertContains(no_access_response, self.access_denied_message)
-
-        CompanySetup.login_re_user(self)
-        re_response = self.client.get(url)
-        self.assertContains(re_response, "Member Administration")
+        self.real_estate_access(url, "Member Administration")
 
     def test_company_properties(self):
         url = reverse(prefix + 'company-properties', 
             kwargs={'slug':self.company.slug})
-        
-        UserSetup.login(self)
-        no_access_response = self.client.get(url)
-        self.assertContains(no_access_response, self.access_denied_message)
-
-        CompanySetup.login_re_user(self)
-        re_response = self.client.get(url)
-        self.assertContains(re_response, "Property")
+        self.real_estate_access(url, "Property")
 
     def test_company_support(self):
         url = reverse(prefix + 'company-support', 
             kwargs={'slug':self.company.slug})
-        
-        UserSetup.login(self)
-        no_access_response = self.client.get(url)
-        self.assertContains(no_access_response, self.access_denied_message)
-
-        CompanySetup.login_re_user(self)
-        re_response = self.client.get(url)
-        self.assertContains(re_response, "Support")
-
-
-class RealEstateFormTest(RealEstateSetUp):
-    pass
-
+        self.real_estate_access(url, "Support")
     
 
 

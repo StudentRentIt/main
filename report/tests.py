@@ -1,7 +1,11 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-from test.tests import CompanySetup, UserSetup
+from django_webtest import WebTest
+
+from test.factories import CityFactory, SchoolFactory, CompanyFactory, RealEstateUserFactory, \
+                           NormalUserFactory, StaffUserFactory
+from test.tests import AccessMixin
 
 '''
 The report app gives the project a way to keep reports organized, easily 
@@ -12,34 +16,26 @@ with different data sets based on permissions.
 
 class ReportTestSetup(TestCase):
     def setUp(self):
-        CompanySetup.setUp(self)
+        self.user = NormalUserFactory.create()
+        self.staff_user = StaffUserFactory.create()
+        self.city = CityFactory.create()
+        self.school = SchoolFactory.create(city=self.city)
+        self.company = CompanyFactory.create(default_school=self.school)
+        self.real_estate_user = RealEstateUserFactory.create(real_estate_company=self.company)
 
 
-class ViewTests(ReportTestSetup):
+class ViewTests(AccessMixin, ReportTestSetup, WebTest):
     def test_admin_home(self):
-        '''
-        TODO: test with anon users. @staff_member_required gives status of 200
-        so we can't use normal method
-        '''
-        UserSetup.login_admin(self)
-        response = self.client.get(reverse('report-admin-home'))
-        self.assertEqual(response.status_code, 200)
+        url = reverse('report-admin-home')
+        self.staff_required(url, "Admin Dashboard")
 
     def test_business_home(self):
-        anon_response = self.client.get(reverse('report-business-home'))
-        self.assertEqual(anon_response.status_code, 302)
-
-        UserSetup.login_admin(self)
-        response = self.client.get(reverse('report-business-home'))
-        self.assertEqual(response.status_code, 200)
+        url = reverse('report-business-home')
+        self.staff_required(url, "Business Dashboard")
 
     def test_real_estate_home(self):
-        anon_response = self.client.get(reverse('report-real-estate-home'))
-        self.assertEqual(anon_response.status_code, 302)
-
-        CompanySetup.login_re_user(self)
-        re_response = self.client.get(reverse('report-real-estate-home'))
-        self.assertEqual(re_response.status_code, 200)
+        url = reverse('report-real-estate-home')
+        self.staff_required(url, "Real Estate")
 
 
 

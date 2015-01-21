@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 from django.utils.text import slugify
@@ -10,8 +9,7 @@ from .models import Property, PropertyLeaseTerm, PropertyLeaseType, PropertyLeas
                             PropertySchedule, PropertyFavorite, PropertyReserve
 from school.models import Deal, Event
 from test.factories import *
-
-User = get_user_model()
+from test.tests import AccessMixin
 
 
 class PropertySetUp(TestCase):
@@ -38,90 +36,40 @@ class PropertyModelTests(PropertySetUp):
         self.assertEqual(contact, self.real_estate_user)
         self.assertNotEqual(contact, self.user)
 
-    def test_deal(self):
-        Deal.objects.get(id=1)
 
-    def test_event(self):
-        Event.objects.get(id=1)
-
-
-class PropertyViewTests(PropertySetUp, WebTest):
+class PropertyViewTests(AccessMixin, PropertySetUp, WebTest):
     def test_property_community(self):
-        url = reverse('property-community', kwargs={'pk':self.property.id, 'slug':self.property_slug})
+        url = reverse('property-community', 
+            kwargs={'pk':self.property.id, 'slug':self.property_slug})
         response = self.app.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_manage(self):
-        url = '/property/manage/'
+        url = reverse('manage-property')
         response = self.app.get(url)
         self.assertEqual(response.status_code, 302)
 
     def test_add(self):
         url = reverse('add-property')
-        anon_response = self.app.get(url)
-        self.assertEqual(anon_response.status_code, 302)
-        
-        admin_response = self.app.get(url, user=self.staff_user)
-        self.assertEqual(admin_response.status_code, 200)
+        self.staff_required(url)
 
     def test_update_home(self):
         url = '/property/update/'
-        anon_response = self.app.get(url)
-        self.assertEqual(anon_response.status_code, 302)
-
-        admin_response = self.app.get(url, user=self.staff_user)
-        self.assertEqual(admin_response.status_code, 200)
+        self.staff_required(url)
 
     def test_update_property(self):
         url = reverse('update-property', kwargs={'pk':self.property.id})
-        anon_response = self.app.get(url)
-        self.assertEqual(anon_response.status_code, 302)
-
-        admin_response = self.app.get(url, user=self.staff_user)
-        self.assertEqual(admin_response.status_code, 200)
-
-    def test_type_room(self):
-        url = reverse('property-type', args=(self.property.id, 'room', '1'))
-        anon_response = self.app.get(url)
-        self.assertEqual(anon_response.status_code, 302)
-
-        admin_response = self.app.get(url, user=self.staff_user)
-        self.assertEqual(admin_response.status_code, 200)
-
-    def test_type_image(self):
-        url = reverse('property-type', args=(self.property.id, 'image', '1'))
-        anon_response = self.app.get(url)
-        self.assertEqual(anon_response.status_code, 302)
-
-        admin_response = self.app.get(url, user=self.staff_user)
-        self.assertEqual(admin_response.status_code, 200)
-
-    def test_type_video(self):
-        url = reverse('property-type', args=(self.property.id, 'video', '1'))
-        anon_response = self.app.get(url)
-        self.assertEqual(anon_response.status_code, 302)
-
-        admin_response = self.app.get(url, user=self.staff_user)
-        self.assertEqual(admin_response.status_code, 200)
-
-    def test_action(self):
-        url = reverse('property-action', kwargs={
-            'pk':self.property.id, 
-            'slug':self.property_slug, 
-            'action':'schedule'
-        })
-        response = self.app.get(url)
-        self.assertEqual(response.status_code, 200)
+        self.staff_required(url)
 
     def test_property(self):
         url = reverse('property', kwargs={'pk':self.property.id, 'slug':self.property_slug})
         response = self.app.get(url)
-        self.assertEqual(response.status_code, 200)
+        assert self.property.title in response
 
     def test_business(self):
         url = reverse('business', kwargs={'pk':self.property.id, 'slug':self.property_slug})
         response = self.app.get(url)
-        self.assertEqual(response.status_code, 200)
+        assert self.property.title in response
 
     def test_favorites(self):
         url = reverse('favorites')
@@ -133,12 +81,17 @@ class PropertyViewTests(PropertySetUp, WebTest):
         response = self.app.get(url)
         self.assertEqual(response.status_code, 200)
 
-        # TODO: Post request
-
     def test_favorite(self):
-        url = '/property/favorites/1/'
-        response = self.app.get(url)
-        self.assertEqual(response.status_code, 302)
+        url = self.favorite.get_absolute_url()
+        self.login_required(url)
 
-        response = self.app.get(url, user=self.user)
-        self.assertEqual(response.status_code, 200)
+
+# PropertyFormTest(PropertySetUp, WebTest):
+#     def test_action(self):
+#         url = reverse('property-action', kwargs={
+#             'pk':self.property.id, 
+#             'slug':self.property_slug, 
+#             'action':'schedule'
+#         })
+#         response = self.app.get(url)
+#         self.assertEqual(response.status_code, 200)

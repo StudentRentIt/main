@@ -13,13 +13,14 @@
     <body>
         {% block body_extra %}{% endblock %}{# things such as extra css or js files #}
         {% block javascript %}{% endblock %}{# javascript that needs to be added into the page #}
-        {% block wrap %}{# the point of the wrap tag is so we can get rid of the footer if needed #}
-        <div id="wrap">
-            <div id="main">
-                {% block header %}{% endblock %}
-                {% block body %}{% endblock %}
-            </div><!--endmain-->
-        </div><!--endwrap-->
+        {% block wrap %}
+          {# the point of the wrap tag is so we can get rid of the footer if needed #}
+          <div id="wrap">
+              <div id="main">
+                  {% block header %}{% endblock %}
+                  {% block body %}{% endblock %}
+              </div><!--endmain-->
+          </div><!--endwrap-->
         {% endblock %}
         {% block footer %}{% include "maininclude/footer.html" %}{% endblock %}
     </body>
