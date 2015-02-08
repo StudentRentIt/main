@@ -139,10 +139,12 @@ def property(request, pk, slug, action = None):
         '''
         #only send to property contact if in production
         internal_email = settings.EMAIL_HOST_USER
-        if base_dir == "/home/studentrentit/rentversity":
+        if base_dir == "/home/studentrentit/rvprod":
+            # In Prod Environment, email contact
             email_to = [property.get_contact_user().email]
             email_bcc = [internal_email]
         else:
+            # Not in Prod, email test/developer
             email_to = ['awwester@gmail.com']
             email_bcc = []
 
