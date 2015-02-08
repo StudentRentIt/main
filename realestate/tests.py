@@ -3,14 +3,13 @@ from django.core.urlresolvers import reverse
 
 from django_webtest import WebTest
 
-from .models import Company
 from .urls import prefix
 from test.factories import CityFactory, SchoolFactory, CompanyFactory, RealEstateUserFactory, \
                            NormalUserFactory
 from test.tests import AccessMixin
                            
 
-class RealEstateSetUp(object):
+class RealEstateSetUp(TestCase):
     def setUp(self):
         self.user = NormalUserFactory.create()
         self.city = CityFactory.create()

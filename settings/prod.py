@@ -1,7 +1,7 @@
 from .staging import *
 
 ALLOWED_HOSTS = ['www.rentversity.com']
-WEB_URL_ROOT = 'https://test.rentversity.com/'
+WEB_URL_ROOT = 'https://www.rentversity.com/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DATABASES = {
