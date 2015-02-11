@@ -127,7 +127,7 @@ def property(request, pk, slug, action = None):
     render_dict = {'property':property, 'property_images':property_images,
         'property_rooms':property_rooms, 'favorited':favorited, 'contact_form':contact_form,
         'reserve_form':reserve_form, 'floorplan_images':floorplan_images,
-        'related_properties': related_properties, 'load_modal':load_modal,
+        'related_properties': related_properties, 
         'schedule_form':schedule_form, 'property_videos':property_videos,
         'nearby':nearby, 'contact':contact}
 
@@ -233,7 +233,7 @@ def property(request, pk, slug, action = None):
                 msg.send()
 
                 return render(request, template,
-                    dict(render_dict, **{'schedule_form':initial_schedule_form, 'status':'sent'}))
+                    dict(render_dict, **{'schedule_form':initial_schedule_form, 'status':'scheduled'}))
             else:
                 #schedule_form errors
                 return render(request, template,
@@ -243,7 +243,7 @@ def property(request, pk, slug, action = None):
     return render(request, template,
         dict(render_dict, **{'reserve_form':initial_reserve_form,
             'contact_form':initial_contact_form, 'schedule_form':initial_schedule_form,
-            'walkscore':walkscore_json, 'contact':contact }))
+            'walkscore':walkscore_json, 'contact':contact, 'load_modal':load_modal }))
 
 
 class ManagePropertyTemplateView(LoginRequiredMixin, TemplateView):
