@@ -94,6 +94,7 @@ class CompanyFactory(DjangoModelFactory):
         model = Company
 
     name="Test Company"
+    phone="1231234123"
 
 
 ##### MAIN #####

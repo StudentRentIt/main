@@ -64,7 +64,19 @@ class PropertyViewTests(AccessMixin, PropertySetUp, WebTest):
     def test_property(self):
         url = reverse('property', kwargs={'pk':self.property.id, 'slug':self.property_slug})
         response = self.app.get(url)
+
         assert self.property.title in response
+        assert self.real_estate_user.first_name in response
+        assert self.company.phone in response
+
+    def test_property_contact(self):
+        url = reverse('property-action', kwargs={
+            'pk':self.property.id, 
+            'slug':self.property_slug,
+            'action':'contact'
+        })
+        response = self.app.get(url)
+        assert "Contact Agent" in response
 
     def test_business(self):
         url = reverse('business', kwargs={'pk':self.property.id, 'slug':self.property_slug})

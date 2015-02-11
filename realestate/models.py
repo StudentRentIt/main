@@ -7,6 +7,8 @@ from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
+from localflavor.us.models import PhoneNumberField
+
 from school.models import School
 
 
@@ -16,6 +18,7 @@ class Company(models.Model):
 
     name = models.CharField(max_length=60)
     slug = models.SlugField(unique=True, blank=True, editable=False)
+    phone = PhoneNumberField(null=True, blank=True)
     contact = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True,
         help_text="By choosing a contact, that contact will show on all your properties. By leaving this\
         blank, each time a property is loaded a random agent from your company will be shown. If you want \

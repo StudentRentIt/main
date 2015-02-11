@@ -61,11 +61,11 @@
               Contact
             </h3>
             <div class="row">
-              <p>{{ contact.get_full_name }}</p>
+              <p>{{ contact.get_full_name }}, Licensed Real Estate Agent</p>
             </div>
-            {% if contact.profile.phone %}
+            {% if property.real_estate_company.phone %}
               <div class="row">
-                <p>{{ contact.phone }}</p>
+                <p>{{ property.real_estate_company.phone }}</p>
               </div>
             {% endif %}
           </div>
