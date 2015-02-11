@@ -9,7 +9,6 @@ from crispy_forms.layout import Layout, Div, Submit, Fieldset, ButtonHolder
 
 
 class CompanyForm(ModelForm):
-
     class Meta:
         model = Company
         exclude = ['slug']
@@ -27,15 +26,15 @@ class CompanyForm(ModelForm):
                     css_class="col-sm-6"
                 ),
                 Div(
+                    'default_school',
+                    css_class="col-sm-6"
+                ),
+                Div(
                     'contact',
                     css_class="col-sm-6"
                 ),
                 Div(
                     'logo',
-                    css_class="col-sm-6"
-                ),
-                Div(
-                    'default_school',
                     css_class="col-sm-6"
                 ),
             ),
