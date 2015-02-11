@@ -4,7 +4,7 @@
 	<div class="col-md-6">
 		{% for i in daily_metrics.schedules %}
 			<tr>
-			    <td>{{ i.imp_date }}</td>
+			    <td>{{ i.create_date }}</td>
 			    <td class="count-column">{{ i.count }}</td>
 			</tr>
 		{% empty %}
