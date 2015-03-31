@@ -16,7 +16,15 @@ if today.month == 1:
 	one_month_ago = datetime.date(today.year - 1, 12, today.day)
 else:
 	# subtract a month
-	one_month_ago = datetime.date(today.year, today.month-1, today.day)
+	try:
+	    one_month_ago = datetime.date(today.year, today.month-1, today.day)
+	except ValueError:
+	    '''
+	    if the previous month does not have the day, it will cause a ValueError
+	    in that case we'll get the last day of the previous month
+	    '''
+	    first_day = datetime.date(day=1, month=today.month, year=today.year)
+	    one_month_ago = first_day - datetime.timedelta(days=1)
 
 
 def get_dash_metrics(properties):
@@ -26,13 +34,13 @@ def get_dash_metrics(properties):
 	schedules for a group of properties
 	'''
 
-	imps = PropertyImpression.objects.filter(property__in=properties, 
+	imps = PropertyImpression.objects.filter(property__in=properties,
 		imp_date__gt=one_month_ago).count()
-	
-	contacts = Contact.objects.filter(property__in=properties, 
+
+	contacts = Contact.objects.filter(property__in=properties,
 		contact_date__gt=one_month_ago).count()
-	
-	schedules = PropertySchedule.objects.filter(property__in=properties, 
+
+	schedules = PropertySchedule.objects.filter(property__in=properties,
 		create_date__gt=one_month_ago).count()
 
 	data = {"imps":imps, "contacts":contacts, "schedules":schedules}
