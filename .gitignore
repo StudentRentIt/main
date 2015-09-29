@@ -1,5 +1,4 @@
 *.pyc
-manage.py
 __pycache__/
 .idea/
 bin/
