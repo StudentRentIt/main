@@ -1,1 +1,1 @@
-web: gunicorn joe2go.wsgi --log-file -
+web: gunicorn proj.wsgi --log-file -
