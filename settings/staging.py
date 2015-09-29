@@ -4,8 +4,8 @@ from .base import *
 
 
 # production environment
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['rentversity.herokuapp.com']
 WEB_URL_ROOT = 'https://rentversity.herokuapp.com/'
