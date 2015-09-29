@@ -1,0 +1,1 @@
+[{"model": "property.amenity", "pk": 1, "fields": {"image": "amenity/dark-texture.png", "type": "CMW", "amenity": "Special", "special": true, "link": ""}}]

@@ -1,0 +1,1 @@
+[{"model": "property.propertyleasetype", "fields": {"active": true, "lease_type": "By the Bed"}, "pk": 1}, {"model": "property.propertyleasetype", "fields": {"active": true, "lease_type": "Conventional"}, "pk": 2}, {"model": "property.propertyleasetype", "fields": {"active": true, "lease_type": "Dorm Style"}, "pk": 3}]

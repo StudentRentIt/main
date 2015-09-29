@@ -1,0 +1,1 @@
+[{"pk": 1, "fields": {"lease_start": "Immediate", "active": true, "order": 0}, "model": "property.propertyleasestart"}, {"pk": 2, "fields": {"lease_start": "Fall", "active": true, "order": 1}, "model": "property.propertyleasestart"}]
