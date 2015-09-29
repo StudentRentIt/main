@@ -1,56 +1,56 @@
 {% extends "flowcore/base.html" %}
 
 {% block header %}
-    {% include "maininclude/header.html" %}
+  {% include "maininclude/header.html" %}
 {% endblock %}
 
 {% block title %}
-    Blog Articles about {{ object }}
+  Blog Articles about {{ object }}
 {% endblock %}
 
 {% block body %}
-    <div class="col-xs-10 col-xs-offset-1" style="margin-top:15px;">
-        <div class="jumbotron text-center hidden-xs hidden-sm blog-page-header">
-            <h1>
-                Blog Articles for {{ object }}
-            </h1>
-        </div>
-        <div id="blog-article-list">
-        {% for o in object_list %}
-            {% if forloop.counter0|divisibleby:"3" %}
-                {% if not forloop.first %}</div>{% endif %}
-                <div class="row">
-            {% endif %}
-            <div class="col-md-4 col-xs-12" style="margin-top:15px;">
-            <img src="{{ o.image.url }}" class="img-responsive" style="margin-left:auto; margin-right:auto;">
-                <div class="blog-article-content-inner">
-                    <h3>{{ o.title }}</h3>
-                    {{ o.body|striptags|truncatechars:150 }}
-                    <div class="text-center">
-                        <a href="{% url 'blog-article' o.id o.title|slugify %}"
-                            class="btn btn-lg btn-success" style="margin:15px;">View Article</a>
-                    </div>
-                </div>
-            </div>
-        {% empty %}
-            <div class="jumbotron text-center">
-                <h2>There are no articles for {{ object }}</h2>
-            </div>
-        {% endfor %}
-        </div>
-        <div class="col-md-6 col-md-offset-3" style="margin-top:30px;">
-            {% if type == 'school' %}
-                <a href="{% url 'blog-type' 'school' object.id object.name|slugify %}" class="btn btn-success btn-lg btn-block">{{ school }} Home</a>
-            {% elif type == 'property' %}
-                <div class="text-center">
-                    <a href="{% url 'blog-type' 'property' object.id object.title|slugify %}"
-                        class="btn btn-success btn-lg">{{ property }} Home</a>
-                    <a href="{% url 'property-community' object.id object.title|slugify %}"
-                        class="btn btn-success btn-lg">{{ object }} Community</a>
-                </div>
-            {% else %}
-                <a href="{% url 'blog-home' %}" class="btn btn-success btn-lg btn-block">Blog Home</a>
-            {% endif %}
-        </div>
+  <div class="col-xs-10 col-xs-offset-1" style="margin-top:15px;">
+    <div class="jumbotron text-center hidden-xs hidden-sm blog-page-header">
+      <h1>
+        Blog Articles for {{ object }}
+      </h1>
     </div>
+    <div id="blog-article-list">
+    {% for o in object_list %}
+      {% if forloop.counter0|divisibleby:"3" %}
+        {% if not forloop.first %}</div>{% endif %}
+        <div class="row">
+      {% endif %}
+      <div class="col-md-4 col-xs-12" style="margin-top:15px;">
+      <img src="{{ o.image.url }}" class="img-responsive" style="margin-left:auto; margin-right:auto;">
+        <div class="blog-article-content-inner">
+          <h3>{{ o.title }}</h3>
+          {{ o.body|striptags|truncatechars:150 }}
+          <div class="text-center">
+            <a href="{% url 'blog-article' o.id o.title|slugify %}"
+              class="btn btn-lg btn-success" style="margin:15px;">View Article</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="jumbotron text-center">
+        <h2>There are no articles for {{ object }}</h2>
+      </div>
+    {% endfor %}
+    </div>
+    <div class="col-md-6 col-md-offset-3" style="margin-top:30px;">
+      {% if type == 'school' %}
+        <a href="{% url 'blog-type' 'school' object.id object.name|slugify %}" class="btn btn-success btn-lg btn-block">{{ school }} Home</a>
+      {% elif type == 'property' %}
+        <div class="text-center">
+          <a href="{% url 'blog-type' 'property' object.id object.title|slugify %}"
+            class="btn btn-success btn-lg">{{ property }} Home</a>
+          <a href="{% url 'property-community' object.id object.title|slugify %}"
+            class="btn btn-success btn-lg">{{ object }} Community</a>
+        </div>
+      {% else %}
+        <a href="{% url 'blog-home' %}" class="btn btn-success btn-lg btn-block">Blog Home</a>
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}

@@ -8,7 +8,7 @@
 {% block panel_body %}
 <div class="row" style="padding:20px;">
 <p>Congratulations, your one time service payment for {{ property }} has been processed. You have purchased:
-    {% for s in services %}{{ s }}{% if not forloop.last %}, {% endif %}{% endfor %}.
+  {% for s in services %}{{ s }}{% if not forloop.last %}, {% endif %}{% endfor %}.
 </p>
 
 <p>We will be getting in contact with you within 2 days to finish the process

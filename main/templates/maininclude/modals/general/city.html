@@ -20,14 +20,14 @@ from these links.
 </p>
 
 <div class="btn-group">
-    <button type="button" id="btn-search-mobile" class="btn btn-lg btn-brand dropdown-toggle text-center" data-toggle="dropdown">
-        Choose Your City <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        {% for c in cities %}
-        <li class="modal-dropdown-choices"><a href="{{ c.link }}" target="_blank">{{ c }}</a></li>
-        {% endfor %}
-    </ul>
+  <button type="button" id="btn-search-mobile" class="btn btn-lg btn-brand dropdown-toggle text-center" data-toggle="dropdown">
+    Choose Your City <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    {% for c in cities %}
+    <li class="modal-dropdown-choices"><a href="{{ c.link }}" target="_blank">{{ c }}</a></li>
+    {% endfor %}
+  </ul>
 </div>
 
 {% endblock %}

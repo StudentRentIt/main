@@ -2,67 +2,67 @@
 {% load staticfiles %}
 
 {% block body_extra %}
-    <script src="{% static 'js/plugins/stellar.js' %}"></script>
-    <script src="/static/js/home.js"></script>
+  <script src="{% static 'js/plugins/stellar.js' %}"></script>
+  <script src="/static/js/home.js"></script>
 {% endblock %}
 
 {% block body %}
-    <div data-stellar-background-ratio="0.2" id="home-background" class="img-responsive">
-    </div>
-    <div>
-        {% include "maininclude/searchlg.html" %}
-    </div>
+  <div data-stellar-background-ratio="0.2" id="home-background" class="img-responsive">
+  </div>
+  <div>
+    {% include "maininclude/searchlg.html" %}
+  </div>
 
-    <div id="home-content">
-        <div class="container">
-            <div class="row">
-                <div class="jumbotron home-text text-center">
-                    <p>Get Paid to Find an Apartment</p>
-                </div>
-            </div>
-            <div id="home-tiles">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <img src="{% static 'img/misc/student1.png' %}"
-                            class="img-rounded img-responsive" alt="Find Student Apartment"></img>
-                    </div>
-                    <div class="col-xs-4">
-                        <img src="{% static 'img/misc/student2.png' %}"
-                        class="img-rounded img-responsive" alt="Student Neighborhood Information"></img>
-                    </div>
-                    <div class="col-xs-4">
-                        <img src="{% static 'img/misc/student3.png' %}"
-                            class="img-rounded img-responsive" alt="Campus Community"></img>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-4">
-                        <div class="jumbotron">
-                            <h2>Browse available apartments</h2>
-                        </div>
-                    </div>
-                    <div class="col-xs-4">
-                        <div class="jumbotron">
-                            <h2>Contact or Schedule a Tour with a Licensed Agent</h2>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="jumbotron">
-                            <h2>Sign a Lease and Earn $50</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="jumbotron">
-                    <div class="col-md-12 text-center">
-                        <div class="fb-like" data-href="https://www.facebook.com/studentrentit" data-layout="standard"
-                            data-action="like" data-show-faces="true" data-share="true">
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div id="home-content">
+    <div class="container">
+      <div class="row">
+        <div class="jumbotron home-text text-center">
+          <p>Get Paid to Find an Apartment</p>
         </div>
+      </div>
+      <div id="home-tiles">
+        <div class="row">
+          <div class="col-xs-4">
+            <img src="{% static 'img/misc/student1.png' %}"
+              class="img-rounded img-responsive" alt="Find Student Apartment"></img>
+          </div>
+          <div class="col-xs-4">
+            <img src="{% static 'img/misc/student2.png' %}"
+            class="img-rounded img-responsive" alt="Student Neighborhood Information"></img>
+          </div>
+          <div class="col-xs-4">
+            <img src="{% static 'img/misc/student3.png' %}"
+              class="img-rounded img-responsive" alt="Campus Community"></img>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-4">
+            <div class="jumbotron">
+              <h2>Browse available apartments</h2>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="jumbotron">
+              <h2>Contact or Schedule a Tour with a Licensed Agent</h2>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-4">
+            <div class="jumbotron">
+              <h2>Sign a Lease and Earn $50</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="jumbotron">
+          <div class="col-md-12 text-center">
+            <div class="fb-like" data-href="https://www.facebook.com/studentrentit" data-layout="standard"
+              data-action="like" data-show-faces="true" data-share="true">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 {% endblock %}

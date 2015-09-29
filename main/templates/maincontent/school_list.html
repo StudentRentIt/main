@@ -1,39 +1,39 @@
 {% extends "maininclude/base.html" %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="panel panel-default panel-margin-top">
-                <div class="panel-heading">
-                    <h1>View List of Properties for a School</h1>
-                </div>
-                <div class="panel-body">
-                    <div class="school-container">
-                        {% for s in schools %}
-                            {% if s.image %}
-                                {% if forloop.counter|divisibleby:"2" or forloop.first %}
-                                    <div class="row row-margin">
-                                {% endif %}
-                                    <div class="col-md-6 ">
-                                        <a href="{% url 'property-list' s.id %}">
-                                            <img src="{{ s.image.url }}" class="img-responsive img-rounded"
-                                                title="List of Apartments for {{ s }} in {{ s.city }}" alt="List of Apartments for {{ s }} in {{ s.city }}" />
-                                            <h2 class="img-caption-overlay text-right">{{ s.name }}</h2>
-                                        </a>
-                                    </div>
-                                {% if forloop.counter|divisibleby:"2" or forloop.last %}
-                                    </div>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="panel-footer">
-
-                </div>
-                </div>
-            </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="panel panel-default panel-margin-top">
+        <div class="panel-heading">
+          <h1>View List of Properties for a School</h1>
         </div>
+        <div class="panel-body">
+          <div class="school-container">
+            {% for s in schools %}
+              {% if s.image %}
+                {% if forloop.counter|divisibleby:"2" or forloop.first %}
+                  <div class="row row-margin">
+                {% endif %}
+                  <div class="col-md-6 ">
+                    <a href="{% url 'property-list' s.id %}">
+                      <img src="{{ s.image.url }}" class="img-responsive img-rounded"
+                        title="List of Apartments for {{ s }} in {{ s.city }}" alt="List of Apartments for {{ s }} in {{ s.city }}" />
+                      <h2 class="img-caption-overlay text-right">{{ s.name }}</h2>
+                    </a>
+                  </div>
+                {% if forloop.counter|divisibleby:"2" or forloop.last %}
+                  </div>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="panel-footer">
+
+        </div>
+        </div>
+      </div>
     </div>
+  </div>
 {% endblock %}

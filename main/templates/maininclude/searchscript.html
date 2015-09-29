@@ -1,40 +1,40 @@
 <script>
-    $(document).ready(function() {
-        var source = [
-            {% for s in schools %}
-              { value: "{{ s.get_absolute_url }}",
-                label: "{{ s.name|safe }}",
-                id: "{{ s.id }}"
-              },
-            {% endfor %}
-        ];
-        var NoResultsLabel = "No Results";
+  $(document).ready(function() {
+    var source = [
+      {% for s in schools %}
+        { value: "{{ s.get_absolute_url }}",
+        label: "{{ s.name|safe }}",
+        id: "{{ s.id }}"
+        },
+      {% endfor %}
+    ];
+    var NoResultsLabel = "No Results";
 
-        $("input.search-input").autocomplete({
-            source: function(request, response) {
-                var results = $.ui.autocomplete.filter(source, request.term);
+    $("input.search-input").autocomplete({
+      source: function(request, response) {
+        var results = $.ui.autocomplete.filter(source, request.term);
 
-                if (!results.length) {
-                    results = [NoResultsLabel];
-                }
+        if (!results.length) {
+          results = [NoResultsLabel];
+        }
 
-                response(results);
-            },
-            select: function( event, ui ) {
-                event.preventDefault();
-                if (!$(this).hasClass("stay")) {
-                    $(this).val(ui.item.label);
-                    window.location.href = ui.item.value;
-                }
-                else {
-                    $(this).val(ui.item.label);
-                    $(this).data("link", ui.item.value)
-                }
-            },
-            focus: function(event, ui) {
-                event.preventDefault();
-                $(this).val(ui.item.label);
-            }
-        });
-    })
+        response(results);
+      },
+      select: function( event, ui ) {
+        event.preventDefault();
+        if (!$(this).hasClass("stay")) {
+          $(this).val(ui.item.label);
+          window.location.href = ui.item.value;
+        }
+        else {
+          $(this).val(ui.item.label);
+          $(this).data("link", ui.item.value)
+        }
+      },
+      focus: function(event, ui) {
+        event.preventDefault();
+        $(this).val(ui.item.label);
+      }
+    });
+  })
 </script>

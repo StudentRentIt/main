@@ -6,8 +6,8 @@ from main.models import City, Payment, TeamMember, User
 from school.models import School, Event, Deal, Neighborhood
 from blog.models import Article, Tag
 from property.models import Property, PropertyImage, PropertyRoom, PropertyFavorite, \
-                            PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
-                            PropertyReserve, Package, Service, Amenity, PropertyVideo
+              PropertyLeaseTerm, PropertyLeaseType, PropertyLeaseStart, \
+              PropertyReserve, Package, Service, Amenity, PropertyVideo
 from search.models import GroupProperty, GroupComment
 from realestate.models import Company
 
@@ -15,30 +15,30 @@ from realestate.models import Company
 # we define our resources to add to admin pages to use a RTE
 class CommonMedia:
   js = (
-    'https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js',
-    '/static/js/plugins/dojo-editor.js',
+  'https://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js',
+  '/static/js/plugins/dojo-editor.js',
   )
   css = {
-    'all': ('/static/css/dojo-editor.css',),
+  'all': ('/static/css/dojo-editor.css',),
   }
 
 #allow extension of the user in admin
 
 
 class PropertyImageInline(admin.StackedInline):
-    model = PropertyImage
+  model = PropertyImage
 
 
 class PropertyRoomInline(admin.StackedInline):
-    model = PropertyRoom
+  model = PropertyRoom
 
 
 class PropertyVideoInline(admin.StackedInline):
-    model = PropertyVideo
+  model = PropertyVideo
 
 
 class PropertyAdmin(admin.ModelAdmin):
-    inlines = [PropertyImageInline, PropertyRoomInline, PropertyVideoInline, ]
+  inlines = [PropertyImageInline, PropertyRoomInline, PropertyVideoInline, ]
 
 admin.site.register(School)
 admin.site.register(User)

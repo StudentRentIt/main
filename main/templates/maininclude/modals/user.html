@@ -3,40 +3,40 @@
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
-      {% include "maininclude/accounts/fb_login.html" %}
+  <div class="modal-content">
+    {% include "maininclude/accounts/fb_login.html" %}
 
-      <div class="modal-header default-modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <p class="modal-title text-center" id="user-modal-title">Login/Register</p>
-      </div>
-
-      <div class="modal-body default-modal-body">
-
-        <div id="mLogin" class="login-modal-section">
-            <div class="submission-form-modal-container">
-                {% include "socialaccount/snippets/providers.html" %}
-                <p class="or-text">OR</p>
-                {% include "maininclude/forms/login.html" %}
-                <p class="pull-right">Not Registered? <button id="btn-register" class="btn btn-xs btn-default">Sign Up</button></p>
-            </div>
-        </div><!-- end login -->
-
-        <div id="mRegister" class="login-modal-section hidden">
-            <div class="submission-form-modal-container">
-                {% include "socialaccount/snippets/providers.html" %}
-                <p class="text-center or-text">OR</p>
-                {% include "maininclude/forms/register.html" %}
-                <p class="pull-right" style="margin-top:10px;">Already Registered? <button id="btn-login" class="btn btn-xs btn-default">Sign In</button></p>
-            </div>
-        </div><!-- end register -->
-
-      </div><!-- end body -->
-
-      <div class="modal-footer default-modal-footer">
-        <button type="button" id="btn-user-cancel" class="btn-lg btn-default" data-dismiss="modal">Cancel</button>
-      </div>
-
+    <div class="modal-header default-modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <p class="modal-title text-center" id="user-modal-title">Login/Register</p>
     </div>
+
+    <div class="modal-body default-modal-body">
+
+    <div id="mLogin" class="login-modal-section">
+      <div class="submission-form-modal-container">
+        {% include "socialaccount/snippets/providers.html" %}
+        <p class="or-text">OR</p>
+        {% include "maininclude/forms/login.html" %}
+        <p class="pull-right">Not Registered? <button id="btn-register" class="btn btn-xs btn-default">Sign Up</button></p>
+      </div>
+    </div><!-- end login -->
+
+    <div id="mRegister" class="login-modal-section hidden">
+      <div class="submission-form-modal-container">
+        {% include "socialaccount/snippets/providers.html" %}
+        <p class="text-center or-text">OR</p>
+        {% include "maininclude/forms/register.html" %}
+        <p class="pull-right" style="margin-top:10px;">Already Registered? <button id="btn-login" class="btn btn-xs btn-default">Sign In</button></p>
+      </div>
+    </div><!-- end register -->
+
+    </div><!-- end body -->
+
+    <div class="modal-footer default-modal-footer">
+    <button type="button" id="btn-user-cancel" class="btn-lg btn-default" data-dismiss="modal">Cancel</button>
+    </div>
+
+  </div>
   </div>
 </div>

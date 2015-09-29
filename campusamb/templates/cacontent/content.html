@@ -2,12 +2,12 @@
 {% load crispy_forms_tags %}
 
 {% block javascript %}
-    {% include "flowcore/general/datepicker.html" %}
+  {% include "flowcore/general/datepicker.html" %}
 {% endblock %}
 
 {% block data %}
-    <div class="inner">
-        {% include "cainclude/content_nav.html" %}
-        {% crispy form %}
-    </div>
+  <div class="inner">
+    {% include "cainclude/content_nav.html" %}
+    {% crispy form %}
+  </div>
 {% endblock %}

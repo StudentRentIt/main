@@ -1,94 +1,94 @@
 {% extends "maininclude/base.html" %}
 
 {% block javascript %}
-    {% if status == "sent" %}
-        <script>
-        $(document).ready(function(){
-            var tab = "#contact";
+  {% if status == "sent" %}
+    <script>
+    $(document).ready(function(){
+      var tab = "#contact";
 
-            $("#aboutTab a[href=" + tab + "]").tab('show');
-        });
-        </script>
-    {% endif %}
+      $("#aboutTab a[href=" + tab + "]").tab('show');
+    });
+    </script>
+  {% endif %}
 {% endblock %}
 
 {% block body %}
 <div class="col-md-8 col-md-offset-2">
-    <div class="panel panel-default panel-margin-top" id="about-panel">
-        <div class="panel-heading">
-            <ul class="nav nav-pills nav-justified nav-pills-rentsity" id="aboutTab">
-              <li class="parent-tabs active"><a href="#about" data-toggle="tab">About Us</a></li>
-              <li><a class="parent-tabs" href="#contact" data-toggle="tab">Contact Us</a></li>
-            </ul>
-        </div>
-
-        <div class="panel-body">
-            <!-- Tab panes -->
-            <div class="tab-content">
-              <div class="tab-pane fade in active" id="about">
-                <p class="text-center">
-                    <iframe width="625" height="352" src="http://www.youtube.com/embed/cUhHU6d2yTo?feature=oembed" frameborder="0" allowfullscreen></iframe>
-                </p>
-                <div class="panel-group" id="accordion">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                          Mission
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="collapse1" class="panel-collapse collapse in">
-                      <div class="panel-body">
-                        <p>StudentRentit.com is committed to providing the best off-campus housing solution for students, apartment communities and private owners.</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                          Vision
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="collapse2" class="panel-collapse collapse">
-                      <div class="panel-body">
-                        <p>To become the most adaptable, user-friendly and intuitive student housing resource.</p>
-                        <p>StudentRentIt.com is the most student oriented internet listing site in the world. We are determined to create a tool that gives students a listing service that actually works, has accurate information and allows them to do everything that involves student housing in one portal.</p>
-                        <p>Students can finally connect directly with apartment communities, private owners and share information with their parents. In addition, they can find roommates, post subleases, and browse private listings!</p>
-                        <p>We guarantee that we will continue to develop tools that will bring a sense of ease in locating, signing and living in off-campus student housing across the United States.</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                          Company History
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="collapse3" class="panel-collapse collapse">
-                      <div class="panel-body">
-                        <p>StudentRentIt.com was created by two Realtor&#8217;s in San Marcos, Texas. After working with students and helping them find apartments, they noticed that there isn&#8217;t a solution that makes finding off-campus housing easy. Other websites have SPAM or only a handful of apartments on the website. Nowhere else can they connect with college students exclusively, find roommates, rate apartments, and locate those hard to find homes and private listings.</p>
-                        <p>StudentRentIt.com launched their Beta version in May of 2013 in the San Marcos area exclusively for Texas State University Students.</p>
-                        <p>StuentRentIt.com launched its revamped website in January 2014 and expanded into College Station, TX. The founders plan to expand to nearby Texas markets and nationally.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div><!-- end About -->
-
-              <div class="tab-pane fade" id="contact">
-                <div class="col-md-8 col-md-offset-2">
-                    {% include "flowcore/forms/default.html" %}
-                </div>
-              </div><!-- end Contact -->
-
-            </div><!-- end tab content -->
-        </div>
+  <div class="panel panel-default panel-margin-top" id="about-panel">
+    <div class="panel-heading">
+      <ul class="nav nav-pills nav-justified nav-pills-rentsity" id="aboutTab">
+        <li class="parent-tabs active"><a href="#about" data-toggle="tab">About Us</a></li>
+        <li><a class="parent-tabs" href="#contact" data-toggle="tab">Contact Us</a></li>
+      </ul>
     </div>
+
+    <div class="panel-body">
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane fade in active" id="about">
+        <p class="text-center">
+          <iframe width="625" height="352" src="http://www.youtube.com/embed/cUhHU6d2yTo?feature=oembed" frameborder="0" allowfullscreen></iframe>
+        </p>
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+              Mission
+            </a>
+            </h4>
+          </div>
+          <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body">
+            <p>StudentRentit.com is committed to providing the best off-campus housing solution for students, apartment communities and private owners.</p>
+            </div>
+          </div>
+          </div>
+          <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+              Vision
+            </a>
+            </h4>
+          </div>
+          <div id="collapse2" class="panel-collapse collapse">
+            <div class="panel-body">
+            <p>To become the most adaptable, user-friendly and intuitive student housing resource.</p>
+            <p>StudentRentIt.com is the most student oriented internet listing site in the world. We are determined to create a tool that gives students a listing service that actually works, has accurate information and allows them to do everything that involves student housing in one portal.</p>
+            <p>Students can finally connect directly with apartment communities, private owners and share information with their parents. In addition, they can find roommates, post subleases, and browse private listings!</p>
+            <p>We guarantee that we will continue to develop tools that will bring a sense of ease in locating, signing and living in off-campus student housing across the United States.</p>
+            </div>
+          </div>
+          </div>
+          <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+              Company History
+            </a>
+            </h4>
+          </div>
+          <div id="collapse3" class="panel-collapse collapse">
+            <div class="panel-body">
+            <p>StudentRentIt.com was created by two Realtor&#8217;s in San Marcos, Texas. After working with students and helping them find apartments, they noticed that there isn&#8217;t a solution that makes finding off-campus housing easy. Other websites have SPAM or only a handful of apartments on the website. Nowhere else can they connect with college students exclusively, find roommates, rate apartments, and locate those hard to find homes and private listings.</p>
+            <p>StudentRentIt.com launched their Beta version in May of 2013 in the San Marcos area exclusively for Texas State University Students.</p>
+            <p>StuentRentIt.com launched its revamped website in January 2014 and expanded into College Station, TX. The founders plan to expand to nearby Texas markets and nationally.</p>
+            </div>
+          </div>
+          </div>
+        </div>
+        </div><!-- end About -->
+
+        <div class="tab-pane fade" id="contact">
+        <div class="col-md-8 col-md-offset-2">
+          {% include "flowcore/forms/default.html" %}
+        </div>
+        </div><!-- end Contact -->
+
+      </div><!-- end tab content -->
+    </div>
+  </div>
 </div>
 
 {% endblock %}

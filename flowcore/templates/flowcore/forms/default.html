@@ -3,11 +3,11 @@
 {% include "flowcore/general/form_status_message.html" %}
 {% for f in form %}
 <div class="submission-form-label">
-    {{ f.label }}
-    {% if f.errors %}
-    <div class="alert alert-danger">
-        {{ f.errors }}
-    </div>{% endif %}
+  {{ f.label }}
+  {% if f.errors %}
+  <div class="alert alert-danger">
+    {{ f.errors }}
+  </div>{% endif %}
 </div>
 <div class="submission-form-field">{{ f }}</div>
 {% endfor %}

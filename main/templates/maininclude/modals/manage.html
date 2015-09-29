@@ -1,33 +1,33 @@
 <!-- Modal -->
 <div class="modal fade" id="manageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+  <div class="modal-content">
 
-      <div class="modal-header default-modal-header text-center">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>What do you want to do?</h3>
-      </div>
-
-      <div class="modal-body default-modal-body text-center">
-        <div id="choose-manage-section">
-            <div id="manage-new" class="manage-choice">
-                <a href="{% url 'add-property' %}" class="btn btn-brand manage-modal-btn">
-                    <span class="glyphicon glyphicon-plus"></span> Add New Property
-                </a>
-            </div>
-            {% if has_properties %}
-              <div id="manage-update" class="manage-choice">
-                  <a href="{% url 'manage-property' %}" class="btn btn-brand manage-modal-btn">
-                      <span class="glyphicon glyphicon-edit"></span> Update Property
-                  </a>
-              </div>
-            {% endif %}
-        </div>
-      </div><
-
-      <div class="modal-footer default-modal-footer">
-        <button type="button" class="btn-lg btn-default" data-dismiss="modal">Cancel</button>
-      </div>
+    <div class="modal-header default-modal-header text-center">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>What do you want to do?</h3>
     </div>
+
+    <div class="modal-body default-modal-body text-center">
+    <div id="choose-manage-section">
+      <div id="manage-new" class="manage-choice">
+        <a href="{% url 'add-property' %}" class="btn btn-brand manage-modal-btn">
+          <span class="glyphicon glyphicon-plus"></span> Add New Property
+        </a>
+      </div>
+      {% if has_properties %}
+        <div id="manage-update" class="manage-choice">
+          <a href="{% url 'manage-property' %}" class="btn btn-brand manage-modal-btn">
+            <span class="glyphicon glyphicon-edit"></span> Update Property
+          </a>
+        </div>
+      {% endif %}
+    </div>
+    </div><
+
+    <div class="modal-footer default-modal-footer">
+    <button type="button" class="btn-lg btn-default" data-dismiss="modal">Cancel</button>
+    </div>
+  </div>
   </div>
 </div>

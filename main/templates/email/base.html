@@ -3,25 +3,25 @@
 <head>
 </head>
 <body>
-    {% block body %}
-    <div id="email-body" style="border: solid 5px #0fab72; border-radius: 4px;">
-        <div id="header-row">
-            <div style="display:inline; width:80%; ">
-                <h1 style=" margin-top:0; padding:20px; background-color: #0fab72; color:white; text-align:center;">
-                    {% block email_header %}RentVersity.com{% endblock %}
-                </h1>
-            </div>
-            <div style="display: inline; padding-right:20px; width:20%; float:right;">
-                <img src="{{ webURLroot }}static/img/misc/rv_logo_dark.png" style="max-width:100%; height:auto; text-align:center;" />
-            </div>
-        </div>
-
-        <div id="body-row" style="margin:20px;">
-            <div>
-                {% block email_body %}{% endblock %}
-            </div>
-        </div>
+  {% block body %}
+  <div id="email-body" style="border: solid 5px #0fab72; border-radius: 4px;">
+    <div id="header-row">
+      <div style="display:inline; width:80%; ">
+        <h1 style=" margin-top:0; padding:20px; background-color: #0fab72; color:white; text-align:center;">
+          {% block email_header %}RentVersity.com{% endblock %}
+        </h1>
+      </div>
+      <div style="display: inline; padding-right:20px; width:20%; float:right;">
+        <img src="{{ webURLroot }}static/img/misc/rv_logo_dark.png" style="max-width:100%; height:auto; text-align:center;" />
+      </div>
     </div>
-    {% endblock %}
+
+    <div id="body-row" style="margin:20px;">
+      <div>
+        {% block email_body %}{% endblock %}
+      </div>
+    </div>
+  </div>
+  {% endblock %}
 </body>
 </html>

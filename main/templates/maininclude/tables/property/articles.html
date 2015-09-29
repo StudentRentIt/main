@@ -1,23 +1,23 @@
 {% extends "flowcore/tables/default.html" %}
 
 {% block table_body %}
-    {% for a in articles %}
-        {% if forloop.counter < 6 %}
-            <tr class="school-row">
-                <td class="col-xs-6 col-md-6 col-sm-6" style="max-width: 50%; min-width: 50%">
-                    <img class="img-responsive img-rounded" style="width:100%;"src="{{ a.image.url }}" />
-                </td>
-                <td class="col-xs-6 col-md-6 col-sm-6">
-                    <h3>{{ a.title }}</h3>
-                    <p>{{ a.body|safe|slice:":250" }} ...</p>
-                    <a href="{% url 'blog-article' a.id a.title|slugify %}"
-                        class="btn btn-brand btn-block btn-sm">Keep Reading</a>
-                </td>
-            </tr>
-        {% endif %}
-    {% empty %}
-    <div class="jumbotron">
-        <h2>There are no articles for these apartments yet :( </h2>
-    </div>
-    {% endfor %}
+  {% for a in articles %}
+    {% if forloop.counter < 6 %}
+      <tr class="school-row">
+        <td class="col-xs-6 col-md-6 col-sm-6" style="max-width: 50%; min-width: 50%">
+          <img class="img-responsive img-rounded" style="width:100%;"src="{{ a.image.url }}" />
+        </td>
+        <td class="col-xs-6 col-md-6 col-sm-6">
+          <h3>{{ a.title }}</h3>
+          <p>{{ a.body|safe|slice:":250" }} ...</p>
+          <a href="{% url 'blog-article' a.id a.title|slugify %}"
+            class="btn btn-brand btn-block btn-sm">Keep Reading</a>
+        </td>
+      </tr>
+    {% endif %}
+  {% empty %}
+  <div class="jumbotron">
+    <h2>There are no articles for these apartments yet :( </h2>
+  </div>
+  {% endfor %}
 {% endblock %}

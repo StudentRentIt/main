@@ -7,17 +7,17 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
-    def forwards(self, orm):
-        # Adding model 'Tag'
-        db.rename_table('main_tag', 'blog_tag')
+  def forwards(self, orm):
+    # Adding model 'Tag'
+    db.rename_table('main_tag', 'blog_tag')
 
-        # Adding model 'Article'
-        db.rename_table('main_article', 'blog_article')
+    # Adding model 'Article'
+    db.rename_table('main_article', 'blog_article')
 
 
-    def backwards(self, orm):
-        # Removing model 'Tag'
-        db.rename_table('blog_tag', 'main_tag')
+  def backwards(self, orm):
+    # Removing model 'Tag'
+    db.rename_table('blog_tag', 'main_tag')
 
-        # Removing model 'Article'
-        db.rename_table('blog_article', 'main_article')
+    # Removing model 'Article'
+    db.rename_table('blog_article', 'main_article')

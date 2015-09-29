@@ -1,31 +1,31 @@
 <footer class="main-footer hidden-xs hidden-sm">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="footer-column col-xs-4">
-                <p class="footer-column-header">Looking for apartments?</p>
-                {% include "maininclude/searchscript.html" %}
-                <div id="footer-search-box">
-                       <form id="search-footer">
-                           <input name="search-footer-text" class="search-input" placeholder="Enter School"></input>
-                       </form>
-                </div>
-            </div>
-            <div class="footer-column col-xs-4">
-                <p class="footer-column-header">Social Connect</p>
-                {% include "maininclude/general/social_footer.html" %}
-            </div>
-            <div class="footer-column col-xs-4">
-                <p class="footer-column-header">Company and Website</p>
-                <ul class="double-column">
-                    <li><a href="{% url 'blog-home' %}">Blog</a></li>
-                    <li><a href="/about/">About Us</a></li>
-                    <li><a href="/terms/">Terms</a></li>
-                    <li><a href="/privacy/">Privacy</a></li>
-                    <li><a href="/howitworks/">How It Works</a></li>
-                    <li><a href="/schools/">Full Property List</a></li>
-                    <li><a href="/sitemap.xml">Site Map</a></li>
-                </ul>
-            </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="footer-column col-xs-4">
+        <p class="footer-column-header">Looking for apartments?</p>
+        {% include "maininclude/searchscript.html" %}
+        <div id="footer-search-box">
+             <form id="search-footer">
+               <input name="search-footer-text" class="search-input" placeholder="Enter School"></input>
+             </form>
         </div>
+      </div>
+      <div class="footer-column col-xs-4">
+        <p class="footer-column-header">Social Connect</p>
+        {% include "maininclude/general/social_footer.html" %}
+      </div>
+      <div class="footer-column col-xs-4">
+        <p class="footer-column-header">Company and Website</p>
+        <ul class="double-column">
+          <li><a href="{% url 'blog-home' %}">Blog</a></li>
+          <li><a href="/about/">About Us</a></li>
+          <li><a href="/terms/">Terms</a></li>
+          <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/howitworks/">How It Works</a></li>
+          <li><a href="/schools/">Full Property List</a></li>
+          <li><a href="/sitemap.xml">Site Map</a></li>
+        </ul>
+      </div>
     </div>
+  </div>
 </footer>

@@ -1,14 +1,14 @@
 <div id="roommate-content">
 {% for r in roommates %}
-    <div class="row roommate-row">
-        <div class="roomate-msg col-md-6">
-            <h4>{{ r.message }}</h4>
-        </div>
-        <div class="roommate-contact col-md-6">
-            <p>Name: {{ r.name }}</p>
-            <p>Phone: {{ r.phone }}</p>
-            <p>Email:{{ r.email }}</p>
-        </div>
+  <div class="row roommate-row">
+    <div class="roomate-msg col-md-6">
+      <h4>{{ r.message }}</h4>
     </div>
+    <div class="roommate-contact col-md-6">
+      <p>Name: {{ r.name }}</p>
+      <p>Phone: {{ r.phone }}</p>
+      <p>Email:{{ r.email }}</p>
+    </div>
+  </div>
 {% endfor %}
 </div>

@@ -7,14 +7,14 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
-    def forwards(self, orm):
-        pass
+  def forwards(self, orm):
+    pass
 
-    def backwards(self, orm):
-        pass
+  def backwards(self, orm):
+    pass
 
-    models = {
-        
-    }
+  models = {
+    
+  }
 
-    complete_apps = ['campusamb']
+  complete_apps = ['campusamb']

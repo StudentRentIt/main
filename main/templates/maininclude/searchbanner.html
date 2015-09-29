@@ -1,118 +1,118 @@
 <nav class="navbar navbar-default navbar-fixed-top search-nav" style="margin-top:45px;" role="navigation">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <!--<a id="search-view" class="navbar-brand" href="#">List View</span></a>-->
-    </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="search-navbar-collapse-1">
-      <form method="POST">
-          <ul class="nav navbar-nav" style="margin-left:5%;">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bedroom <b class="caret"></b></a>
-              <ul class="dropdown-menu input-dropdown" style="width:250px;">
-                  <input type="text" class="form-control search-banner-input" placeholder="Minimum Bedrooms" id="bedMin" name="bedMin" value="{{ request.POST.bedMin }}" />
-                  <input type="text" class="form-control search-banner-input" placeholder="Maximum Bedrooms" id="bedMax" name="bedMax" value="{{ request.POST.bedMax }}" />
-              </ul>
-            </li>
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-navbar-collapse-1">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    </button>
+    <!--<a id="search-view" class="navbar-brand" href="#">List View</span></a>-->
+  </div>
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="search-navbar-collapse-1">
+    <form method="POST">
+      <ul class="nav navbar-nav" style="margin-left:5%;">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bedroom <b class="caret"></b></a>
+        <ul class="dropdown-menu input-dropdown" style="width:250px;">
+          <input type="text" class="form-control search-banner-input" placeholder="Minimum Bedrooms" id="bedMin" name="bedMin" value="{{ request.POST.bedMin }}" />
+          <input type="text" class="form-control search-banner-input" placeholder="Maximum Bedrooms" id="bedMax" name="bedMax" value="{{ request.POST.bedMax }}" />
+        </ul>
+      </li>
 
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Price <b class="caret"></b></a>
-              <ul class="dropdown-menu text-center input-dropdown" style="width:200px;">
-                  <input type="text" class="form-control search-banner-input" placeholder="Minimum Price" id="priceMin" name="priceMin" value="{{ request.POST.priceMin }}" />
-                  <input type="text" class="form-control search-banner-input" placeholder="Maximum Price" id="priceMax" name="priceMax" value="{{ request.POST.priceMax }}"/>
-              </ul>
-            </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Price <b class="caret"></b></a>
+        <ul class="dropdown-menu text-center input-dropdown" style="width:200px;">
+          <input type="text" class="form-control search-banner-input" placeholder="Minimum Price" id="priceMin" name="priceMin" value="{{ request.POST.priceMin }}" />
+          <input type="text" class="form-control search-banner-input" placeholder="Maximum Price" id="priceMax" name="priceMax" value="{{ request.POST.priceMax }}"/>
+        </ul>
+      </li>
 
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
-              <ul class="dropdown-menu input-dropdown">
-                <div class="col-md-4 col-xs-12">
-                    <li class="dropdown-label">Bathrooms</li>
-                    <input type="text" class="form-control search-banner-input" placeholder="Minimum" id="minBath" name="bathMin" value="{{ request.POST.bathMin }}" />
-                    <input type="text" class="form-control search-banner-input" placeholder="Maximum" id="maxBath" name="bathMax" value="{{ request.POST.bathMax }}" />
-                    <li class="divider"></li>
-                    <li class="dropdown-label">Keyword</li>
-                    <input type="text" class="form-control search-banner-input" id="keyword" name="keyword" value="{{ request.POST.keyword }}" />
-                    <li class="divider"></li>
-                    <li class="dropdown-label"><input type="checkbox" name="business"
-                        value="business"{% if request.POST.business or request.method == "GET" %} checked{% endif %}> Show Local Businesses</li>
-                </div>
-                <div class="col-md-8 col-xs-12">
-                    <li class="dropdown-label">Property Type</li>
-                        <ul class="search-multi-row">
-                        <input id="property-type-input" name="propertyType" type="hidden">
-                        {% for pt in property_types %}
-                            <li data-id="{{ pt.0 }}" class="search-multi search-multi-property-type">{{ pt.1 }}</li>
-                        {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="divider"></li>
-                    <li class="dropdown-label">Lease Term Months</li>
-                        <ul class="search-multi-row">
-                        <input id="lease-term-input" name="leaseTerm" type="hidden">
-                        {% for lt in lease_terms %}
-                            <li data-id="{{ lt.id }}" class="search-multi search-multi-lease-term">{{ lt.lease_term_short }}</li>
-                        {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="divider"></li>
-                    <li class="dropdown-label">Lease Start</li>
-                        <ul class="search-multi-row">
-                        <input id="lease-start-input" name="leaseStart" type="hidden">
-                        {% for ls in lease_starts %}
-                            {% if ls.lease_start != "Not Available" %}
-                            <li data-id="{{ ls.id }}" class="search-multi search-multi-lease-start">{{ ls.lease_start }}</li>
-                            {% endif %}
-                        {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="divider"></li>
-                    <li class="dropdown-label">Lease Type</li>
-                        <ul class="search-multi-row">
-                        <input id="lease-type-input" name="leaseType" type="hidden">
-                        {% for lt in lease_types %}
-                            <li data-id="{{ lt.id }}" class="search-multi search-multi-lease-type">{{ lt.lease_type }}</li>
-                        {% endfor %}
-                        </ul>
-                    </li>
-                    <!--<li class="divider"></li>-->
-                    <!--<li class="dropdown-label">Amenities</li>-->
-                    <!--    <ul class="search-multi-image-row">-->
-                    <!--    <input id="amenity-input" name="amenities" type="hidden">-->
-                    <!--    {% for a in special_amenities %}-->
-                    <!--        <li data-id="{{ a.id }}" class="search-multi search-multi-amenity">-->
-                    <!--            <img src="{{ a.image.url }}" />-->
-                    <!--        </li>-->
-                    <!--    {% endfor %}-->
-                    <!--    </ul>-->
-                    <!--</li>-->
-                </div>
-              </ul>
-            </li>
-            <li style="padding-left:15px; padding-right:15px;">
-                <!--<input type="reset" value="Reset">-->
-                <button class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
-            </li>
-            <li style="padding-left:15px; padding-right:15px;">
-                <button type="submit" class="btn btn-brand navbar-btn"><span class="glyphicon glyphicon-search"></span> Search</buttton>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <!--<li style="margin-right:30px;"><a class="navbar-brand" href="#" data-toggle="modal" data-target="#propertyVideosModal">-->
-            <!--    <span class="glyphicon glyphicon-facetime-video"></span> View Videos</a>-->
-            <!--</li>-->
-            <li><a class="navbar-brand" href="{% url 'school-articles' school.id school.name|slugify 'articles' %}">
-                <span class="glyphicon glyphicon-flag"></span> {{ school.name }} Info</a>
-            </li>
-          </ul>
-        </div><!-- /.navbar-collapse -->
-    {% csrf_token %}</form>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
+        <ul class="dropdown-menu input-dropdown">
+        <div class="col-md-4 col-xs-12">
+          <li class="dropdown-label">Bathrooms</li>
+          <input type="text" class="form-control search-banner-input" placeholder="Minimum" id="minBath" name="bathMin" value="{{ request.POST.bathMin }}" />
+          <input type="text" class="form-control search-banner-input" placeholder="Maximum" id="maxBath" name="bathMax" value="{{ request.POST.bathMax }}" />
+          <li class="divider"></li>
+          <li class="dropdown-label">Keyword</li>
+          <input type="text" class="form-control search-banner-input" id="keyword" name="keyword" value="{{ request.POST.keyword }}" />
+          <li class="divider"></li>
+          <li class="dropdown-label"><input type="checkbox" name="business"
+            value="business"{% if request.POST.business or request.method == "GET" %} checked{% endif %}> Show Local Businesses</li>
+        </div>
+        <div class="col-md-8 col-xs-12">
+          <li class="dropdown-label">Property Type</li>
+            <ul class="search-multi-row">
+            <input id="property-type-input" name="propertyType" type="hidden">
+            {% for pt in property_types %}
+              <li data-id="{{ pt.0 }}" class="search-multi search-multi-property-type">{{ pt.1 }}</li>
+            {% endfor %}
+            </ul>
+          </li>
+          <li class="divider"></li>
+          <li class="dropdown-label">Lease Term Months</li>
+            <ul class="search-multi-row">
+            <input id="lease-term-input" name="leaseTerm" type="hidden">
+            {% for lt in lease_terms %}
+              <li data-id="{{ lt.id }}" class="search-multi search-multi-lease-term">{{ lt.lease_term_short }}</li>
+            {% endfor %}
+            </ul>
+          </li>
+          <li class="divider"></li>
+          <li class="dropdown-label">Lease Start</li>
+            <ul class="search-multi-row">
+            <input id="lease-start-input" name="leaseStart" type="hidden">
+            {% for ls in lease_starts %}
+              {% if ls.lease_start != "Not Available" %}
+              <li data-id="{{ ls.id }}" class="search-multi search-multi-lease-start">{{ ls.lease_start }}</li>
+              {% endif %}
+            {% endfor %}
+            </ul>
+          </li>
+          <li class="divider"></li>
+          <li class="dropdown-label">Lease Type</li>
+            <ul class="search-multi-row">
+            <input id="lease-type-input" name="leaseType" type="hidden">
+            {% for lt in lease_types %}
+              <li data-id="{{ lt.id }}" class="search-multi search-multi-lease-type">{{ lt.lease_type }}</li>
+            {% endfor %}
+            </ul>
+          </li>
+          <!--<li class="divider"></li>-->
+          <!--<li class="dropdown-label">Amenities</li>-->
+          <!--  <ul class="search-multi-image-row">-->
+          <!--  <input id="amenity-input" name="amenities" type="hidden">-->
+          <!--  {% for a in special_amenities %}-->
+          <!--    <li data-id="{{ a.id }}" class="search-multi search-multi-amenity">-->
+          <!--      <img src="{{ a.image.url }}" />-->
+          <!--    </li>-->
+          <!--  {% endfor %}-->
+          <!--  </ul>-->
+          <!--</li>-->
+        </div>
+        </ul>
+      </li>
+      <li style="padding-left:15px; padding-right:15px;">
+        <!--<input type="reset" value="Reset">-->
+        <button class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
+      </li>
+      <li style="padding-left:15px; padding-right:15px;">
+        <button type="submit" class="btn btn-brand navbar-btn"><span class="glyphicon glyphicon-search"></span> Search</buttton>
+      </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      <!--<li style="margin-right:30px;"><a class="navbar-brand" href="#" data-toggle="modal" data-target="#propertyVideosModal">-->
+      <!--  <span class="glyphicon glyphicon-facetime-video"></span> View Videos</a>-->
+      <!--</li>-->
+      <li><a class="navbar-brand" href="{% url 'school-articles' school.id school.name|slugify 'articles' %}">
+        <span class="glyphicon glyphicon-flag"></span> {{ school.name }} Info</a>
+      </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  {% csrf_token %}</form>
   </div><!-- /.container-fluid -->
 </nav>
